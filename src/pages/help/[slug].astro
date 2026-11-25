@@ -154,13 +154,15 @@ const canonical = absoluteUrl(articlePath(slug), origin);
 
 			{
 				toc.length > 0 && (
-					<aside class="help-toc" aria-label="On this page">
+					<aside class="help-toc" aria-label="On this page" data-help-toc>
 						<div class="help-toc__h">On this page</div>
 						<nav>
 							<ul>
 								{toc.map((item) => (
 									<li class={`l${item.level}`}>
-										<a href={`#${item.id}`}>{item.text}</a>
+										<a href={`#${item.id}`} data-help-toc-link={item.id}>
+											{item.text}
+										</a>
 									</li>
 								))}
 							</ul>
@@ -173,17 +175,79 @@ const canonical = absoluteUrl(articlePath(slug), origin);
 </HelpLayout>
 
 <script>
-	// Add ids to headings in the article body for TOC anchors
-	const body = document.querySelector(".help-body");
-	if (body) {
-		body.querySelectorAll("h2, h3").forEach((el) => {
-			if (el.id) return;
-			const text = el.textContent || "";
-			const id = text
+	function initHelpToc() {
+		const body = document.querySelector(".help-body");
+		const toc = document.querySelector("[data-help-toc]");
+		if (!body || !toc) return;
+
+		const slugify = (text: string) =>
+			text
 				.toLowerCase()
 				.replace(/[^a-z0-9]+/g, "-")
 				.replace(/^-|-$/g, "");
+
+		body.querySelectorAll<HTMLHeadingElement>("h2, h3").forEach((el) => {
+			if (el.id) return;
+			const id = slugify(el.textContent || "");
 			if (id) el.id = id;
 		});
+
+		const links = [
+			...toc.querySelectorAll<HTMLAnchorElement>("[data-help-toc-link]"),
+		];
+		if (!links.length) return;
+
+		const headings = links
+			.map((link) => {
+				const id = link.dataset.helpTocLink;
+				const heading = id ? document.getElementById(id) : null;
+				return heading ? { link, heading } : null;
+			})
+			.filter((row): row is { link: HTMLAnchorElement; heading: HTMLElement } =>
+				Boolean(row),
+			);
+
+		if (!headings.length) return;
+
+		let lockUntil = 0;
+		const byHeading = new Map(
+			headings.map((row) => [row.heading, row.link] as const),
+		);
+
+		const setActive = (active: HTMLAnchorElement) => {
+			for (const { link } of headings) {
+				const on = link === active;
+				link.parentElement?.classList.toggle("on", on);
+				if (on) link.setAttribute("aria-current", "true");
+				else link.removeAttribute("aria-current");
+			}
+		};
+
+		setActive(headings[0].link);
+
+		const observer = new IntersectionObserver(
+			(entries) => {
+				if (Date.now() < lockUntil) return;
+				for (const entry of entries) {
+					const link = byHeading.get(entry.target as HTMLElement);
+					if (link && entry.isIntersecting) setActive(link);
+				}
+			},
+			{ rootMargin: "-100px 0px -70% 0px", threshold: [0, 1] },
+		);
+
+		for (const { heading } of headings) observer.observe(heading);
+
+		for (const { link, heading } of headings) {
+			link.addEventListener("click", (event) => {
+				event.preventDefault();
+				setActive(link);
+				lockUntil = Date.now() + 900;
+				heading.scrollIntoView({ behavior: "smooth", block: "start" });
+				history.replaceState(null, "", `#${heading.id}`);
+			});
+		}
 	}
+
+	initHelpToc();
 </script>

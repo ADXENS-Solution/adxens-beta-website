@@ -648,6 +648,7 @@
 .help-toc li {
   margin-left: -1px;
   border-left: 2px solid transparent;
+  transition: border-color 0.2s;
 }
 
 .help-toc li.l3 {
@@ -663,6 +664,15 @@
 
 .help-toc a:hover {
   color: var(--help-ink);
+}
+
+.help-toc li.on {
+  border-left-color: var(--help-blue);
+}
+
+.help-toc li.on a {
+  color: var(--help-ink);
+  font-weight: 600;
 }
 
 .help-related {
