@@ -1,0 +1,99 @@
+---
+import { getEmDashEntry, getSeoMeta } from "emdash";
+import { PortableText } from "emdash/ui";
+import LegalLayout from "../layouts/LegalLayout.astro";
+import { LegalHero, LegalToc } from "../components/react/LegalChrome";
+import {
+	DEFAULT_SITE_TITLE,
+	LEGAL_DEFAULTS,
+	buildWebPageJsonLd,
+	resolveSiteOrigin,
+} from "../lib/seo";
+
+const { entry: page, cacheHint } = await getEmDashEntry("pages", "terms-and-conditions");
+if (Astro.cache?.enabled) Astro.cache.set(cacheHint);
+
+if (!page) {
+	return Astro.rewrite("/404");
+}
+
+const defaults = LEGAL_DEFAULTS["terms-and-conditions"];
+const origin = resolveSiteOrigin(Astro.site ?? Astro.url);
+const seo = getSeoMeta(page, {
+	siteTitle: DEFAULT_SITE_TITLE,
+	siteUrl: origin,
+	path: "/terms-and-conditions",
+	titleSeparator: " — ",
+	defaultTitle: defaults.title,
+	defaultDescription: defaults.description,
+});
+const jsonLd = buildWebPageJsonLd({
+	origin,
+	path: "/terms-and-conditions",
+	name: seo.title,
+	description: seo.description,
+	dateModified: typeof page.data.updated === "string" ? page.data.updated : null,
+});
+---
+
+<LegalLayout
+	title={page.data.title || defaults.title}
+	fullTitle={seo.title}
+	description={seo.description}
+	canonical={seo.canonical}
+	robots={seo.robots}
+	jsonLd={jsonLd}
+	content={{ collection: "pages", id: page.data.id, slug: "terms-and-conditions" }}
+>
+	<LegalHero client:load title={page.data.title} updated={page.data.updated} />
+	<div class="legal-wrap">
+		<LegalToc client:load />
+		<article class="legal-doc" {...page.edit.content}>
+			<section id="overview" class="legal-overview">
+				<h2>Overview</h2>
+				<p>This document applies to the three companies of Adxens Group:</p>
+				<ul class="legal-entities">
+					<li>
+						<span class="legal-code">
+							<img src="/adxens-mark.png" alt="" width="22" height="22" />
+						</span>
+						<span>
+							<b>Adxens LLC</b>
+							<small>Incorporated in New Mexico, United States</small>
+						</span>
+					</li>
+					<li>
+						<span class="legal-code">
+							<img src="/adxens-mark.png" alt="" width="22" height="22" />
+						</span>
+						<span>
+							<b>Adxens Limited</b>
+							<small>Incorporated in Hong Kong</small>
+						</span>
+					</li>
+					<li>
+						<span class="legal-code">
+							<img src="/adxens-mark.png" alt="" width="22" height="22" />
+						</span>
+						<span>
+							<b>Adxens Solutions SARL</b>
+							<small>Incorporated in Cameroon</small>
+						</span>
+					</li>
+				</ul>
+			</section>
+			<div class="legal-portable">
+				<PortableText value={page.data.content} />
+			</div>
+		</article>
+	</div>
+	<p class="legal-in" style="padding-bottom: 2rem">
+		<a href="/">← Back to Adxens</a>
+	</p>
+</LegalLayout>
+
+<style>
+	.legal-portable :global(h2) {
+		scroll-margin-top: 6rem;
+	}
+</style>

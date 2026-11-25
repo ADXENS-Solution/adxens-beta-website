@@ -1,0 +1,4674 @@
+{
+	"$schema": "https://emdashcms.com/seed.schema.json",
+	"version": "1",
+	"meta": {
+		"name": "Adxens Beta",
+		"description": "Adxens V2 private beta marketing site",
+		"author": "Adxens"
+	},
+	"settings": {
+		"title": "Adxens",
+		"tagline": "Make ad operation feel less like work",
+		"staging": false
+	},
+	"collections": [
+		{
+			"slug": "pages",
+			"label": "Pages",
+			"labelSingular": "Page",
+			"urlPattern": "/{slug}",
+			"supports": [
+				"drafts",
+				"revisions",
+				"preview",
+				"search",
+				"seo"
+			],
+			"fields": [
+				{
+					"slug": "title",
+					"label": "Title",
+					"type": "string",
+					"required": true,
+					"searchable": true
+				},
+				{
+					"slug": "updated",
+					"label": "Updated label",
+					"type": "string"
+				},
+				{
+					"slug": "template",
+					"label": "Template",
+					"type": "select",
+					"defaultValue": "default",
+					"validation": {
+						"options": [
+							"default",
+							"legal"
+						]
+					}
+				},
+				{
+					"slug": "content",
+					"label": "Content",
+					"type": "portableText",
+					"searchable": true
+				}
+			]
+		},
+		{
+			"slug": "site_settings",
+			"label": "Site settings",
+			"labelSingular": "Site settings",
+			"supports": [
+				"drafts"
+			],
+			"fields": [
+				{
+					"slug": "title",
+					"label": "Label",
+					"type": "string",
+					"required": true
+				},
+				{
+					"slug": "phone",
+					"label": "Phone",
+					"type": "string"
+				},
+				{
+					"slug": "phone_href",
+					"label": "Phone tel href",
+					"type": "string"
+				},
+				{
+					"slug": "email",
+					"label": "Email",
+					"type": "string"
+				},
+				{
+					"slug": "whatsapp_url",
+					"label": "WhatsApp URL",
+					"type": "url"
+				},
+				{
+					"slug": "telegram_url",
+					"label": "Telegram URL",
+					"type": "url"
+				},
+				{
+					"slug": "beta_badge",
+					"label": "Beta badge text",
+					"type": "string"
+				},
+				{
+					"slug": "cta_label",
+					"label": "CTA label",
+					"type": "string"
+				},
+				{
+					"slug": "faq_items",
+					"label": "FAQ items",
+					"type": "repeater",
+					"validation": {
+						"minItems": 0,
+						"maxItems": 50,
+						"subFields": [
+							{
+								"slug": "question",
+								"label": "Question",
+								"type": "string",
+								"required": true
+							},
+							{
+								"slug": "answer",
+								"label": "Answer",
+								"type": "text",
+								"required": true
+							}
+						]
+					}
+				}
+			]
+		},
+		{
+			"slug": "posts",
+			"label": "Posts",
+			"labelSingular": "Post",
+			"urlPattern": "/posts/{slug}",
+			"supports": [
+				"drafts",
+				"revisions",
+				"preview",
+				"search",
+				"seo"
+			],
+			"commentsEnabled": false,
+			"fields": [
+				{
+					"slug": "title",
+					"label": "Title",
+					"type": "string",
+					"required": true,
+					"searchable": true
+				},
+				{
+					"slug": "featured_image",
+					"label": "Featured Image",
+					"type": "image"
+				},
+				{
+					"slug": "content",
+					"label": "Content",
+					"type": "portableText",
+					"searchable": true
+				},
+				{
+					"slug": "excerpt",
+					"label": "Excerpt",
+					"type": "text"
+				}
+			]
+		}
+	],
+	"menus": [
+		{
+			"name": "primary",
+			"label": "Primary Navigation",
+			"items": [
+				{
+					"type": "custom",
+					"label": "Why V2",
+					"url": "/#product"
+				},
+				{
+					"type": "custom",
+					"label": "The Beta",
+					"url": "/#why"
+				},
+				{
+					"type": "custom",
+					"label": "Who it's for",
+					"url": "/#process"
+				},
+				{
+					"type": "custom",
+					"label": "FAQ",
+					"url": "/#faq"
+				}
+			]
+		}
+	],
+	"content": {
+		"site_settings": [
+			{
+				"id": "site-settings-main",
+				"slug": "main",
+				"status": "published",
+				"data": {
+					"title": "Main",
+					"phone": "+1 251-332-1053",
+					"phone_href": "tel:+12513321053",
+					"email": "contact@adxens.com",
+					"whatsapp_url": "https://wa.me/message/4LJX46RLL52CG1",
+					"telegram_url": "https://t.me/Adxens_Media",
+					"beta_badge": "Adxens V2- Private Beta • 35 spots",
+					"cta_label": "Request Early Access",
+					"faq_items": [
+						{
+							"question": "Is the beta free?",
+							"answer": "Applying is free. Once you're in, you use the real platform on a real plan, with real pricing, exactly like a regular client."
+						},
+						{
+							"question": "How much does the platform cost during the beta?",
+							"answer": "Three plans. Pay as you go: 3% fee on each top-up, no subscription. Mixed: $60 a month plus 2% per top-up. No commission: $100 a month, no top-up fees. On every plan: $10 minimum deposit and top-up, and $8 per ad account request."
+						},
+						{
+							"question": "How are testers selected?",
+							"answer": "Spots are limited to 35. We review every early access request and pick a mix of agencies, affiliate buyers, e-commerce brands and solo advertisers. Shortlisted applicants get a short call. Everyone else goes on our waiting list."
+						},
+						{
+							"question": "How much time will it take?",
+							"answer": "About 3 hours in total, over [3 weeks]: a 45-minute kickoff session (recorded), five short test tasks (about 2 hours), and a 15-minute final survey."
+						},
+						{
+							"question": "What will I actually test?",
+							"answer": "Five tasks: set up your workspace, link or find your Meta ad account, invite a teammate and set their role, allocate and release funds, and choose the plan that fits your spend."
+						},
+						{
+							"question": "Do I need to deposit real money?",
+							"answer": "Not to apply. To run live campaigns through V2, you fund your balance as usual, from $10. We'll never push you to deposit more than your ads need."
+						},
+						{
+							"question": "What if I don't have a Meta Business Manager?",
+							"answer": "You can still join. We'll give you a demo account for the account-linking task."
+						},
+						{
+							"question": "Which platforms and payment methods are included?",
+							"answer": "Meta only during the beta. You can fund your balance in USDT through Binance or an external wallet, or by card where available."
+						},
+						{
+							"question": "Which plan will I be on?",
+							"answer": "We spread plans across testers so every model gets tested. You'll see your plan and its pricing in your confirmation email, with the dates and the tester charter, before you commit."
+						},
+						{
+							"question": "How do I get help during the test?",
+							"answer": "You'll join a small group of six, matched to your time zone. Our team runs two live office hours a week and answers every question within one business day."
+						},
+						{
+							"question": "What exactly is the free month?",
+							"answer": "One month without Adxens top-up or subscription fees, starting at the public launch. Payment provider fees and ad account opening fees ($8 per request) aren't included."
+						},
+						{
+							"question": "Does Adxens guarantee ad approval?",
+							"answer": "No. Meta reviews every ad. We give you agency accounts and a faster workflow, not exemptions."
+						},
+						{
+							"question": "Is there a referral or affiliate program?",
+							"answer": "Not in this beta. Your spot and your reward never depend on inviting anyone."
+						},
+						{
+							"question": "Can I leave the beta?",
+							"answer": "Yes, anytime, with no consequences. Just let us know so we can offer your spot to someone on the waiting list."
+						},
+						{
+							"question": "What happens after the beta?",
+							"answer": "Your account and setup carry over to the public launch."
+						}
+					]
+				}
+			}
+		],
+		"pages": [
+			{
+				"id": "page-terms",
+				"slug": "terms-and-conditions",
+				"status": "published",
+				"data": {
+					"title": "Terms and conditions",
+					"updated": "1 November 2026",
+					"template": "legal",
+					"content": [
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Thank you for choosing Adxens Group. This document outlines the Terms and Conditions (the “Terms”) which you agree to when using our services. Please read these Terms carefully before accessing or using our services.",
+									"_key": "k0"
+								}
+							],
+							"_key": "k1"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "By using any service provided by Adxens Group, you acknowledge and agree that your interaction may be with either entity and consent to these Terms as applicable to your dealings with both. These Terms govern your use of the Adxens Group platform, accessible via https://www.adxens-solutions.com and https://adxens.com, including its mobile, tablet versions, and any other version accessible via desktop, mobile, tablet, or other devices.",
+									"_key": "k2"
+								}
+							],
+							"_key": "k3"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "In these Terms, “platform” refers to the Adxens Group platform; “we”, “us”, “our”, and “Adxens Group” collectively refer to Adxens LLC, Adxens Limited and Adxens Solutions SARL; and “user”, “customer”, “client”, “you”, and “your” refer to you, the user of Adxens Group.",
+									"_key": "k4"
+								}
+							],
+							"_key": "k5"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "If you participate to the affiliate program on the Adxens Solutions platform, you must also agree to the Affiliate Program Terms.",
+									"_key": "k6"
+								}
+							],
+							"_key": "k7"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "PLEASE READ THESE TERMS AND CONDITIONS CAREFULLY BEFORE USING OR OBTAINING ANY SERVICE OR INFORMATION FROM THE PLATFORM.",
+									"_key": "k8"
+								}
+							],
+							"_key": "k9"
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "1. Acceptance of terms",
+									"_key": "k10"
+								}
+							],
+							"_key": "k11"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "By registering and using the platform, you agree to be bound by this agreement. If you do not agree to the terms of this agreement, you must not use the platform and stop using the service immediately. We may modify this agreement from time to time, and such modification will be effective when posted on the platform or website. You agree to be bound by any modification of these terms when you use our platform after such modification is posted; therefore, it is important that you review this agreement regularly.",
+									"_key": "k12"
+								}
+							],
+							"_key": "k13"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "You represent and warrant that your use of the platform does not violate any applicable law or regulation. Adxens Group may, in its sole discretion, refuse to offer the services to any user and change its eligibility criteria at any time. This provision is void where prohibited by law and the right to access the service and the platform is revoked in such jurisdictions.",
+									"_key": "k14"
+								}
+							],
+							"_key": "k15"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "The platform may only be used in compliance with these terms and all applicable local, state, national and international laws, rules and regulations.",
+									"_key": "k16"
+								}
+							],
+							"_key": "k17"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "By registering and using the platform, you represent and warrant that you have the full right, power and authority to enter into this agreement and to fully perform all of your obligations hereunder. You further represent and warrant that you are under no legal disability or contractual restriction that prevents you from entering into this agreement.",
+									"_key": "k18"
+								}
+							],
+							"_key": "k19"
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "2. Account",
+									"_key": "k20"
+								}
+							],
+							"_key": "k21"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "If you register on the platform, you will be asked to choose a password and may be asked for additional information such as your name, email address, company name, registered address, and other relevant business information. You are responsible for maintaining the confidentiality of your password and account information, and are fully responsible for all activities that occur under your password or account.",
+									"_key": "k22"
+								}
+							],
+							"_key": "k23"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "You agree to (a) immediately notify Adxens Group of any unauthorized use of your account or any other breach of security, and (b) ensure that you log out of your account at the end of each session. You may never use another user’s account without Adxens Group’s prior authorization. Adxens Group will not be liable for any loss or damage arising from your failure to comply with this agreement.",
+									"_key": "k24"
+								}
+							],
+							"_key": "k25"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "By providing Adxens Group with your email address and phone number, you agree that we may use your email address to send you notifications and important communications about our services. If you do not wish to receive these communications, you may opt out by using the “unsubscribe” option in emails or by contacting us.",
+									"_key": "k26"
+								}
+							],
+							"_key": "k27"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Users may cancel their accounts at any time and for any reason by following the instructions on the platform or by sending us a request through our contact information. Such cancellation will only result in the deletion of the account and the removal of personal data in accordance with our Privacy Policy and applicable data protection laws.",
+									"_key": "k28"
+								}
+							],
+							"_key": "k29"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Adxens Group reserves the right to immediately terminate your account or your access to the platform and to terminate this agreement unilaterally, with or without notice, and without liability to you, if Adxens Group believes that you have breached any of these terms, provided false or misleading information, or interfered with any other party’s use of the platform or the service.",
+									"_key": "k30"
+								}
+							],
+							"_key": "k31"
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "3. Client Verification and Compliance",
+									"_key": "k32"
+								}
+							],
+							"_key": "k33"
+						},
+						{
+							"_type": "block",
+							"style": "h3",
+							"children": [
+								{
+									"_type": "span",
+									"text": "3.1 Know Your Business (KYB) and Identity Verification",
+									"_key": "k34"
+								}
+							],
+							"_key": "k35"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Adxens Group reserves the right to request, at any time and at its sole discretion, verification documentation from any user, including but not limited to: company registration certificates, proof of registered address, identification documents of directors or beneficial owners, proof of source of funds, and any other documentation Adxens Group deems necessary for the purposes of verifying a user’s identity, business legitimacy, or compliance status.",
+									"_key": "k36"
+								}
+							],
+							"_key": "k37"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Failure to provide requested documentation within a reasonable timeframe may result in the suspension or termination of the user’s account and the withholding of any funds until satisfactory verification is completed.",
+									"_key": "k38"
+								}
+							],
+							"_key": "k39"
+						},
+						{
+							"_type": "block",
+							"style": "h3",
+							"children": [
+								{
+									"_type": "span",
+									"text": "3.2 Sanctions and Regulatory Compliance",
+									"_key": "k40"
+								}
+							],
+							"_key": "k41"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Adxens Group is committed to compliance with all applicable sanctions laws and regulations, including but not limited to those administered by the Office of Financial Sanctions Implementation (OFSI) in the United Kingdom, the Office of Foreign Assets Control (OFAC) in the United States, the European Union, the United Nations, and any other relevant jurisdictional authority.",
+									"_key": "k42"
+								}
+							],
+							"_key": "k43"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "You represent and warrant that you are not, and that no person or entity with a beneficial interest in your account is: (a) listed on any applicable sanctions list; (b) located in, incorporated in, or operating from a country or territory that is the subject of comprehensive sanctions; (c) owned or controlled by, or acting on behalf of, any person or entity described in (a) or (b); or (d) otherwise the target of any applicable sanctions.",
+									"_key": "k44"
+								}
+							],
+							"_key": "k45"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Adxens Group reserves the right to screen all users, transactions, and associated wallet addresses against applicable sanctions lists and to refuse, block, freeze, or return any funds where Adxens Group identifies a potential sanctions risk or regulatory concern.",
+									"_key": "k46"
+								}
+							],
+							"_key": "k47"
+						},
+						{
+							"_type": "block",
+							"style": "h3",
+							"children": [
+								{
+									"_type": "span",
+									"text": "3.3 Transaction Screening",
+									"_key": "k48"
+								}
+							],
+							"_key": "k49"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Adxens Group may, at its sole discretion, implement transaction monitoring and screening tools, including blockchain analytics and Know Your Transaction (KYT) solutions, to assess the risk profile of incoming and outgoing transactions. Adxens Group reserves the right to reject, delay, or return any transaction that it considers, in its sole discretion, to present an unacceptable risk, including but not limited to transactions involving funds with exposure to sanctioned entities, illicit activity, or high-risk sources.",
+									"_key": "k50"
+								}
+							],
+							"_key": "k51"
+						},
+						{
+							"_type": "block",
+							"style": "h3",
+							"children": [
+								{
+									"_type": "span",
+									"text": "3.4 Cooperation with Authorities",
+									"_key": "k52"
+								}
+							],
+							"_key": "k53"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Adxens Group may disclose user information, transaction records, and account details to law enforcement agencies, regulatory authorities, or other governmental bodies where required by law, regulation, or legal process, or where Adxens Group considers such disclosure necessary to comply with its legal obligations, protect its rights, or prevent financial crime.",
+									"_key": "k54"
+								}
+							],
+							"_key": "k55"
+						},
+						{
+							"_type": "block",
+							"style": "h3",
+							"children": [
+								{
+									"_type": "span",
+									"text": "3.5 User Obligations",
+									"_key": "k56"
+								}
+							],
+							"_key": "k57"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "You agree that you will not use the platform or any services provided by Adxens Group for the purpose of money laundering, terrorist financing, sanctions evasion, fraud, or any other unlawful activity. You agree to cooperate fully with any verification or compliance requests made by Adxens Group. Any breach of this section shall constitute a material breach of these Terms and may result in immediate termination of your account, forfeiture of funds, and referral to the appropriate authorities.",
+									"_key": "k58"
+								}
+							],
+							"_key": "k59"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "By registering for and using the platform, you affirmatively represent and warrant that: (a) all funds used to top up advertising accounts or deposited into your Adxens Wallet are derived from lawful sources; (b) you are the beneficial owner of the funds or are duly authorised to use them on behalf of the beneficial owner; (c) you are not acting on behalf of any undisclosed third party in your use of the platform; (d) you will promptly notify Adxens Group if any of the representations in this section or in Section 3.2 cease to be accurate; and (e) you understand that Adxens Group relies on these representations in providing services to you and that any misrepresentation constitutes a material breach entitling Adxens Group to terminate your account, withhold funds, pending investigation and report the matter to the appropriate authorities.",
+									"_key": "k60"
+								}
+							],
+							"_key": "k61"
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "4. Advertising Accounts",
+									"_key": "k62"
+								}
+							],
+							"_key": "k63"
+						},
+						{
+							"_type": "block",
+							"style": "h3",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Access and Usage",
+									"_key": "k64"
+								}
+							],
+							"_key": "k65"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Users will be able to use the advertising accounts provided by Adxens Group to publish advertising campaigns and top up those advertising accounts according to each user’s budget. Advertising accounts will be available for different platforms such as Meta, TikTok, Snapchat, Google, and others as may be offered from time to time. Through their user accounts and our platform, users will be able to manage their advertising account top-ups, balances, invoices, and related services.",
+									"_key": "k66"
+								}
+							],
+							"_key": "k67"
+						},
+						{
+							"_type": "block",
+							"style": "h3",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Account Identification and Data Source",
+									"_key": "k68"
+								}
+							],
+							"_key": "k69"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "All advertising accounts provided by Adxens Group are identified and tracked by two primary data points: (1) the Account Name assigned within the platform, and (2) the Unique Ad Account ID generated by the host network (e.g., Meta, TikTok, Google, Snapchat).",
+									"_key": "k70"
+								}
+							],
+							"_key": "k71"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "“Advertising Spend” is defined strictly as the monetary value of media inventory consumed by the Ad Account, as reported by the respective third-party advertising network. The user acknowledges that the third-party network’s reporting serves as the sole and final source of truth for calculating Advertising Spend. In the event of a discrepancy between the user’s internal tracking and the ad network’s official reporting, the ad network’s data shall prevail.",
+									"_key": "k72"
+								}
+							],
+							"_key": "k73"
+						},
+						{
+							"_type": "block",
+							"style": "h3",
+							"children": [
+								{
+									"_type": "span",
+									"text": "User Responsibilities",
+									"_key": "k74"
+								}
+							],
+							"_key": "k75"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "The user agrees to assume all responsibility for the advertising accounts and to respect the advertising policies established by the platform used to advertise. It is the sole and exclusive responsibility of the user that their advertising campaigns comply with all advertising policies of the relevant platform.",
+									"_key": "k76"
+								}
+							],
+							"_key": "k77"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "The user is solely and exclusively responsible for maintaining the balance of the advertising account and shall ensure that the account is topped up on time. Adxens Group is not responsible for paused ad campaigns or loss of performance as a result of insufficient account balance. Under no circumstances may the user resell or redistribute advertising accounts without Adxens Group’s explicit written permission.",
+									"_key": "k78"
+								}
+							],
+							"_key": "k79"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "The user represents and warrants that the URLs, landing pages, and advertising content submitted to Adxens Group accurately reflect the content that will be displayed to end users. Any attempt to misrepresent, cloak, or substitute approved content with non-compliant content constitutes a material breach of these Terms and may result in immediate account termination and forfeiture of any remaining balance.",
+									"_key": "k80"
+								}
+							],
+							"_key": "k81"
+						},
+						{
+							"_type": "block",
+							"style": "h3",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Commissions and Fees",
+									"_key": "k82"
+								}
+							],
+							"_key": "k83"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Commission fees for advertising account top-ups are determined on a per subscribed plan basis and communicated to the client prior to plan subscription. Default commission rates may apply and are subject to adjustment depending on the platform, account type, volume, and any specific arrangements agreed between Adxens Group and the client. Adxens Group reserves the right to modify commission fees at any time, with the assurance that any changes will be communicated to the client in advance and will not apply retrospectively to top-ups processed prior to the change. The applicable commission rate for each account will be visible to the client through the Adxens platform.",
+									"_key": "k84"
+								}
+							],
+							"_key": "k85"
+						},
+						{
+							"_type": "block",
+							"style": "h3",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Wallet Balances",
+									"_key": "k86"
+								}
+							],
+							"_key": "k87"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Funds deposited into your Adxens Wallet or allocated to an advertising account are available for media buying immediately. Requests to withdraw unspent funds must be processed in accordance with the Refund Policy outlined in Section 12. Adxens Group reserves the right not to offer any type of credit to the user.",
+									"_key": "k88"
+								}
+							],
+							"_key": "k89"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "It is the user’s sole responsibility to monitor and verify the accuracy of their Adxens Wallet balance, advertising account balances, and all transaction records displayed on the platform. The user must review their balance promptly after each deposit, top-up, or transaction to ensure it has been correctly credited. If the user identifies any discrepancy between the amount deposited and the balance reflected on the platform, the user must notify Adxens Group immediately by contacting their assigned account manager or customer-service@adxens.com.",
+									"_key": "k90"
+								}
+							],
+							"_key": "k91"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Adxens Group shall not be liable for any loss, damage, or claim arising from a discrepancy between the amount deposited by the user and the balance credited on the platform, where the user has failed to notify Adxens Group of the discrepancy within 14 days of the relevant transaction. The user acknowledges that the platform relies on third-party payment processors, blockchain networks, and webhook integrations that may, in certain circumstances, experience delays, processing errors, or temporary failures that affect the timing or accuracy of balance updates. While Adxens Group endeavours to ensure that all deposits are accurately reflected in a timely manner, it does not warrant that the platform will be free from technical errors or processing delays.",
+									"_key": "k92"
+								}
+							],
+							"_key": "k93"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Any discrepancy reported within the 14-day notification period will be investigated by Adxens Group and, where a crediting error is confirmed, corrected within a reasonable timeframe. Adxens Group reserves the right to request transaction receipts, blockchain transaction hashes, or other evidence of payment to verify any reported discrepancy.",
+									"_key": "k94"
+								}
+							],
+							"_key": "k95"
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "5. Subscriptions, Fees and Commissions",
+									"_key": "k96"
+								}
+							],
+							"_key": "k97"
+						},
+						{
+							"_type": "block",
+							"style": "h3",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Access and plan types",
+									"_key": "k98"
+								}
+							],
+							"_key": "k99"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Access to the Platform and its services requires an active subscription plan. “Ad Account Top-Up” means any deposit of funds into an advertising account made through the Platform. “Commission” means the percentage fee applicable to the user’s plan, calculated on the amount of each Ad Account Top-Up.",
+									"_key": "k100"
+								}
+							],
+							"_key": "k101"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Each plan falls into one of the following categories, as displayed on the Adxens platform at the time of selection:",
+									"_key": "k102"
+								}
+							],
+							"_key": "k103"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "(a) Fixed-fee plans: the user pays a recurring subscription fee and no commission on Ad Account Top-Ups.",
+									"_key": "k104"
+								}
+							],
+							"_key": "k105",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "(b) Commission-only plans: the user pays no subscription fee but pays a commission on each Ad Account Top-Up.",
+									"_key": "k106"
+								}
+							],
+							"_key": "k107",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "(c) Hybrid plans: the user pays both a recurring subscription fee and a reduced commission on each Ad Account Top-Up.",
+									"_key": "k108"
+								}
+							],
+							"_key": "k109",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "h3",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Plan details",
+									"_key": "k110"
+								}
+							],
+							"_key": "k111"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "The applicable subscription fee, Commission rate, and features of each plan are displayed on the Adxens platform. By selecting a plan, the user agrees to pay the subscription fee (if any) and the Commissions (if any) that apply to that plan at the time of selection. For fixed-fee plans, no Commission is charged regardless of monthly top-up volume.",
+									"_key": "k112"
+								}
+							],
+							"_key": "k113"
+						},
+						{
+							"_type": "block",
+							"style": "h3",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Commissions fees",
+									"_key": "k114"
+								}
+							],
+							"_key": "k115"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Commissions are charged at the time of each Ad Account Top-Up and are added to the top-up amount. The Commission fees is refundable through a refund request performed by the user on an ad account and the amount of fees refunded depends on the amount of balance withdrawn from the ad account. The rate of the refundable commissions is determined by the sole discretion of Adxens Group.",
+									"_key": "k116"
+								}
+							],
+							"_key": "k117"
+						},
+						{
+							"_type": "block",
+							"style": "h3",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Changes to plans and pricing",
+									"_key": "k118"
+								}
+							],
+							"_key": "k119"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Adxens Group may introduce, modify, or discontinue subscription plans, prices, or Commission rates at any time. Changes will be communicated to affected users at least 24 hours or a reasonable period before taking effect, and in any case before the user’s next billing cycle. Continued use of the Platform after the changes take effect constitutes acceptance. If the user does not agree, they may cancel before the changes apply.",
+									"_key": "k120"
+								}
+							],
+							"_key": "k121"
+						},
+						{
+							"_type": "block",
+							"style": "h3",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Automatic renewal",
+									"_key": "k122"
+								}
+							],
+							"_key": "k123"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Fixed-fee and hybrid plans renew automatically every month. By subscribing, the user authorizes Adxens Group to charge the payment method on file on each billing date. The subscription remains active until cancelled by the user or terminated by Adxens Group.",
+									"_key": "k124"
+								}
+							],
+							"_key": "k125"
+						},
+						{
+							"_type": "block",
+							"style": "h3",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Cancellation",
+									"_key": "k126"
+								}
+							],
+							"_key": "k127"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "The user may cancel their subscription at any time from their account settings. To avoid being charged for the next billing period, cancellation must be made at least 24 hours before the renewal date. Upon cancellation, the client retains access to the plan benefits until the end of the current billing cycle. The user is responsible for managing their subscription and knowing their billing date.",
+									"_key": "k128"
+								}
+							],
+							"_key": "k129"
+						},
+						{
+							"_type": "block",
+							"style": "h3",
+							"children": [
+								{
+									"_type": "span",
+									"text": "No refunds",
+									"_key": "k130"
+								}
+							],
+							"_key": "k131"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Subscription fees are non-refundable, including for partial months or unused time, except where required by applicable law.",
+									"_key": "k132"
+								}
+							],
+							"_key": "k133"
+						},
+						{
+							"_type": "block",
+							"style": "h3",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Failed payments",
+									"_key": "k134"
+								}
+							],
+							"_key": "k135"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "If a subscription payment fails, Adxens Group may retry the payment and will notify the user. If payment is not resolved within 7 days, Adxens Group may limit or suspend access to the user’s advertising accounts until payment is made. Funds already deposited in ad accounts remain subject to the platform’s terms on withdrawals and balances.",
+									"_key": "k136"
+								}
+							],
+							"_key": "k137"
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "6. Payments",
+									"_key": "k138"
+								}
+							],
+							"_key": "k139"
+						},
+						{
+							"_type": "block",
+							"style": "h3",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Fiat Payments",
+									"_key": "k140"
+								}
+							],
+							"_key": "k141"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Subscriptions and top-ups for advertising accounts may be paid through Stripe or other payment processors as made available by Adxens Group. A processing fee may be applied to card payments, the details of which will be communicated prior to transaction completion. Clients are responsible for any transaction fees incurred.",
+									"_key": "k142"
+								}
+							],
+							"_key": "k143"
+						},
+						{
+							"_type": "block",
+							"style": "h3",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Cryptocurrency Payments",
+									"_key": "k144"
+								}
+							],
+							"_key": "k145"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Adxens Group may accept cryptocurrency payments, including but not limited to USDT and USDC on supported blockchain networks, as a method of funding advertising account balances. Cryptocurrency payments are subject to the following additional terms:",
+									"_key": "k146"
+								}
+							],
+							"_key": "k147"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Adxens Group reserves the right to screen all incoming cryptocurrency transactions using blockchain analytics tools and to reject, delay, or return any transaction that presents an unacceptable risk profile.",
+									"_key": "k148"
+								}
+							],
+							"_key": "k149",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Cryptocurrency deposited to Adxens Group’s designated wallet addresses is considered received only upon confirmation on the relevant blockchain network and satisfactory completion of any applicable compliance screening.",
+									"_key": "k150"
+								}
+							],
+							"_key": "k151",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Adxens Group accepts no liability for funds frozen, seized, or rendered inaccessible by any stablecoin issuer (including but not limited to Binance, Tether or Circle), blockchain network, law enforcement agency, regulatory authority, or any other third party, regardless of the reason for such action.",
+									"_key": "k152"
+								}
+							],
+							"_key": "k153",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "The user acknowledges that stablecoin issuers retain the ability to freeze or blacklist wallet addresses at the smart contract level, and that such actions are outside Adxens Group’s control.",
+									"_key": "k154"
+								}
+							],
+							"_key": "k155",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "In the event that Adxens Group’s wallet is frozen, blacklisted, or otherwise restricted due to the actions of a stablecoin issuer or law enforcement, Adxens Group shall not be liable for any resulting delay, loss, or inability to access funds, including funds deposited by users unrelated to the cause of such restriction.",
+									"_key": "k156"
+								}
+							],
+							"_key": "k157",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Where cryptocurrency funds are returned or refunded, Adxens Group may return such funds in the original cryptocurrency, in an alternative cryptocurrency, or in fiat currency at Adxens Group’s sole discretion, using the exchange rate prevailing at the time of return.",
+									"_key": "k158"
+								}
+							],
+							"_key": "k159",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "The user acknowledges and accepts that cryptocurrency funds deposited by multiple clients may be held in shared wallet infrastructure. As a result, the actions of third parties — including but not limited to other clients, stablecoin issuers, law enforcement agencies, or regulatory authorities — may affect the availability, accessibility, or liquidity of funds held in shared wallets, including funds belonging to users unrelated to the cause of any restriction. Adxens Group shall not be liable for any delay, loss, or inability to access funds arising from the actions of third parties affecting shared wallet infrastructure, and the user waives any claim against Adxens Group in respect of such events.",
+									"_key": "k160"
+								}
+							],
+							"_key": "k161"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Adxens Group reserves the right to discontinue acceptance of cryptocurrency payments at any time without prior notice.",
+									"_key": "k162"
+								}
+							],
+							"_key": "k163"
+						},
+						{
+							"_type": "block",
+							"style": "h3",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Payment Disputes",
+									"_key": "k164"
+								}
+							],
+							"_key": "k165"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "In the event of a payment dispute, Adxens Group reserves the right to freeze the client’s advertising account balance and may terminate cooperation immediately. Clients intending to dispute a charge must contact customer-service@adxens.com and can expect a response within 10 business days. Clients must not file a bank dispute or chargeback to retrieve unspent funds, as the service (credit delivery) has already been rendered. Filing a chargeback or bank dispute without first engaging Adxens Group’s dispute resolution process constitutes a material breach of these Terms and may result in immediate account termination and forfeiture of any remaining balance.",
+									"_key": "k166"
+								}
+							],
+							"_key": "k167"
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "7. Tax Cashback and Recovery",
+									"_key": "k168"
+								}
+							],
+							"_key": "k169"
+						},
+						{
+							"_type": "block",
+							"style": "h3",
+							"children": [
+								{
+									"_type": "span",
+									"text": "7.1 Scope",
+									"_key": "k170"
+								}
+							],
+							"_key": "k171"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "This Section applies exclusively to Meta and Google advertising accounts (Taxed Ad Platforms). It does not presently apply to TikTok and other advertising accounts.",
+									"_key": "k172"
+								}
+							],
+							"_key": "k173"
+						},
+						{
+							"_type": "block",
+							"style": "h3",
+							"children": [
+								{
+									"_type": "span",
+									"text": "7.2 Digital Services Taxes",
+									"_key": "k174"
+								}
+							],
+							"_key": "k175"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Digital Services Taxes based on the countries and regions targeted by Ad campaigns through this Taxed Ad Platforms will be requested by each Ad Platform during the billing period. These taxes are invoiced by each plateform during its billing period. The tax rate vary by country, with rates that may reach up to 7% of ad spend or more, and may change at any time without notice from the Platform.",
+									"_key": "k176"
+								}
+							],
+							"_key": "k177"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Because Digital Services Taxes are only known after the end of the billing period, the Platform applies a Provisional Taxes of 4% on each top-up of a Taxed Ad Platform (the \"Provisional Taxes\"). The Provisional Taxes is an advance estimate collected on the client’s behalf to cover Digital Services Taxes on spends made through Taxed Ad Plateforms. It is not a service fee or a revenue of the Platform.",
+									"_key": "k178"
+								}
+							],
+							"_key": "k179"
+						},
+						{
+							"_type": "block",
+							"style": "h3",
+							"children": [
+								{
+									"_type": "span",
+									"text": "7.3 Period-End Reconciliation",
+									"_key": "k180"
+								}
+							],
+							"_key": "k181"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "After receiving invoices for each billing period and from each Taxed Ad Plateforms, Adxens will compare the total Provisional Taxes collected for each Taxed Ad Plateforms with the digital service taxes actually invoiced within the unréconciled period (the \"Reconciliation\").",
+									"_key": "k182"
+								}
+							],
+							"_key": "k183"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "If the Provisional Taxes collected per Taxed Ad Platforms exceeds the Digital Services Taxes actually invoiced, Adxens will credit the difference to the client’s Wallet as a Tax cashback (\"Tax Cashback\"). The Tax Cashback is a refund of an overpayment and has no value other than as a Wallet balance adjustment.",
+									"_key": "k184"
+								}
+							],
+							"_key": "k185"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "If the Provisional Taxes collected is lower than the Digital Services Taxes actually invoiced, the Platform may debit the difference (the \"Taxes Owed\") from the balance otl. The client expressly authorize the Platform to make this debit automatically, without further approval for each occurrence. The Taxes Owed will never exceed the amount actually invoiced by Google for the relevant account and period.",
+									"_key": "k186"
+								}
+							],
+							"_key": "k187"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "For each Reconciliation, the Platform will make available in the client dashboard, or notify by email, a statement showing the digital service taxes invoiced and the resulting Tax Cashback or Additional taxes.",
+									"_key": "k188"
+								}
+							],
+							"_key": "k189"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "If you believe a Reconciliation is incorrect, you may contact support within [30] days of the statement. The Platform will provide a copy of the relevant Google invoice extract on request.",
+									"_key": "k190"
+								}
+							],
+							"_key": "k191"
+						},
+						{
+							"_type": "block",
+							"style": "h3",
+							"children": [
+								{
+									"_type": "span",
+									"text": "7.4 Insufficient Balance",
+									"_key": "k192"
+								}
+							],
+							"_key": "k193"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "If the Organisation Balance of the client is insufficient to cover an Taxes Owed related to digital service taxes, the client agrees to regulate the pending and unpaid invoiced taxes, 7 days after notification",
+									"_key": "k194"
+								}
+							],
+							"_key": "k195"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "The Platform may suspend the clients ability to top up or launch campaigns on Taxed Ad Platforms until the amount is settled, and may request payment by any other means available on the Platform. These remedies are without prejudice to any other rights of the Platform.",
+									"_key": "k196"
+								}
+							],
+							"_key": "k197"
+						},
+						{
+							"_type": "block",
+							"style": "h3",
+							"children": [
+								{
+									"_type": "span",
+									"text": "7.5 Changes and Corrections",
+									"_key": "k198"
+								}
+							],
+							"_key": "k199"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "If an Ad Platform issues a corrected or additional invoice for a past period, the Platform may carry out a new Reconciliation for that period, including after the termination of the client account, and the same rules will apply.",
+									"_key": "k200"
+								}
+							],
+							"_key": "k201"
+						},
+						{
+							"_type": "block",
+							"style": "h3",
+							"children": [
+								{
+									"_type": "span",
+									"text": "7.6 Account Closure",
+									"_key": "k202"
+								}
+							],
+							"_key": "k203"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "On termination of a client account, any final Cashback will be credited to your remaining balance, and any final Taxes Owed will be payable immediately.",
+									"_key": "k204"
+								}
+							],
+							"_key": "k205"
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "8. Intellectual Property and Licenses",
+									"_key": "k206"
+								}
+							],
+							"_key": "k207"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "The intellectual property rights to the platform and the content available on the platform belong exclusively to Adxens Group. Adxens Group gives you a personal, worldwide, royalty-free, non-assignable and non-exclusive license to use the platform provided to you by Adxens Group as part of the services. This license is for the sole purpose of enabling you to use and enjoy the benefit of the services, in the manner permitted by these terms.",
+									"_key": "k208"
+								}
+							],
+							"_key": "k209"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "You may not copy, modify, distribute, sell, or lease any part of our services or included software, nor may you reverse engineer or attempt to extract the source code of that software, unless laws prohibit those restrictions or you have our written permission.",
+									"_key": "k210"
+								}
+							],
+							"_key": "k211"
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "9. Prohibited Activities",
+									"_key": "k212"
+								}
+							],
+							"_key": "k213"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "The user agrees not to use the platform and the services negligently, for fraudulent purposes or in an unlawful manner. In addition to any other prohibited activities set out in these Terms, the following are expressly prohibited:",
+									"_key": "k214"
+								}
+							],
+							"_key": "k215"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Using the platform or services for money laundering, terrorist financing, sanctions evasion, or any form of financial crime.",
+									"_key": "k216"
+								}
+							],
+							"_key": "k217",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Providing false, misleading, or fraudulent information during registration, account creation, or at any other time.",
+									"_key": "k218"
+								}
+							],
+							"_key": "k219",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Using the platform to advertise, promote, or facilitate illegal goods, services, or activities.",
+									"_key": "k220"
+								}
+							],
+							"_key": "k221",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Misrepresenting, cloaking, or substituting approved advertising content with non-compliant content.",
+									"_key": "k222"
+								}
+							],
+							"_key": "k223",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Reselling, redistributing, or sublicensing advertising accounts or platform access without Adxens Group’s explicit written permission.",
+									"_key": "k224"
+								}
+							],
+							"_key": "k225",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Accessing, monitoring, reproducing, or distributing any content of the services using automated means without our express written permission.",
+									"_key": "k226"
+								}
+							],
+							"_key": "k227",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Taking any action that imposes an unreasonable or disproportionately large load on our infrastructure.",
+									"_key": "k228"
+								}
+							],
+							"_key": "k229",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Attempting to modify, decompile, disassemble, or reverse engineer any software used by Adxens Group.",
+									"_key": "k230"
+								}
+							],
+							"_key": "k231",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Circumventing, disabling, or interfering with security-related features of the services.",
+									"_key": "k232"
+								}
+							],
+							"_key": "k233",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Sending SPAM, harassing, abusive, defamatory, obscene, or otherwise illegal content.",
+									"_key": "k234"
+								}
+							],
+							"_key": "k235",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Distributing trojans, viruses, or other malicious software.",
+									"_key": "k236"
+								}
+							],
+							"_key": "k237",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Adxens Group reserves the right to terminate your access immediately, with or without notice, and without liability to you, if Adxens Group believes that you have violated any of these terms.",
+									"_key": "k238"
+								}
+							],
+							"_key": "k239"
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "10. Disclaimer",
+									"_key": "k240"
+								}
+							],
+							"_key": "k241"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "By using the platform and the services, you accept personal responsibility for the results of the use of the platform and our services. You agree that Adxens Group does not guarantee any results, profits or losses from advertising campaigns published through our services. The administration, performance, success or failure of advertising campaigns shall be the sole and exclusive responsibility of the users.",
+									"_key": "k242"
+								}
+							],
+							"_key": "k243"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Adxens Group provides the platform on an “as is”, “as available” basis and makes no promise that use of the platform will be uninterrupted or entirely error free. We are not responsible to you if we are unable to provide our services for any reason beyond our control.",
+									"_key": "k244"
+								}
+							],
+							"_key": "k245"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Adxens Group makes no warranty, representation, or guarantee that any third-party advertising platform (including but not limited to Meta, Google, TikTok, Snapchat, or any other network) will approve, maintain, or refrain from restricting or terminating any advertising account provided through the platform. Third-party advertising platforms operate independently and may, at their sole discretion, restrict, suspend, or permanently disable advertising accounts for any reason, including but not limited to policy violations, algorithmic review, or changes to their own terms of service. Adxens Group shall have no liability whatsoever for any action taken by a third-party advertising platform in respect of an advertising account, including any resulting loss of advertising spend, revenue, campaign data, or business opportunity. The user acknowledges that Adxens Group acts as an intermediary in providing access to third-party advertising infrastructure and does not control the policies, decisions, or operations of those platforms.",
+									"_key": "k246"
+								}
+							],
+							"_key": "k247"
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "11. Limitation of Liability",
+									"_key": "k248"
+								}
+							],
+							"_key": "k249"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "To the maximum extent permitted by law, Adxens Group excludes liability for any loss or damage of any kind howsoever arising, including without limitation any direct, indirect, incidental, special, consequential, or exemplary damages, including but not limited to:",
+									"_key": "k250"
+								}
+							],
+							"_key": "k251"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Any incorrect or inaccurate information on the platform.",
+									"_key": "k252"
+								}
+							],
+							"_key": "k253",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Any loss or damage resulting from your use or the inability to use the platform, including any inability to access funds held in cryptocurrency wallets.",
+									"_key": "k254"
+								}
+							],
+							"_key": "k255",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Any loss of profit, revenue, wasted expenditure, corruption or destruction of data.",
+									"_key": "k256"
+								}
+							],
+							"_key": "k257",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Any loss arising from the actions of third-party payment processors, stablecoin issuers, blockchain networks, wallet providers, or advertising platforms.",
+									"_key": "k258"
+								}
+							],
+							"_key": "k259",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Any loss arising from the freezing, blacklisting, seizure, or destruction of cryptocurrency assets by any stablecoin issuer, law enforcement agency, or regulatory authority.",
+									"_key": "k260"
+								}
+							],
+							"_key": "k261",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Any loss arising from the actions or omissions of third-party advertising platforms, including but not limited to the restriction or termination of advertising accounts.",
+									"_key": "k262"
+								}
+							],
+							"_key": "k263",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Any loss due to viruses or other malicious software.",
+									"_key": "k264"
+								}
+							],
+							"_key": "k265",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Nothing in these Terms excludes or limits Adxens Group’s liability for death or personal injury caused by negligence, fraud or fraudulent misrepresentation, or any other liability that cannot be excluded or limited by applicable law.",
+									"_key": "k266"
+								}
+							],
+							"_key": "k267"
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "12. Refund Policy",
+									"_key": "k268"
+								}
+							],
+							"_key": "k269"
+						},
+						{
+							"_type": "block",
+							"style": "h3",
+							"children": [
+								{
+									"_type": "span",
+									"text": "12.1 Definition of Delivery",
+									"_key": "k270"
+								}
+							],
+							"_key": "k271"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "For the purpose of transaction fulfilment, the \"Service\" is considered fully delivered and received the moment funds are credited to the client's Organisation Balance or when the Ad Account Spend Limit is increased on the relevant ad platform.",
+									"_key": "k272"
+								}
+							],
+							"_key": "k273"
+						},
+						{
+							"_type": "block",
+							"style": "h3",
+							"children": [
+								{
+									"_type": "span",
+									"text": "12.2 Subscription Refunds",
+									"_key": "k274"
+								}
+							],
+							"_key": "k275"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Subscription fees are not eligible for refunds. This includes both standard and comprehensive subscription options. Any payments made for subscriptions are final and non-refundable.",
+									"_key": "k276"
+								}
+							],
+							"_key": "k277"
+						},
+						{
+							"_type": "block",
+							"style": "h3",
+							"children": [
+								{
+									"_type": "span",
+									"text": "12.3 Ad account balance refund",
+									"_key": "k278"
+								}
+							],
+							"_key": "k279"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Clients may request return of cleared, and unspent Ad Account Balance. Refundable Ad account balance is calculated as: Total Top-Up Amount minus Actual Advertising Spend, as determined by the relevant ad platform's reporting data.",
+									"_key": "k280"
+								}
+							],
+							"_key": "k281"
+						},
+						{
+							"_type": "block",
+							"style": "h3",
+							"children": [
+								{
+									"_type": "span",
+									"text": "12.4 Refund Process",
+									"_key": "k282"
+								}
+							],
+							"_key": "k283"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "The user can request for a withdraw of the Organisation Balance by using a fiat or crypto payment methods available at that time. Requests for Organisation balance withdrawals through automated payment methods are processed spontaneously, while manual payment methods will be directed to BackOffice administrators for human process. In case of Bank transactions, clients must not file a bank dispute or chargeback to retrieve unspent funds.",
+									"_key": "k284"
+								}
+							],
+							"_key": "k285"
+						},
+						{
+							"_type": "block",
+							"style": "h3",
+							"children": [
+								{
+									"_type": "span",
+									"text": "12.5 Process and timing",
+									"_key": "k286"
+								}
+							],
+							"_key": "k287"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Adxens Group commits to processing valid refund requests within 10 business days, although this may extend to 30 business days in exceptional cases due to supplier or processing delays. Clients are responsible for any transaction fees incurred during the refund process. Refunds will be issued to the original payment method where possible, or in the case of cryptocurrency payments, in the original cryptocurrency, an alternative cryptocurrency, or fiat currency at Adxens Group’s sole discretion using the exchange rate prevailing at the time of processing.",
+									"_key": "k288"
+								}
+							],
+							"_key": "k289"
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "13. Confidential Information",
+									"_key": "k290"
+								}
+							],
+							"_key": "k291"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Information provided by our customers through our services will be treated as confidential information and will be used solely for the purpose of providing our services. Adxens Group will protect such confidential information from disclosure to third parties by employing the same degree of care used to protect its own proprietary information.",
+									"_key": "k292"
+								}
+							],
+							"_key": "k293"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Notwithstanding the foregoing, Adxens Group may disclose confidential information where required by law, regulation, legal process, or in response to requests from law enforcement or regulatory authorities, in accordance with Section 3.4 of these Terms.",
+									"_key": "k294"
+								}
+							],
+							"_key": "k295"
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "14. User Content",
+									"_key": "k296"
+								}
+							],
+							"_key": "k297"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Some features of the platform may allow users to provide content and information. The user retains the copyright or any other rights it may have on the content it provides. Adxens Group is not responsible for the accuracy, safety or legality of content posted by users. The user is solely and exclusively responsible for its content and the consequences of its publication.",
+									"_key": "k298"
+								}
+							],
+							"_key": "k299"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "By providing content through the platform, the user grants Adxens Group a worldwide, non-exclusive, royalty-free, fully paid right and license to host, store, transfer, display, perform, reproduce and modify the user’s content for the sole purpose of providing the services.",
+									"_key": "k300"
+								}
+							],
+							"_key": "k301"
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "15. Personal Data",
+									"_key": "k302"
+								}
+							],
+							"_key": "k303"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Any personal information you post or submit in connection with the use of the platform will be used in accordance with our Privacy Policy, available at https://www.adxens.com/privacy. Adxens Group retains transaction records, account data, and associated compliance documentation for a minimum period of six (6) years from the date of the relevant transaction or account closure, whichever is later, or such longer period as may be required by applicable law or regulation. This retention obligation survives termination of the user’s account and these Terms.",
+									"_key": "k304"
+								}
+							],
+							"_key": "k305"
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "16. Account Suspension and Fund Holds",
+									"_key": "k306"
+								}
+							],
+							"_key": "k307"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Adxens Group reserves the right to suspend, restrict, or terminate any user’s account and to place a hold on any funds in the user’s Adxens Wallet or advertising account balance, without prior notice, where Adxens Group reasonably believes that: (a) the user has breached or is breaching these Terms; (b) the user’s account or transactions present a compliance, sanctions, or financial crime risk; (c) Adxens Group has received a request or direction from a law enforcement agency, regulatory authority, or court of competent jurisdiction; (d) the user’s funds are or may be the proceeds of unlawful activity; or (e) a hold is necessary to protect Adxens Group, its clients, or third parties from loss or liability.",
+									"_key": "k308"
+								}
+							],
+							"_key": "k309"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Where funds are held pursuant to this section, Adxens Group shall not be liable for any loss, damage, or delay arising from the hold, and the user shall have no claim against Adxens Group for interest, compensation, or consequential losses. Adxens Group will use reasonable efforts to notify the user of the hold and the reason for it, except where such notification is prohibited by law or would prejudice an ongoing investigation.",
+									"_key": "k310"
+								}
+							],
+							"_key": "k311"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Adxens Group will comply with all lawful orders, directions, or requests from courts, law enforcement agencies, regulatory authorities, or other competent governmental bodies, including orders to freeze, withhold, surrender, or disclose funds, account information, or personal data. The user waives any claim against Adxens Group arising from Adxens Group’s compliance with such orders or requests, and acknowledges that Adxens Group may be prohibited by law from disclosing the existence or details of such orders to the user.",
+									"_key": "k312"
+								}
+							],
+							"_key": "k313"
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "17. Indemnification",
+									"_key": "k314"
+								}
+							],
+							"_key": "k315"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "You agree to hold harmless, defend and indemnify Adxens Group, its officers, directors, employees, agents, and affiliates from and against any claims, causes of action, demands, recoveries, losses, damages, fines, penalties or other costs or expenses of any kind or nature, including reasonable legal fees, brought by third parties as a result of:",
+									"_key": "k316"
+								}
+							],
+							"_key": "k317"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Your breach of this agreement or any documents referenced herein.",
+									"_key": "k318"
+								}
+							],
+							"_key": "k319",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Your violation of any law, regulation, or the rights of a third party.",
+									"_key": "k320"
+								}
+							],
+							"_key": "k321",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Your use of the platform or services.",
+									"_key": "k322"
+								}
+							],
+							"_key": "k323",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Any advertising content you create, publish, or distribute through the platform.",
+									"_key": "k324"
+								}
+							],
+							"_key": "k325",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Any claim that your use of the services has caused damage to a third party.",
+									"_key": "k326"
+								}
+							],
+							"_key": "k327",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "18. Force Majeure",
+									"_key": "k328"
+								}
+							],
+							"_key": "k329"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Adxens Group will not be liable for any failure to perform any obligation under this agreement if such failure is caused by the occurrence of any event beyond its reasonable control, including without limitation: internet outages, communications outages, fire, flood, war, act of God, pandemic, government action, regulatory action, sanctions enforcement, actions by stablecoin issuers (including but not limited to wallet freezing, token blacklisting, or fund destruction by Tether, Circle, or any other issuer), blockchain network disruptions, actions by third-party advertising platforms, and actions by payment processors or financial institutions.",
+									"_key": "k330"
+								}
+							],
+							"_key": "k331"
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "19. Changes and Termination",
+									"_key": "k332"
+								}
+							],
+							"_key": "k333"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "We may change the platform and these Terms at any time, in our sole discretion and without notice to you. You are responsible for remaining knowledgeable about these Terms. Your continued use of the platform constitutes your acceptance of any changes. Furthermore, we may terminate this agreement with you at any time by notifying you in writing (including by email) or without any warning.",
+									"_key": "k334"
+								}
+							],
+							"_key": "k335"
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "20. Assignment",
+									"_key": "k336"
+								}
+							],
+							"_key": "k337"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "This agreement and any rights and licenses granted hereunder may not be transferred or assigned by you, but may be assigned by Adxens Group without restriction.",
+									"_key": "k338"
+								}
+							],
+							"_key": "k339"
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "21. Entire Agreement",
+									"_key": "k340"
+								}
+							],
+							"_key": "k341"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "This agreement together with the Privacy Policy and any other legal notices published by Adxens Group shall constitute the entire agreement between you and Adxens Group concerning and governing your use of the platform.",
+									"_key": "k342"
+								}
+							],
+							"_key": "k343"
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "22. Right of Set-Off",
+									"_key": "k344"
+								}
+							],
+							"_key": "k345"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Adxens Group may, at any time and without prior notice, set off any amounts owed to Adxens Group by the user (including but not limited to unpaid subscription fees, commission fees, chargeback costs, compliance costs, or any other sums due) against any funds held in the user’s Adxens Wallet, advertising account balance, or any other credit balance held by Adxens Group on behalf of the user. Adxens Group will notify the user of any set-off applied and provide reasonable detail of the amounts deducted and the basis for the deduction. The exercise of this right of set-off shall not limit any other rights or remedies available to Adxens Group under these Terms or at law.",
+									"_key": "k346"
+								}
+							],
+							"_key": "k347"
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "23. Electronic Communications and Consent",
+									"_key": "k348"
+								}
+							],
+							"_key": "k349"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "By using the platform, you consent to receive communications from Adxens Group electronically, including via email, in-platform notifications, or messages sent through the Adxens platform. You agree that all agreements, notices, disclosures, and other communications that Adxens Group provides to you electronically satisfy any legal requirement that such communications be in writing. You further consent to the use of electronic signatures and agree that your acceptance of these Terms through the platform, your account registration, or your continued use of the services constitutes a valid and binding electronic signature. Any notice sent by Adxens Group to the email address associated with your account shall be deemed effective upon sending, whether or not actually received or read by you.",
+									"_key": "k350"
+								}
+							],
+							"_key": "k351"
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "24. Frozen Wallet and Fund Recovery",
+									"_key": "k352"
+								}
+							],
+							"_key": "k353"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "In the event that any cryptocurrency wallet operated by Adxens Group is frozen, blacklisted, seized, or otherwise restricted by a stablecoin issuer, law enforcement agency, regulatory authority, or any other third party, Adxens Group is not obligated to advance, replace, or otherwise make available equivalent funds from its own reserves to affected clients. The user’s recourse in such circumstances is limited to their proportionate share of whatever funds are ultimately recovered or released from the affected wallet.",
+									"_key": "k354"
+								}
+							],
+							"_key": "k355"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Where Adxens Group is required to forfeit, surrender, or otherwise relinquish a portion of frozen funds to a law enforcement agency, regulatory authority, court, or as part of any legal settlement or recovery process, Adxens Group reserves the right to allocate such losses to the specific client or clients whose funds or transactions gave rise to the restriction, or where specific attribution is not possible, to allocate losses proportionally across all clients with funds held in the affected wallet at the time of the restriction. Adxens Group will use reasonable efforts to notify affected clients of any such allocation and to provide a reasonable explanation of the basis for the allocation.",
+									"_key": "k356"
+								}
+							],
+							"_key": "k357"
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "25. Limitation Period for Claims",
+									"_key": "k358"
+								}
+							],
+							"_key": "k359"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Any claim, dispute, or cause of action arising out of or relating to these Terms, the platform, or the services must be commenced within twelve (12) months of the date on which the event giving rise to the claim first occurred. Any claim not brought within this period is permanently waived and barred, to the maximum extent permitted by applicable law. This limitation period applies to all claims regardless of the legal theory on which they are based, including contract, tort, negligence, strict liability, or any other basis.",
+									"_key": "k360"
+								}
+							],
+							"_key": "k361"
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "26. Independent Parties",
+									"_key": "k362"
+								}
+							],
+							"_key": "k363"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Nothing in these Terms shall be construed as creating a partnership, joint venture, employment relationship, franchise, or agency relationship between Adxens Group and the user. Neither party has the authority to bind the other or to incur any obligation on behalf of the other. The user acts solely as an independent party in its use of the platform and services, and Adxens Group acts solely as a service provider. Adxens Group is not an agent, partner, fiduciary, or trustee of the user or of any third party in connection with the services provided under these Terms.",
+									"_key": "k364"
+								}
+							],
+							"_key": "k365"
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "27. Disputes",
+									"_key": "k366"
+								}
+							],
+							"_key": "k367"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "The user agrees that any dispute, claim or controversy arising out of or relating to these Terms, or the breach, termination, enforcement, interpretation or validity thereof, shall be resolved by binding arbitration between the user and Adxens Group, provided that each party retains the right to bring an individual action in a court of competent jurisdiction.",
+									"_key": "k368"
+								}
+							],
+							"_key": "k369"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "In the event a dispute arises, the parties agree to submit their dispute to arbitration resolution before a reputable arbitration organisation as mutually agreed by the parties and in accordance with applicable commercial arbitration rules.",
+									"_key": "k370"
+								}
+							],
+							"_key": "k371"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "To the fullest extent permitted by law, you agree that you will not file, join or participate in any class action lawsuit in connection with any claim, dispute or controversy that may arise in connection with your use of the platform.",
+									"_key": "k372"
+								}
+							],
+							"_key": "k373"
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "28. Governing Law and Jurisdiction",
+									"_key": "k374"
+								}
+							],
+							"_key": "k375"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "These Terms and Conditions are governed by and shall be construed in accordance with the laws of the Hong Kong Special Administrative Region of the People’s Republic of China. The courts of Hong Kong shall have exclusive jurisdiction over any dispute, controversy or claim relating to these Terms or Adxens Group’s services.",
+									"_key": "k376"
+								}
+							],
+							"_key": "k377"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Use of the Adxens Group platform is unauthorised in any jurisdiction that does not give effect to all provisions of these Terms.",
+									"_key": "k378"
+								}
+							],
+							"_key": "k379"
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "29. Severability",
+									"_key": "k380"
+								}
+							],
+							"_key": "k381"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "If any part of these Terms is found to be invalid, illegal or unenforceable, the validity, legality and enforceability of the remaining provisions will not in any way be affected or impaired. Our failure or delay in enforcing any provision of these Terms at any time does not waive our right to enforce the same or any other provision(s) in the future. Any rights not expressly granted herein are reserved.",
+									"_key": "k382"
+								}
+							],
+							"_key": "k383"
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "30. Survival",
+									"_key": "k384"
+								}
+							],
+							"_key": "k385"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "The following provisions shall survive the termination or expiration of these Terms and any related agreement between the user and Adxens Group, for any reason: Section 3 (Client Verification and Compliance), Section 11 (Limitation of Liability), Section 13 (Confidential Information), Section 15 (Personal Data, including data retention obligations), Section 16 (Account Suspension and Fund Holds), Section 17 (Indemnification), Section 22 (Right of Set-Off), Section 24 (Frozen Wallet and Fund Recovery), Section 25 (Limitation Period for Claims), Section 26 (Independent Parties), Section 27 (Disputes), Section 28 (Governing Law and Jurisdiction), and this Section 30 (Survival). Any obligations that by their nature should survive termination, including but not limited to obligations relating to compliance cooperation, data retention, confidentiality, intellectual property, and limitation of liability, shall also survive.",
+									"_key": "k386"
+								}
+							],
+							"_key": "k387"
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "31. Contact Information",
+									"_key": "k388"
+								}
+							],
+							"_key": "k389"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "If you have questions or concerns about these Terms, please contact us at customer-service@adxens.com.",
+									"_key": "k390"
+								}
+							],
+							"_key": "k391"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Adxens LLC — Registered Office: 4405 Jager Dr NE, Rio Rancho, NM 87144, United States",
+									"_key": "k392"
+								}
+							],
+							"_key": "k393",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Adxens Solutions SARL — Registered Office: Carrefour Anguissa, 1st Floor, Global Wine Building, Yaoundé, Cameroon",
+									"_key": "k394"
+								}
+							],
+							"_key": "k395",
+							"listItem": "bullet",
+							"level": 1
+						}
+					]
+				}
+			},
+			{
+				"id": "page-privacy",
+				"slug": "privacy-policy",
+				"status": "published",
+				"data": {
+					"title": "Privacy policy",
+					"updated": "1 November 2026",
+					"template": "legal",
+					"content": [
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Thank you for Choosing Adxens Group. This Privacy Policy explains how we collect, use, process, store, share, and protect information when you use our platform and services. By accessing or using our services, you agree to the collection and use of your information in accordance with this Privacy Policy and our Terms and Conditions.",
+									"_key": "k396"
+								}
+							],
+							"_key": "k397"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Your personal data may be processed by any of these entities depending on the services you utilise and the jurisdiction in which you operate. Adxens Group acts as the data controller in respect of the personal data collected through the platform.",
+									"_key": "k398"
+								}
+							],
+							"_key": "k399"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "This Privacy Policy has been drafted to comply with applicable data protection laws and regulations, including the General Data Protection Regulation (EU) 2016/679 (“GDPR”), the UK General Data Protection Regulation (“UK GDPR”), the Hong Kong Personal Data (Privacy) Ordinance (Cap. 486) (“PDPO”), and other applicable national and international data protection laws.",
+									"_key": "k400"
+								}
+							],
+							"_key": "k401"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Your continued use of our services after any changes to this Privacy Policy indicates your acceptance of those changes. We encourage you to review this policy periodically for updates.",
+									"_key": "k402"
+								}
+							],
+							"_key": "k403"
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "1. Data Controller and Contact",
+									"_key": "k404"
+								}
+							],
+							"_key": "k405"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "The data controller responsible for your personal data is Adxens Group, customer-service@adxens.com.",
+									"_key": "k406"
+								}
+							],
+							"_key": "k407"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "For any data protection enquiries, requests to exercise your rights, or complaints, please contact us at the email address above or at the addresses listed in Section 14 of this Privacy Policy.",
+									"_key": "k408"
+								}
+							],
+							"_key": "k409"
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "2. Information We Collect",
+									"_key": "k410"
+								}
+							],
+							"_key": "k411"
+						},
+						{
+							"_type": "block",
+							"style": "h3",
+							"children": [
+								{
+									"_type": "span",
+									"text": "2.1 Information You Provide",
+									"_key": "k412"
+								}
+							],
+							"_key": "k413"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "You provide information when you register on our platform, use our services, top up advertising accounts, communicate with us, or submit verification documentation. This may include:",
+									"_key": "k414"
+								}
+							],
+							"_key": "k415"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Full name, email address, phone number, and postal address.",
+									"_key": "k416"
+								}
+							],
+							"_key": "k417",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Company name, registered address, company registration number, and jurisdiction of incorporation.",
+									"_key": "k418"
+								}
+							],
+							"_key": "k419",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Names, identification documents, and details of directors, beneficial owners, or authorised representatives (where requested for verification or compliance purposes).",
+									"_key": "k420"
+								}
+							],
+							"_key": "k421",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Proof of source of funds or other documentation requested in connection with our compliance obligations.",
+									"_key": "k422"
+								}
+							],
+							"_key": "k423",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Advertising content, URLs, campaign data, and ad account preferences.",
+									"_key": "k424"
+								}
+							],
+							"_key": "k425",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Communications with our support team, account managers, or through the platform.",
+									"_key": "k426"
+								}
+							],
+							"_key": "k427",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Any additional information you provide to us directly or indirectly through the platform.",
+									"_key": "k428"
+								}
+							],
+							"_key": "k429",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "h3",
+							"children": [
+								{
+									"_type": "span",
+									"text": "2.2 Information Collected Automatically",
+									"_key": "k430"
+								}
+							],
+							"_key": "k431"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "When you access the platform, we automatically collect:",
+									"_key": "k432"
+								}
+							],
+							"_key": "k433"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "IP address, browser type and version, device characteristics, and operating system.",
+									"_key": "k434"
+								}
+							],
+							"_key": "k435",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Referring URLs, pages visited, and usage patterns on the platform.",
+									"_key": "k436"
+								}
+							],
+							"_key": "k437",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Device identifiers (including mobile device ID, model, and manufacturer).",
+									"_key": "k438"
+								}
+							],
+							"_key": "k439",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Access times, session duration, and interaction data.",
+									"_key": "k440"
+								}
+							],
+							"_key": "k441",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "h3",
+							"children": [
+								{
+									"_type": "span",
+									"text": "2.3 Payment and Financial Information",
+									"_key": "k442"
+								}
+							],
+							"_key": "k443"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Payment information (such as credit/debit card details) is processed by our third-party payment processors, including Stripe, and is not stored on Adxens Group’s servers. Payment processors store and process your data securely and solely for the purpose of processing transactions. See Stripe’s privacy policy at https://stripe.com/gb/privacy.",
+									"_key": "k444"
+								}
+							],
+							"_key": "k445"
+						},
+						{
+							"_type": "block",
+							"style": "h3",
+							"children": [
+								{
+									"_type": "span",
+									"text": "2.4 Cryptocurrency and Blockchain Data",
+									"_key": "k446"
+								}
+							],
+							"_key": "k447"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Where you make payments using cryptocurrency (including USDT, USDC, or other supported digital assets), we collect and process the following additional data:",
+									"_key": "k448"
+								}
+							],
+							"_key": "k449"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Cryptocurrency wallet addresses used to send funds to Adxens Group.",
+									"_key": "k450"
+								}
+							],
+							"_key": "k451",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Blockchain transaction hashes, amounts, timestamps, and network identifiers.",
+									"_key": "k452"
+								}
+							],
+							"_key": "k453",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Risk scores, screening results, and analytics data generated by blockchain analytics and Know Your Transaction (KYT) tools, including but not limited to Elliptic, Chainalysis, and Phalcon.",
+									"_key": "k454"
+								}
+							],
+							"_key": "k455",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Records of any sanctions screening, transaction monitoring alerts, or compliance flags associated with your wallet address or transactions.",
+									"_key": "k456"
+								}
+							],
+							"_key": "k457",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "You acknowledge that blockchain transactions are recorded on public, immutable ledgers and that wallet addresses and transaction data are inherently transparent. Adxens Group processes this data for the purposes of compliance, fraud prevention, and the legitimate interests described in Section 4. You further acknowledge that data recorded on a public blockchain (including transaction hashes, wallet addresses, and transfer amounts) cannot be modified, deleted, or erased by Adxens Group or any other party. Where you exercise your right to erasure under applicable data protection law, Adxens Group will delete or anonymise the internal records linking your identity to blockchain data, but cannot delete the on-chain data itself. This limitation is inherent to blockchain technology and does not constitute non-compliance with any data deletion request.",
+									"_key": "k458"
+								}
+							],
+							"_key": "k459"
+						},
+						{
+							"_type": "block",
+							"style": "h3",
+							"children": [
+								{
+									"_type": "span",
+									"text": "2.5 Compliance and Verification Data",
+									"_key": "k460"
+								}
+							],
+							"_key": "k461"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "In connection with our Know Your Business (KYB), anti-money laundering (AML), sanctions screening, and other compliance obligations, we may collect and process:",
+									"_key": "k462"
+								}
+							],
+							"_key": "k463"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Company registration documents and certificates.",
+									"_key": "k464"
+								}
+							],
+							"_key": "k465",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Identity documents of directors, beneficial owners, or authorised signatories.",
+									"_key": "k466"
+								}
+							],
+							"_key": "k467",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Sanctions screening results and watchlist data.",
+									"_key": "k468"
+								}
+							],
+							"_key": "k469",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Politically Exposed Person (PEP) screening results.",
+									"_key": "k470"
+								}
+							],
+							"_key": "k471",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Adverse media screening results.",
+									"_key": "k472"
+								}
+							],
+							"_key": "k473",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Records of compliance decisions, risk assessments, and due diligence outcomes.",
+									"_key": "k474"
+								}
+							],
+							"_key": "k475",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "h3",
+							"children": [
+								{
+									"_type": "span",
+									"text": "2.6 Information Received from Third Parties",
+									"_key": "k476"
+								}
+							],
+							"_key": "k477"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Adxens Group may receive personal data about you from third-party sources, which may be combined with information we already hold about you. These sources include:",
+									"_key": "k478"
+								}
+							],
+							"_key": "k479"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Blockchain analytics providers (such as Elliptic, Chainalysis, and Phalcon), which may provide risk scores, entity attributions, and compliance flags associated with your wallet addresses or transactions.",
+									"_key": "k480"
+								}
+							],
+							"_key": "k481",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Sanctions lists and watchlist databases maintained by governmental authorities (including OFAC, OFSI, the EU, and the United Nations).",
+									"_key": "k482"
+								}
+							],
+							"_key": "k483",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Publicly available blockchain data, including transaction histories and wallet activity recorded on public distributed ledgers.",
+									"_key": "k484"
+								}
+							],
+							"_key": "k485",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "KYB and identity verification providers, company registries, and adverse media databases.",
+									"_key": "k486"
+								}
+							],
+							"_key": "k487",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Law enforcement agencies, regulatory authorities, or other financial institutions, in the context of compliance enquiries or investigations.",
+									"_key": "k488"
+								}
+							],
+							"_key": "k489",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "This data may be used to verify your identity, assess the risk profile of your account or transactions, comply with our legal obligations, and protect Adxens Group and its users from fraud and financial crime.",
+									"_key": "k490"
+								}
+							],
+							"_key": "k491"
+						},
+						{
+							"_type": "block",
+							"style": "h3",
+							"children": [
+								{
+									"_type": "span",
+									"text": "2.7 Cookies and Tracking Technologies",
+									"_key": "k492"
+								}
+							],
+							"_key": "k493"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "We use cookies and similar tracking technologies to collect information about your use of the platform. This includes:",
+									"_key": "k494"
+								}
+							],
+							"_key": "k495"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Essential cookies — required for the functioning of the platform, including authentication and session management.",
+									"_key": "k496"
+								}
+							],
+							"_key": "k497",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "You can manage your cookie preferences through your browser settings. Disabling certain cookies may affect the functionality of the platform.",
+									"_key": "k498"
+								}
+							],
+							"_key": "k499"
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "3. Lawful Bases for Processing",
+									"_key": "k500"
+								}
+							],
+							"_key": "k501"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "We process your personal data on the following lawful bases under applicable data protection law:",
+									"_key": "k502"
+								}
+							],
+							"_key": "k503"
+						},
+						{
+							"_type": "block",
+							"style": "h3",
+							"children": [
+								{
+									"_type": "span",
+									"text": "3.1 Contractual Necessity",
+									"_key": "k504"
+								}
+							],
+							"_key": "k505"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Processing necessary for the performance of our contract with you, including: providing the platform and services, managing your account, processing payments and top-ups, providing advertising accounts, and communicating with you about your account and services.",
+									"_key": "k506"
+								}
+							],
+							"_key": "k507"
+						},
+						{
+							"_type": "block",
+							"style": "h3",
+							"children": [
+								{
+									"_type": "span",
+									"text": "3.2 Legal Obligation",
+									"_key": "k508"
+								}
+							],
+							"_key": "k509"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Processing necessary to comply with our legal obligations, including: anti-money laundering and counter-terrorist financing requirements, sanctions screening and compliance, tax reporting obligations, responding to lawful requests from law enforcement or regulatory authorities, and retaining records as required by applicable law.",
+									"_key": "k510"
+								}
+							],
+							"_key": "k511"
+						},
+						{
+							"_type": "block",
+							"style": "h3",
+							"children": [
+								{
+									"_type": "span",
+									"text": "3.3 Legitimate Interests",
+									"_key": "k512"
+								}
+							],
+							"_key": "k513"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Processing necessary for our legitimate interests or those of a third party, where not overridden by your rights, including: fraud prevention and detection, platform security and integrity, transaction monitoring and risk assessment, blockchain analytics and wallet screening, improving our platform and services, and enforcing our Terms and Conditions.",
+									"_key": "k514"
+								}
+							],
+							"_key": "k515"
+						},
+						{
+							"_type": "block",
+							"style": "h3",
+							"children": [
+								{
+									"_type": "span",
+									"text": "3.4 Consent",
+									"_key": "k516"
+								}
+							],
+							"_key": "k517"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Where we rely on your consent for specific processing activities (such as marketing communications), you have the right to withdraw your consent at any time by contacting us or using the unsubscribe option provided. Withdrawal of consent does not affect the lawfulness of processing carried out before the withdrawal.",
+									"_key": "k518"
+								}
+							],
+							"_key": "k519"
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "4. How We Use Your Information",
+									"_key": "k520"
+								}
+							],
+							"_key": "k521"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "We use the information we collect for the following purposes:",
+									"_key": "k522"
+								}
+							],
+							"_key": "k523"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Providing and maintaining the platform and services, including account registration, advertising account provisioning, and payment processing.",
+									"_key": "k524"
+								}
+							],
+							"_key": "k525",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Processing transactions, including cryptocurrency payments and fiat payments.",
+									"_key": "k526"
+								}
+							],
+							"_key": "k527",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Conducting KYB verification, sanctions screening, transaction monitoring, and other compliance activities.",
+									"_key": "k528"
+								}
+							],
+							"_key": "k529",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Screening cryptocurrency wallet addresses and transactions using blockchain analytics tools for compliance and fraud prevention purposes.",
+									"_key": "k530"
+								}
+							],
+							"_key": "k531",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Detecting, preventing, and investigating fraud, financial crime, and unauthorised or illegal activity.",
+									"_key": "k532"
+								}
+							],
+							"_key": "k533",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Responding to your enquiries and providing customer support.",
+									"_key": "k534"
+								}
+							],
+							"_key": "k535",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Sending transactional communications, including confirmations, invoices, security alerts, and service updates.",
+									"_key": "k536"
+								}
+							],
+							"_key": "k537",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Improving the platform, our services, and the user experience.",
+									"_key": "k538"
+								}
+							],
+							"_key": "k539",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Marketing and promotional communications (with your consent, where required).",
+									"_key": "k540"
+								}
+							],
+							"_key": "k541",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Complying with applicable laws, regulations, legal processes, and enforceable governmental requests.",
+									"_key": "k542"
+								}
+							],
+							"_key": "k543",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Exercising or defending our legal rights.",
+									"_key": "k544"
+								}
+							],
+							"_key": "k545",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "5. How We Share Your Information",
+									"_key": "k546"
+								}
+							],
+							"_key": "k547"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "We do not sell your personal data. We share your information only as described below:",
+									"_key": "k548"
+								}
+							],
+							"_key": "k549"
+						},
+						{
+							"_type": "block",
+							"style": "h3",
+							"children": [
+								{
+									"_type": "span",
+									"text": "5.1 Third-Party Service Providers",
+									"_key": "k550"
+								}
+							],
+							"_key": "k551"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "We engage third-party service providers to perform functions on our behalf, including:",
+									"_key": "k552"
+								}
+							],
+							"_key": "k553"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Payment processing (Stripe and other payment processors).",
+									"_key": "k554"
+								}
+							],
+							"_key": "k555",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Cryptocurrency wallet and payment infrastructure providers (Binance Pay).",
+									"_key": "k556"
+								}
+							],
+							"_key": "k557",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "KYB, AML, and sanctions screening providers.",
+									"_key": "k558"
+								}
+							],
+							"_key": "k559",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Cloud hosting and data storage (OVHCloud).",
+									"_key": "k560"
+								}
+							],
+							"_key": "k561",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Customer support and communication tools (Slack, WhatsApp, Telegram).",
+									"_key": "k562"
+								}
+							],
+							"_key": "k563",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "These providers process data solely on our behalf and in accordance with our instructions, subject to appropriate data processing agreements.",
+									"_key": "k564"
+								}
+							],
+							"_key": "k565"
+						},
+						{
+							"_type": "block",
+							"style": "h3",
+							"children": [
+								{
+									"_type": "span",
+									"text": "5.2 Law Enforcement, Regulators, and Legal Process",
+									"_key": "k566"
+								}
+							],
+							"_key": "k567"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "We may disclose your personal data, including account information, transaction records, wallet addresses, blockchain analytics data, and compliance documentation, to law enforcement agencies, regulatory authorities, governmental bodies, stablecoin issuers, or courts where:",
+									"_key": "k568"
+								}
+							],
+							"_key": "k569"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Required by applicable law, regulation, or legal process.",
+									"_key": "k570"
+								}
+							],
+							"_key": "k571",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Necessary to comply with a lawful request from a competent authority.",
+									"_key": "k572"
+								}
+							],
+							"_key": "k573",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Necessary to protect the rights, property, or safety of Adxens Group, its users, or others.",
+									"_key": "k574"
+								}
+							],
+							"_key": "k575",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Necessary for the detection, prevention, or investigation of fraud, financial crime, or sanctions violations.",
+									"_key": "k576"
+								}
+							],
+							"_key": "k577",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Such disclosures may be made without your prior knowledge or consent where permitted or required by law.",
+									"_key": "k578"
+								}
+							],
+							"_key": "k579"
+						},
+						{
+							"_type": "block",
+							"style": "h3",
+							"children": [
+								{
+									"_type": "span",
+									"text": "5.3 Compliance Information Sharing",
+									"_key": "k580"
+								}
+							],
+							"_key": "k581"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Adxens Group may share your personal data, including transaction records, wallet addresses, and compliance documentation, with other financial institutions, cryptocurrency exchanges, payment processors, or counterparties where such sharing is necessary for the purposes of: (a) responding to compliance enquiries or information requests from regulated entities regarding the legitimacy or source of transactions; (b) fulfilling obligations under applicable anti-money laundering, counter-terrorist financing, or sanctions regulations; (c) cooperating with industry-wide fraud prevention or financial crime detection initiatives; or (d) verifying the source or destination of funds in connection with a transaction involving Adxens Group. Such sharing will be limited to the information reasonably necessary for the stated purpose and will be conducted in accordance with applicable data protection law.",
+									"_key": "k582"
+								}
+							],
+							"_key": "k583"
+						},
+						{
+							"_type": "block",
+							"style": "h3",
+							"children": [
+								{
+									"_type": "span",
+									"text": "5.4 Business Transfers",
+									"_key": "k584"
+								}
+							],
+							"_key": "k585"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "In the event that Adxens Group is involved in a merger, acquisition, reorganisation, or sale of assets, your personal data may be transferred as part of that transaction. We will notify you of any such transfer and any changes to the applicable privacy policy.",
+									"_key": "k586"
+								}
+							],
+							"_key": "k587"
+						},
+						{
+							"_type": "block",
+							"style": "h3",
+							"children": [
+								{
+									"_type": "span",
+									"text": "5.5 With Your Consent",
+									"_key": "k588"
+								}
+							],
+							"_key": "k589"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "We may share your information with third parties where you have given your explicit consent to do so.",
+									"_key": "k590"
+								}
+							],
+							"_key": "k591"
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "6. International Data Transfers",
+									"_key": "k592"
+								}
+							],
+							"_key": "k593"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Adxens Group operates through entities in Hong Kong, the United States and Cameroun. Your personal data may be transferred to and processed in jurisdictions outside your country of residence, including jurisdictions that may not provide the same level of data protection as your home jurisdiction.",
+									"_key": "k594"
+								}
+							],
+							"_key": "k595"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Where we transfer personal data from the European Economic Area (EEA) or the United Kingdom to a country that has not been deemed to provide an adequate level of data protection, we implement appropriate safeguards, which may include: Standard Contractual Clauses approved by the European Commission or the UK Information Commissioner’s Office, the recipient country’s adequacy determination, or other lawful transfer mechanisms under applicable data protection law.",
+									"_key": "k596"
+								}
+							],
+							"_key": "k597"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "By using our services, you acknowledge and consent to the transfer, processing, and storage of your personal data in accordance with this section.",
+									"_key": "k598"
+								}
+							],
+							"_key": "k599"
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "7. Data Retention",
+									"_key": "k600"
+								}
+							],
+							"_key": "k601"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "We retain your personal data only for as long as necessary to fulfil the purposes for which it was collected, including:",
+									"_key": "k602"
+								}
+							],
+							"_key": "k603"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Account data: retained for the duration of your account and for a reasonable period thereafter to allow for account reactivation or dispute resolution.",
+									"_key": "k604"
+								}
+							],
+							"_key": "k605",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Transaction and payment records: retained for a minimum of six (6) years from the date of the transaction, as required by applicable financial record-keeping and anti-money laundering regulations.",
+									"_key": "k606"
+								}
+							],
+							"_key": "k607",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Compliance and verification data (including KYB documents, sanctions screening results, and blockchain analytics records): retained for a minimum of six (6) years from the date of the relevant compliance activity or account closure, whichever is later.",
+									"_key": "k608"
+								}
+							],
+							"_key": "k609",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Cryptocurrency wallet addresses and blockchain transaction data: retained for a minimum of six (6) years from the date of the last transaction, or such longer period as required by law.",
+									"_key": "k610"
+								}
+							],
+							"_key": "k611",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Marketing and communication preferences: retained until you withdraw your consent or request deletion.",
+									"_key": "k612"
+								}
+							],
+							"_key": "k613",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Where we are required by law, regulation, or court order to retain data for a longer period, we will do so in compliance with the applicable requirement. Once the applicable retention period expires, personal data will be securely deleted or anonymised.",
+									"_key": "k614"
+								}
+							],
+							"_key": "k615"
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "8. Data Security",
+									"_key": "k616"
+								}
+							],
+							"_key": "k617"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "We implement appropriate technical and organisational measures to protect your personal data against unauthorised access, alteration, disclosure, or destruction. These measures include encryption of data in transit using SSL/TLS, secure cloud hosting infrastructure (AWS), access controls limiting data access to authorised personnel with a legitimate need to know, and regular review and updating of our security practices.",
+									"_key": "k618"
+								}
+							],
+							"_key": "k619"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "No method of transmission over the Internet or method of electronic storage is 100% secure. While we strive to use commercially acceptable means to protect your personal data, we cannot guarantee its absolute security.",
+									"_key": "k620"
+								}
+							],
+							"_key": "k621"
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "9. Your Rights",
+									"_key": "k622"
+								}
+							],
+							"_key": "k623"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Depending on your location and applicable law, you may have the following rights in respect of your personal data:",
+									"_key": "k624"
+								}
+							],
+							"_key": "k625"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Right of access — to obtain confirmation of whether we process your personal data and to request a copy of it.",
+									"_key": "k626"
+								}
+							],
+							"_key": "k627",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Right to rectification — to request correction of inaccurate or incomplete personal data.",
+									"_key": "k628"
+								}
+							],
+							"_key": "k629",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Right to erasure — to request deletion of your personal data, subject to our legal retention obligations.",
+									"_key": "k630"
+								}
+							],
+							"_key": "k631",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Right to restriction — to request that we restrict the processing of your personal data in certain circumstances.",
+									"_key": "k632"
+								}
+							],
+							"_key": "k633",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Right to data portability — to receive your personal data in a structured, commonly used, machine-readable format.",
+									"_key": "k634"
+								}
+							],
+							"_key": "k635",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Right to object — to object to the processing of your personal data where we rely on legitimate interests as the lawful basis.",
+									"_key": "k636"
+								}
+							],
+							"_key": "k637",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Right to withdraw consent — where processing is based on consent, to withdraw that consent at any time.",
+									"_key": "k638"
+								}
+							],
+							"_key": "k639",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Right to lodge a complaint — to lodge a complaint with the relevant supervisory authority in your jurisdiction.",
+									"_key": "k640"
+								}
+							],
+							"_key": "k641",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "To exercise any of these rights, please contact us at customer-service@adxens.com. We will respond to your request within the timeframe required by applicable law (typically 30 days). We may request additional information to verify your identity before processing your request.",
+									"_key": "k642"
+								}
+							],
+							"_key": "k643"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Please note that certain rights may be limited where we have a lawful basis to continue processing your data, including where retention is required for compliance with legal obligations (such as anti-money laundering record-keeping requirements). In such cases, we will inform you of the reason for any limitation.",
+									"_key": "k644"
+								}
+							],
+							"_key": "k645"
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "10. Automated Decision-Making",
+									"_key": "k646"
+								}
+							],
+							"_key": "k647"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Adxens Group uses automated tools, including blockchain analytics platforms and Know Your Transaction (KYT) solutions, to screen cryptocurrency transactions and wallet addresses for compliance and fraud prevention purposes. These tools generate risk scores based on algorithmic analysis of blockchain data, including the transaction history of wallet addresses, their proximity to flagged or sanctioned entities, and patterns consistent with illicit activity.",
+									"_key": "k648"
+								}
+							],
+							"_key": "k649"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Automated screening may result in the rejection, delay, or flagging of a transaction, or the suspension or restriction of your account. Where an automated decision has a significant effect on you, you have the right to: (a) be informed that the decision was made using automated means; (b) receive a meaningful explanation of the logic involved; (c) request human review of the decision by contacting us at customer-service@adxens.com; and (d) contest the decision and provide additional information for consideration. Adxens Group will review such requests promptly and communicate the outcome to you.",
+									"_key": "k650"
+								}
+							],
+							"_key": "k651"
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "11. Children’s Privacy",
+									"_key": "k652"
+								}
+							],
+							"_key": "k653"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Our platform and services are not directed to individuals under the age of 18. We do not knowingly collect personal data from children under 18. If you become aware that a child has provided us with personal information, please contact us and we will take steps to delete that information and terminate the associated account.",
+									"_key": "k654"
+								}
+							],
+							"_key": "k655"
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "12. Third-Party Links and Services",
+									"_key": "k656"
+								}
+							],
+							"_key": "k657"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "The platform may contain links to third-party websites, services, or platforms (including advertising networks, social media platforms, and payment processors). Adxens Group is not responsible for the privacy practices or content of these third-party services. We encourage you to review the privacy policies of any third-party service you interact with.",
+									"_key": "k658"
+								}
+							],
+							"_key": "k659"
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "13. Social Media",
+									"_key": "k660"
+								}
+							],
+							"_key": "k661"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Our platform may include links and features connected to social media platforms. We recommend reviewing the privacy policies of each platform:",
+									"_key": "k662"
+								}
+							],
+							"_key": "k663"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Meta (Facebook/Instagram/WhatsApp): https://www.facebook.com/privacy/explanation",
+									"_key": "k664"
+								}
+							],
+							"_key": "k665",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Google: https://policies.google.com/privacy",
+									"_key": "k666"
+								}
+							],
+							"_key": "k667",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "TikTok: https://www.tiktok.com/legal/privacy-policy",
+									"_key": "k668"
+								}
+							],
+							"_key": "k669",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Snapchat: https://snap.com/en-US/privacy/privacy-policy",
+									"_key": "k670"
+								}
+							],
+							"_key": "k671",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "14. Data Breach Notification",
+									"_key": "k672"
+								}
+							],
+							"_key": "k673"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "In the event of a personal data breach that is likely to result in a risk to the rights and freedoms of affected individuals, Adxens Group will notify the relevant supervisory authority without undue delay and, where feasible, within 72 hours of becoming aware of the breach, in accordance with applicable data protection law. Where the breach is likely to result in a high risk to the rights and freedoms of affected individuals, Adxens Group will also notify the affected users without undue delay, providing information about the nature of the breach, the likely consequences, and the measures taken or proposed to address it. Adxens Group maintains internal procedures for detecting, investigating, reporting, and responding to data breaches.",
+									"_key": "k674"
+								}
+							],
+							"_key": "k675"
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "15. Sub-Processors and Record of Processing",
+									"_key": "k676"
+								}
+							],
+							"_key": "k677"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Adxens Group’s third-party service providers (as described in Section 5.1) may engage their own sub-processors to assist in the provision of their services. Adxens Group requires, through contractual data processing agreements, that all third-party processors and their sub-processors implement appropriate technical and organisational measures to protect personal data and process it only in accordance with Adxens Group’s instructions and applicable data protection law. Adxens Group remains responsible for the acts and omissions of its processors in relation to your personal data.",
+									"_key": "k678"
+								}
+							],
+							"_key": "k679"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Adxens Group maintains a record of its processing activities in accordance with Article 30 of the GDPR, which is available to relevant supervisory authorities upon request. This record includes the categories of personal data processed, the purposes of processing, the categories of recipients, international data transfers, and applicable retention periods.",
+									"_key": "k680"
+								}
+							],
+							"_key": "k681"
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "16. Changes to This Privacy Policy",
+									"_key": "k682"
+								}
+							],
+							"_key": "k683"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "We may update this Privacy Policy from time to time to reflect changes in our practices, legal requirements, or for other operational reasons. Where changes are material, we will notify you by posting a prominent notice on the platform or by sending you an email. The date at the top of this policy indicates when it was last updated. Your continued use of the platform after any changes constitutes your acceptance of the updated Privacy Policy.",
+									"_key": "k684"
+								}
+							],
+							"_key": "k685"
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "17. Contact Information",
+									"_key": "k686"
+								}
+							],
+							"_key": "k687"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "If you have any questions, concerns, or requests regarding this Privacy Policy or the processing of your personal data, please contact customer-service@adxens.com. Our Website is adxens-solutions.com",
+									"_key": "k688"
+								}
+							],
+							"_key": "k689"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Adxens LLC — Registered Office: 4405 Jager Dr NE, Rio Rancho, NM 87144, United States",
+									"_key": "k690"
+								}
+							],
+							"_key": "k691",
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Adxens Solutions SARL — Registered Office: Carrefour Anguissa, 1st Floor, Global Wine Building, Yaoundé, Cameroon",
+									"_key": "k692"
+								}
+							],
+							"_key": "k693",
+							"listItem": "bullet",
+							"level": 1
+						}
+					]
+				}
+			}
+		],
+		"posts": []
+	}
+}

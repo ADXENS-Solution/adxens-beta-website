@@ -1,0 +1,472 @@
+---
+import MarketingLayout from "../layouts/MarketingLayout.astro";
+import JoinCommunityButton, { ContactTeamDialog } from "../components/react/JoinCommunity";
+import FaqList from "../components/react/faq-list";
+import FooterBrandArt from "../components/react/footer-brand-art";
+import FooterVideo from "../components/react/footer-video";
+import PingPongVideo from "../components/react/ping-pong-video";
+import ProcessSteps from "../components/react/process-steps";
+import ProductNotes from "../components/react/product-notes";
+import RevealTitle from "../components/react/reveal-title";
+import { getAdxensSiteSettings, getFaqItems } from "../lib/site-settings";
+import {
+	DEFAULT_HOME_DESCRIPTION,
+	DEFAULT_HOME_TITLE,
+	buildHomeJsonLd,
+	resolveSiteOrigin,
+} from "../lib/seo";
+
+const settings = await getAdxensSiteSettings();
+const faqItems = await getFaqItems();
+const origin = resolveSiteOrigin(Astro.site ?? Astro.url);
+const homeJsonLd = buildHomeJsonLd({
+	origin,
+	title: DEFAULT_HOME_TITLE,
+	description: DEFAULT_HOME_DESCRIPTION,
+	settings,
+	faqItems,
+});
+
+const features = [
+	{
+		title: "Accounts, not tickets.",
+		description:
+			"Request Meta agency ad accounts from your dashboard. They link automatically and top up from one balance.",
+		type: "meta",
+	},
+	{
+		title: "Every dollar, in sight.",
+		description:
+			"Deposited, allocated, spent, left: one view for all your accounts. Move funds between them in a few clicks.",
+		type: "budget",
+	},
+	{
+		title: "Give access. Keep control",
+		description:
+			"Invite your buyers and set their roles. They launch faster. You decide who touches the money.",
+		type: "team",
+	},
+	{
+		title: "Pay the way you're paid",
+		description: "USDT through Binance or any external wallet, or by card. One balance at the end.",
+		type: "funding",
+	},
+] as const;
+
+const platforms = ["Meta", "Google", "TikTok", "Snapchat", "Bing"];
+---
+
+<MarketingLayout jsonLd={homeJsonLd}>
+	<main>
+		<header class="site-header shell">
+			<a href="#top" class="brand" aria-label="Adxens, home">
+				<img src="/adxens-logo.png" width="105" height="24" alt="Adxens" class="header-logo" />
+			</a>
+			<nav aria-label="Main">
+				<a href="#product">Why V2</a>
+				<a href="#why">The Beta</a>
+				<a href="#process">Who it's for</a>
+				<a href="#faq">FAQ</a>
+			</nav>
+			<JoinCommunityButton client:load label={settings.ctaLabel} />
+		</header>
+
+		<section class="hero shell" id="top">
+			<video class="hero-video" autoplay muted loop playsinline preload="metadata" aria-hidden="true">
+				<source src="/hero-section-video-pingpong.mp4" type="video/mp4" />
+			</video>
+			<div class="hero-video-overlay" aria-hidden="true"></div>
+			<div class="beta-badge">
+				<span>
+					<img class="beta-badge-icon" src="/beta-badge-icon.png" width="10" height="10" alt="" />
+					Beta
+				</span>
+				<b>{settings.betaBadge}</b>
+			</div>
+			<h1>
+				<span class="hero-title-line">
+					{
+						["Your", "entire", "ad", "operation."].map((word, wordIndex, words) => (
+							<span class="hero-title-word" style={`animation-delay: ${wordIndex * 75}ms`}>
+								{word}
+								{wordIndex < words.length - 1 ? "\u00A0" : ""}
+							</span>
+						))
+					}
+				</span>
+				<span class="hero-title-line">
+					{
+						["One", "platform."].map((word, wordIndex, words) => (
+							<span class="hero-title-word" style={`animation-delay: ${(4 + wordIndex) * 75}ms`}>
+								{word}
+								{wordIndex < words.length - 1 ? "\u00A0" : ""}
+							</span>
+						))
+					}
+				</span>
+			</h1>
+			<p>
+				Adxens V2 brings your Meta agency ad accounts, your funds and your team into one dashboard.
+				Request accounts, fund them, share access and track every dollar, without leaving it. Before
+				launch, 35 media buyers get it first: to test it, break it and shape it.
+			</p>
+			<div class="hero-actions">
+				<JoinCommunityButton client:load label={settings.ctaLabel} />
+			</div>
+			<p class="hero-note">Free to apply • Meta only during the beta</p>
+		</section>
+
+		<div class="platform-strip" aria-label="Advertising platforms">
+			<ul>
+				{platforms.map((name) => <li>{name}</li>)}
+			</ul>
+		</div>
+
+		<section class="product-section shell" id="product">
+			<div class="section-intro split">
+				<RevealTitle
+					client:visible
+					segments={[
+						{ text: "Built around the work" },
+						{ text: "behind the ads.", breakBefore: true },
+					]}
+				/>
+				<p>
+					For four years, Adxens has provided media buyers with agency ad accounts and helped them
+					perform with stability. In V1, every request went through our team, and that meant waiting.
+					V2 turns that expertise into a platform that runs in real time.
+				</p>
+			</div>
+			<figure class="product-demo">
+				<img
+					class="product-demo-wave"
+					src="/demo-wave.webp"
+					alt=""
+					width="2160"
+					height="1008"
+					decoding="async"
+					loading="lazy"
+				/>
+				<img
+					class="product-demo-complete"
+					src="/demo-capture.webp"
+					width="3888"
+					height="2181"
+					alt="Adxens Organization Balance dashboard with Agency Ad account on the left and Multi-channel funding on the right."
+				/>
+			</figure>
+			<ProductNotes client:visible />
+		</section>
+
+		<section class="features-section shell" id="why">
+			<div class="section-intro split features-heading">
+				<RevealTitle
+					client:visible
+					className="reveal-title-position-locked"
+					segments={[
+						{ text: "What we bring to" },
+						{ text: "the table", breakBefore: true },
+					]}
+				/>
+				<p>Four jobs you repeat every day. V2 makes each one shorter.</p>
+			</div>
+			<div class="feature-list" id="changes">
+				{
+					features.map((feature) => (
+						<article class={`feature-card feature-card-${feature.type}`}>
+							<div class="feature-copy">
+								<h3>{feature.title}</h3>
+								<p>{feature.description}</p>
+								<span class="feature-note">Sample data for illustration.</span>
+							</div>
+							{feature.type === "meta" && (
+								<div class="feature-art meta-art">
+									<img
+										class="meta-agency-image"
+										src="/meta-agency-accounts.png"
+										width="560"
+										height="518"
+										alt="Abstract blue waves"
+									/>
+									<img
+										class="meta-agency-card"
+										src="/meta-agency-card.png"
+										width="668"
+										height="488"
+										alt="Meta agency account overview"
+									/>
+								</div>
+							)}
+							{feature.type === "budget" && (
+								<div class="feature-art budget-art">
+									<img
+										class="budget-clarity-image"
+										src="/budget-clarity.png"
+										width="560"
+										height="326"
+										alt=""
+									/>
+									<img
+										class="budget-clarity-card"
+										src="/budget-clarity-card.png"
+										width="305"
+										height="271"
+										alt="Organization balance of $34,450 with deposit, withdraw and recent transactions"
+									/>
+								</div>
+							)}
+							{feature.type === "team" && (
+								<div class="feature-art team-art">
+									<img
+										class="team-workflows-image"
+										src="/team-workflows.png"
+										width="560"
+										height="326"
+										alt=""
+									/>
+									<img
+										class="team-workflows-card"
+										src="/team-workflows-card.png"
+										width="334"
+										height="319"
+										alt="Organization balance of $34,450 connected to three team members and a Meta account"
+									/>
+								</div>
+							)}
+							{feature.type === "funding" && (
+								<div class="feature-art funding-art">
+									<img
+										class="multi-channel-funding-image"
+										src="/multi-channel-funding.png"
+										width="560"
+										height="326"
+										alt=""
+									/>
+									<img
+										class="multi-channel-funding-card"
+										src="/multi-channel-funding-card.png"
+										width="316"
+										height="209"
+										alt="Six funding channels flowing into an organization balance of $34,450"
+									/>
+								</div>
+							)}
+						</article>
+					))
+				}
+			</div>
+		</section>
+
+		<section class="early-section shell">
+			<div class="section-intro split">
+				<RevealTitle
+					client:visible
+					segments={[
+						{ text: "Get in while", className: "reveal-title-accent" },
+						{ text: "it's still being built." },
+					]}
+				/>
+				<p>
+					After launch, the big decisions are made. Today, they're not. Here's what the 35 testers get.
+				</p>
+			</div>
+			<div class="benefit-grid">
+				<div class="benefit benefit-dark">
+					<PingPongVideo client:visible className="benefit-video" src="/early-access-bg.mp4" />
+					<div class="benefit-video-overlay" aria-hidden="true"></div>
+					<span>→</span>
+					<b>First in</b>
+					<p>Explore selected V2 workflows before the official release.</p>
+				</div>
+				<div class="benefit">
+					<span>
+						<img
+							class="benefit-icon"
+							src="/direct-product-input-icon.png"
+							width="36"
+							height="36"
+							alt=""
+						/>
+					</span>
+					<b>A direct line</b>
+					<p>Groups of six, with our product team in the chat. No ticket queue</p>
+				</div>
+				<div class="benefit">
+					<span>
+						<img
+							class="benefit-icon"
+							src="/influence-priorities-icon.png"
+							width="36"
+							height="36"
+							alt=""
+						/>
+					</span>
+					<b>A real vote</b>
+					<p>What testers flag most goes to the top of our roadmap.</p>
+				</div>
+				<div class="benefit">
+					<span>
+						<img class="benefit-icon" src="/beta-reward-icon.png" width="36" height="36" alt="" />
+					</span>
+					<b>Your first month on us</b>
+					<p>No Adxens top-up or subscription fees for one month after launch, on any plan.</p>
+				</div>
+				<div class="benefit">
+					<span>
+						<img
+							class="benefit-icon"
+							src="/onboarding-support-icon.png"
+							width="36"
+							height="36"
+							alt=""
+						/>
+					</span>
+					<b>Up and running fast</b>
+					<p>A live 45-minute kickoff and five short test tasks. You'll know exactly what to do.</p>
+				</div>
+			</div>
+		</section>
+
+		<section class="feedback-section shell">
+			<RevealTitle
+				client:visible
+				segments={[
+					{ text: "Built for operators." },
+					{ text: "Tested by operators.", breakBefore: true },
+				]}
+			/>
+			<div class="comparison">
+				<div class="compare yes">
+					<h3>This is for you if…</h3>
+					<ul>
+						<li>You run Meta ads every week, for your brand, your store or your clients.</li>
+						<li>You juggle several ad accounts, or a team that touches them.</li>
+						<li>You fund your ads in USDT, by card, or both.</li>
+						<li>You can give about 3 hours over [3 weeks] and tell us bluntly what's broken.</li>
+						<li>You know a beta moves fast, and sometimes breaks.</li>
+					</ul>
+				</div>
+				<div class="compare no">
+					<h3>Not for you, yet</h3>
+					<ul>
+						<li>You don't run paid ads yet, or you want a course.</li>
+						<li>You need Google or TikTok today. This beta is Meta only.</li>
+						<li>You expect guaranteed approvals, policy exemptions or results.</li>
+						<li>You want the free month, not the testing.</li>
+					</ul>
+				</div>
+			</div>
+		</section>
+
+		<section class="process-section shell" id="process">
+			<RevealTitle
+				client:visible
+				segments={[
+					{ text: "Three steps." },
+					{ text: "Three minutes to start.", breakBefore: true },
+				]}
+			/>
+			<ProcessSteps client:visible />
+			<div class="process-meta">
+				<div><span>Applications close: <b>November 16</b></span></div>
+				<div><span>Beta starts: <b>November 16</b></span></div>
+				<div><span>Testing runs: <b>3 weeks</b></span></div>
+			</div>
+		</section>
+
+		<section class="faq-section shell" id="faq">
+			<RevealTitle
+				client:visible
+				segments={[{ text: "Before you" }, { text: "apply.", breakBefore: true }]}
+			/>
+			{faqItems.length > 0 ? (
+				<FaqList client:load items={faqItems} />
+			) : (
+				<p>Add FAQ rows under Site Settings → FAQ items in EmDash admin.</p>
+			)}
+		</section>
+
+		<section class="contact-section shell" id="contact">
+			<RevealTitle client:visible segments={[{ text: "Contact" }]} />
+			<ul class="contact-list">
+				<li>
+					<span>Phone</span>
+					<a href={settings.phoneHref}>{settings.phone}</a>
+				</li>
+				<li>
+					<span>Email</span>
+					<a href={`mailto:${settings.email}`}>{settings.email}</a>
+				</li>
+			</ul>
+		</section>
+
+		<section class="final-cta shell" id="apply">
+			<img
+				class="final-cta-photo"
+				src="/cta-bg.png"
+				alt=""
+				width="2396"
+				height="736"
+				decoding="async"
+				loading="lazy"
+			/>
+			<div class="cta-art" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+			<div>
+				<RevealTitle
+					client:visible
+					segments={[
+						{ text: "35 seats at the table." },
+						{ text: "One could be yours.", breakBefore: true },
+					]}
+				/>
+				<p class="final-cta-note">
+					Free to apply. Meta only during the beta. Applications close <strong>November 16</strong>.
+				</p>
+				<JoinCommunityButton client:load label={settings.ctaLabel} />
+			</div>
+			<div class="cta-art cta-art-right" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+		</section>
+
+		<footer class="site-footer">
+			<FooterVideo client:visible />
+			<div class="footer-video-overlay" aria-hidden="true"></div>
+			<div class="footer-top">
+				<div class="footer-about">
+					<a href="#top" class="brand" aria-label="Adxens, home">
+						<img src="/adxens-logo.png" width="105" height="24" alt="Adxens" class="header-logo" />
+					</a>
+					<p>
+						Clearer, calmer ad operations for media<br />buyers and agencies.
+					</p>
+				</div>
+				<div class="footer-links">
+					<h2>Beta</h2>
+					<a href="#product">Why V2</a>
+					<a href="#why">The Beta</a>
+					<a href="#process">Who It's For</a>
+					<a href="#apply">Apply</a>
+				</div>
+				<div class="footer-links">
+					<h2>Support</h2>
+					<a href="#faq">FAQ</a>
+					<a href="/terms-and-conditions">Terms &amp; Conditions</a>
+					<a href="/privacy-policy">Privacy Policy</a>
+					<a href="#contact">Contact</a>
+				</div>
+			</div>
+			<FooterBrandArt client:visible />
+			<div class="footer-bottom">
+				<div>
+					<span>© 2026 Adxens. All rights reserved.</span>
+					<span>Adxens V2 Beta Program</span>
+				</div>
+			</div>
+		</footer>
+
+		<ContactTeamDialog
+			client:load
+			whatsappUrl={settings.whatsappUrl}
+			telegramUrl={settings.telegramUrl}
+		/>
+	</main>
+</MarketingLayout>

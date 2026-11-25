@@ -1,0 +1,210 @@
+---
+import { Font } from "astro:assets";
+import {
+	EmDashHead,
+	EmDashBodyStart,
+	EmDashBodyEnd,
+} from "emdash/ui";
+import { createPublicPageContext } from "emdash/page";
+import { getSiteSettingsWithCacheHint } from "emdash";
+import MetaPixel from "../components/react/meta-pixel";
+import {
+	DEFAULT_HOME_DESCRIPTION,
+	DEFAULT_HOME_TITLE,
+	DEFAULT_SITE_TITLE,
+	absoluteUrl,
+	resolveSiteOrigin,
+} from "../lib/seo";
+import "../styles/adxens.css";
+
+interface Props {
+	title?: string;
+	description?: string;
+	canonical?: string;
+	jsonLd?: string;
+}
+
+const {
+	title = DEFAULT_HOME_TITLE,
+	description = DEFAULT_HOME_DESCRIPTION,
+	canonical: canonicalProp,
+	jsonLd,
+} = Astro.props;
+
+const settingsResult = await getSiteSettingsWithCacheHint();
+if (Astro.cache?.enabled) Astro.cache.set(settingsResult.cacheHint);
+const siteTitle = settingsResult.data?.title || DEFAULT_SITE_TITLE;
+const origin = resolveSiteOrigin(Astro.site ?? Astro.url);
+const canonical = canonicalProp ?? absoluteUrl("/", origin);
+const ogImage = absoluteUrl("/adxens-logo.png", origin);
+
+const pageCtx = createPublicPageContext({
+	Astro,
+	kind: "custom",
+	pageType: "website",
+	title,
+	pageTitle: title,
+	description,
+	canonical,
+	image: ogImage,
+	siteName: siteTitle,
+	siteUrl: origin,
+	seo: { robots: "index, follow", ogImage },
+	breadcrumbs: [],
+});
+---
+
+<!doctype html>
+<html lang="en" class="h-full antialiased">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta name="application-name" content="Adxens" />
+		<meta property="og:locale" content="en_US" />
+		<link rel="icon" href="/favicon.ico" sizes="any" />
+		<link rel="icon" type="image/png" href="/icon.png" />
+		<link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt" />
+		<Font cssVariable="--font-inter" preload />
+		<title>{title}</title>
+		<EmDashHead page={pageCtx} />
+		{jsonLd && <script type="application/ld+json" set:html={jsonLd} />}
+		<slot name="head" />
+		<script is:inline async src="https://www.googletagmanager.com/gtag/js?id=AW-18580615730"
+		></script>
+		<script is:inline>
+			window.dataLayer = window.dataLayer || [];
+			function gtag() {
+				dataLayer.push(arguments);
+			}
+			gtag("js", new Date());
+			gtag("config", "AW-18580615730");
+		</script>
+		<script is:inline>
+			!(function (f, b, e, v, n, t, s) {
+				if (f.fbq) return;
+				n = f.fbq = function () {
+					n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments);
+				};
+				if (!f._fbq) f._fbq = n;
+				n.push = n;
+				n.loaded = !0;
+				n.version = "2.0";
+				n.queue = [];
+				t = b.createElement(e);
+				t.async = !0;
+				t.src = v;
+				s = b.getElementsByTagName(e)[0];
+				s.parentNode.insertBefore(t, s);
+			})(window, document, "script", "https://connect.facebook.net/en-US/fbevents.js");
+			fbq("init", "1748245749837636");
+			fbq("track", "PageView");
+		</script>
+		<noscript>
+			<img
+				height="1"
+				width="1"
+				style="display:none"
+				alt=""
+				src="https://www.facebook.com/tr?id=1748245749837636&ev=PageView&noscript=1"
+			/>
+		</noscript>
+		<script is:inline>
+			!(function (w, d) {
+				if (!w.rdt) {
+					var p = (w.rdt = function () {
+						p.sendEvent ? p.sendEvent.apply(p, arguments) : p.callQueue.push(arguments);
+					});
+					p.callQueue = [];
+					var t = d.createElement("script");
+					t.src = "https://www.redditstatic.com/ads/pixel.js?pixel_id=a2_jyqb79n0k2e4";
+					t.async = !0;
+					var s = d.getElementsByTagName("script")[0];
+					s.parentNode.insertBefore(t, s);
+				}
+			})(window, document);
+			rdt("init", "a2_jyqb79n0k2e4");
+			rdt("track", "PageVisit");
+		</script>
+		<style is:global>
+			:root {
+				--font-arial: Arial, Helvetica, sans-serif;
+				--font-inter-face: var(--font-inter), Inter, "Inter Fallback", Inter, system-ui, sans-serif;
+				--font-weight-regular: 400;
+				--font-weight-semibold: 600;
+			}
+			html,
+			body {
+				min-height: 100%;
+			}
+			body {
+				margin: 0;
+				display: flex;
+				flex-direction: column;
+				font-family: Arial, Helvetica, sans-serif;
+				font-weight: 400;
+				-webkit-font-smoothing: antialiased;
+			}
+			h1,
+			h2,
+			h3,
+			h4,
+			h5,
+			h6,
+			.reveal-title,
+			.reveal-title-segment,
+			.reveal-title-word,
+			.reveal-title-letter,
+			.mainbtn,
+			.mainbtn__label,
+			.support-dialog,
+			.support-panel {
+				font-family: var(--font-inter-face);
+				font-weight: 600;
+			}
+			.hero h1,
+			.hero-title-line,
+			.hero-title-word {
+				font-family: var(--font-inter-face);
+				font-weight: 400;
+			}
+		</style>
+	</head>
+	<body>
+		<EmDashBodyStart page={pageCtx} />
+		<slot />
+		<MetaPixel client:load />
+		<script is:inline>
+			(function (c, l, a, r, i, t, y) {
+				c[a] =
+					c[a] ||
+					function () {
+						(c[a].q = c[a].q || []).push(arguments);
+					};
+				t = l.createElement(r);
+				t.async = 1;
+				t.src = "https://www.clarity.ms/tag/" + i;
+				y = l.getElementsByTagName(r)[0];
+				y.parentNode.insertBefore(t, y);
+			})(window, document, "clarity", "script", "z4e2stk95f");
+		</script>
+		<script
+			is:inline
+			defer
+			src="https://cloud.umami.is/script.js"
+			data-website-id="a11afc3e-72ff-4070-9630-19c151d885f0"></script>
+		<script is:inline>
+			var Tawk_API = Tawk_API || {},
+				Tawk_LoadStart = new Date();
+			(function () {
+				var s1 = document.createElement("script"),
+					s0 = document.getElementsByTagName("script")[0];
+				s1.async = true;
+				s1.src = "https://embed.tawk.to/6ad2437777e5de34c612ae83/1k52lf40e";
+				s1.charset = "UTF-8";
+				s1.setAttribute("crossorigin", "*");
+				s0.parentNode.insertBefore(s1, s0);
+			})();
+		</script>
+		<EmDashBodyEnd page={pageCtx} />
+	</body>
+</html>
