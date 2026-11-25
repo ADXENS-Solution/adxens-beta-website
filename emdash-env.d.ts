@@ -3,7 +3,58 @@
 
 /// <reference types="emdash/locals" />
 
-import type { BylineSummary, ContentBylineCredit, TaxonomyTerm, PortableTextBlock } from "emdash";
+import type { BylineSummary, ContentBylineCredit, TaxonomyTerm, PortableTextBlock, ReferencePage } from "emdash";
+
+export interface HelpArticle {
+  id: string;
+  slug: string | null;
+  status: string;
+  title: string;
+  subtitle?: string;
+  topic_slug: string;
+  search_tags?: string;
+  content?: PortableTextBlock[];
+  createdAt: Date;
+  updatedAt: Date;
+  publishedAt: Date | null;
+  byline?: BylineSummary | null;
+  bylines?: ContentBylineCredit[];
+  terms?: Record<string, TaxonomyTerm[]>;
+}
+
+export interface HelpSetting {
+  id: string;
+  slug: string | null;
+  status: string;
+  title: string;
+  hero_badge?: string;
+  hero_title?: string;
+  hero_lead?: string;
+  try_asking?: { "label": string }[];
+  empty_suggestions?: { "label": string }[];
+  createdAt: Date;
+  updatedAt: Date;
+  publishedAt: Date | null;
+  byline?: BylineSummary | null;
+  bylines?: ContentBylineCredit[];
+  terms?: Record<string, TaxonomyTerm[]>;
+}
+
+export interface HelpTopic {
+  id: string;
+  slug: string | null;
+  status: string;
+  title: string;
+  description?: string;
+  icon: "rocket" | "accounts" | "wallet" | "users" | "chart" | "card" | "flask" | "shield";
+  sort_order?: number;
+  createdAt: Date;
+  updatedAt: Date;
+  publishedAt: Date | null;
+  byline?: BylineSummary | null;
+  bylines?: ContentBylineCredit[];
+  terms?: Record<string, TaxonomyTerm[]>;
+}
 
 export interface Page {
   id: string;
@@ -58,10 +109,26 @@ export interface SiteSetting {
   terms?: Record<string, TaxonomyTerm[]>;
 }
 
+export interface HelpArticleReferences {
+  topic: ReferencePage<HelpTopic>;
+  related: ReferencePage<HelpArticle>;
+}
+
+export interface HelpSettingReferences {
+  popular_articles: ReferencePage<HelpArticle>;
+}
+
 declare module "emdash" {
   interface EmDashCollections {
+    help_articles: HelpArticle;
+    help_settings: HelpSetting;
+    help_topics: HelpTopic;
     pages: Page;
     posts: Post;
     site_settings: SiteSetting;
+  }
+  interface EmDashCollectionReferences {
+    help_articles: HelpArticleReferences;
+    help_settings: HelpSettingReferences;
   }
 }

@@ -169,6 +169,193 @@
 					"type": "text"
 				}
 			]
+		},
+		{
+			"slug": "help_topics",
+			"label": "Help topics",
+			"labelSingular": "Help topic",
+			"urlPattern": "/help/topics/{slug}",
+			"supports": [
+				"drafts",
+				"revisions",
+				"seo"
+			],
+			"fields": [
+				{
+					"slug": "title",
+					"label": "Title",
+					"type": "string",
+					"required": true
+				},
+				{
+					"slug": "description",
+					"label": "Description",
+					"type": "text"
+				},
+				{
+					"slug": "icon",
+					"label": "Icon",
+					"type": "select",
+					"required": true,
+					"validation": {
+						"options": [
+							"rocket",
+							"accounts",
+							"wallet",
+							"users",
+							"chart",
+							"card",
+							"flask",
+							"shield"
+						]
+					}
+				},
+				{
+					"slug": "sort_order",
+					"label": "Sort order",
+					"type": "integer",
+					"defaultValue": 0
+				}
+			]
+		},
+		{
+			"slug": "help_articles",
+			"label": "Help articles",
+			"labelSingular": "Help article",
+			"urlPattern": "/help/{slug}",
+			"supports": [
+				"drafts",
+				"revisions",
+				"preview",
+				"search",
+				"seo"
+			],
+			"fields": [
+				{
+					"slug": "title",
+					"label": "Title",
+					"type": "string",
+					"required": true,
+					"searchable": true
+				},
+				{
+					"slug": "subtitle",
+					"label": "Subtitle",
+					"type": "text"
+				},
+				{
+					"slug": "topic",
+					"label": "Topic",
+					"type": "reference",
+					"required": true,
+					"validation": {
+						"targetCollection": "help_topics"
+					}
+				},
+				{
+					"slug": "topic_slug",
+					"label": "Topic slug",
+					"type": "string",
+					"required": true,
+					"searchable": true,
+					"indexed": true
+				},
+				{
+					"slug": "search_tags",
+					"label": "Search tags",
+					"type": "string",
+					"searchable": true
+				},
+				{
+					"slug": "content",
+					"label": "Content",
+					"type": "portableText",
+					"searchable": true
+				},
+				{
+					"slug": "related",
+					"label": "Related articles",
+					"type": "reference",
+					"validation": {
+						"targetCollection": "help_articles",
+						"multiple": true
+					}
+				}
+			]
+		},
+		{
+			"slug": "help_settings",
+			"label": "Help settings",
+			"labelSingular": "Help settings",
+			"supports": [
+				"drafts"
+			],
+			"fields": [
+				{
+					"slug": "title",
+					"label": "Label",
+					"type": "string",
+					"required": true
+				},
+				{
+					"slug": "hero_badge",
+					"label": "Hero badge",
+					"type": "string"
+				},
+				{
+					"slug": "hero_title",
+					"label": "Hero title",
+					"type": "string"
+				},
+				{
+					"slug": "hero_lead",
+					"label": "Hero lead",
+					"type": "text"
+				},
+				{
+					"slug": "try_asking",
+					"label": "Try asking chips",
+					"type": "repeater",
+					"validation": {
+						"minItems": 0,
+						"maxItems": 20,
+						"subFields": [
+							{
+								"slug": "label",
+								"label": "Label",
+								"type": "string",
+								"required": true
+							}
+						]
+					}
+				},
+				{
+					"slug": "popular_articles",
+					"label": "Popular articles",
+					"type": "reference",
+					"validation": {
+						"targetCollection": "help_articles",
+						"multiple": true
+					}
+				},
+				{
+					"slug": "empty_suggestions",
+					"label": "Empty search suggestions",
+					"type": "repeater",
+					"validation": {
+						"minItems": 0,
+						"maxItems": 20,
+						"subFields": [
+							{
+								"slug": "label",
+								"label": "Label",
+								"type": "string",
+								"required": true
+							}
+						]
+					}
+				}
+			]
 		}
 	],
 	"menus": [
@@ -195,6 +382,11 @@
 					"type": "custom",
 					"label": "FAQ",
 					"url": "/#faq"
+				},
+				{
+					"type": "custom",
+					"label": "Help",
+					"url": "/help"
 				}
 			]
 		}
@@ -4669,6 +4861,2058 @@
 				}
 			}
 		],
-		"posts": []
+		"posts": [],
+		"help_topics": [
+			{
+				"id": "help-topic-getting-started",
+				"slug": "getting-started",
+				"status": "published",
+				"data": {
+					"title": "Getting started",
+					"description": "Create your account, tour the dashboard and run your first setup.",
+					"icon": "rocket",
+					"sort_order": 1
+				}
+			},
+			{
+				"id": "help-topic-ad-accounts",
+				"slug": "ad-accounts",
+				"status": "published",
+				"data": {
+					"title": "Ad accounts",
+					"description": "Request, connect and manage your ad accounts in one place.",
+					"icon": "accounts",
+					"sort_order": 2
+				}
+			},
+			{
+				"id": "help-topic-funding",
+				"slug": "funding",
+				"status": "published",
+				"data": {
+					"title": "Funding & payments",
+					"description": "Add funds, payment methods and minimum deposits.",
+					"icon": "wallet",
+					"sort_order": 3
+				}
+			},
+			{
+				"id": "help-topic-team",
+				"slug": "team",
+				"status": "published",
+				"data": {
+					"title": "Team & access",
+					"description": "Invite teammates, set roles and share access safely.",
+					"icon": "users",
+					"sort_order": 4
+				}
+			},
+			{
+				"id": "help-topic-reporting",
+				"slug": "reporting",
+				"status": "published",
+				"data": {
+					"title": "Spend & reporting",
+					"description": "Track every dollar, export reports and set spend alerts.",
+					"icon": "chart",
+					"sort_order": 5
+				}
+			},
+			{
+				"id": "help-topic-billing",
+				"slug": "billing",
+				"status": "published",
+				"data": {
+					"title": "Billing & invoices",
+					"description": "Invoices, plans, cancellations and refunds.",
+					"icon": "card",
+					"sort_order": 6
+				}
+			},
+			{
+				"id": "help-topic-beta",
+				"slug": "beta",
+				"status": "published",
+				"data": {
+					"title": "Beta program",
+					"description": "Everything about the Adxens V2 private beta.",
+					"icon": "flask",
+					"sort_order": 7
+				}
+			},
+			{
+				"id": "help-topic-security",
+				"slug": "security",
+				"status": "published",
+				"data": {
+					"title": "Account & security",
+					"description": "Passwords, two-factor authentication and profile settings.",
+					"icon": "shield",
+					"sort_order": 8
+				}
+			}
+		],
+		"help_articles": [
+			{
+				"id": "help-art-create-account",
+				"slug": "create-account",
+				"status": "published",
+				"data": {
+					"title": "How to create an Adxens account",
+					"subtitle": "Sign up, confirm your email and reach the dashboard in a few minutes.",
+					"topic": "$ref:help-topic-getting-started",
+					"search_tags": "sign up register signup join new account email",
+					"content": [
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Creating an account takes a few minutes. After that you can request ad accounts, fund them and invite your team.",
+									"_key": "sjscssq"
+								}
+							],
+							"_key": "bq61jqy"
+						},
+						{
+							"_type": "block",
+							"style": "h3",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Before you start",
+									"_key": "sp9boae"
+								}
+							],
+							"_key": "bg5phzu"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"listItem": "bullet",
+							"level": 1,
+							"children": [
+								{
+									"_type": "span",
+									"text": "A work email address you can access.",
+									"_key": "sn00t7y"
+								}
+							],
+							"_key": "babekt8"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"listItem": "bullet",
+							"level": 1,
+							"children": [
+								{
+									"_type": "span",
+									"text": "The name of your agency or business.",
+									"_key": "ss3cbxy"
+								}
+							],
+							"_key": "bbmtjdg"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"listItem": "bullet",
+							"level": 1,
+							"children": [
+								{
+									"_type": "span",
+									"text": "During the private beta: a confirmed spot.",
+									"_key": "sbgvegl"
+								}
+							],
+							"_key": "bs41ia8"
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Step 1 – Sign up",
+									"_key": "seohiwh"
+								}
+							],
+							"_key": "bctasaa"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"listItem": "number",
+							"level": 1,
+							"children": [
+								{
+									"_type": "span",
+									"text": "Open Adxens and select Request Early Access (during the beta) or Sign up.",
+									"_key": "scgqgm2"
+								}
+							],
+							"_key": "b936jpb"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"listItem": "number",
+							"level": 1,
+							"children": [
+								{
+									"_type": "span",
+									"text": "Enter your name, work email and a password.",
+									"_key": "svdfco4"
+								}
+							],
+							"_key": "btiswsg"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"listItem": "number",
+							"level": 1,
+							"children": [
+								{
+									"_type": "span",
+									"text": "Confirm your email address using the link we send you.",
+									"_key": "sv3olu6"
+								}
+							],
+							"_key": "bg9yeeo"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "No email after a few minutes? Check your spam folder, then contact support.",
+									"_key": "so0t1ik"
+								}
+							],
+							"_key": "b139bcy"
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Step 2 – Set up your workspace",
+									"_key": "srq367q"
+								}
+							],
+							"_key": "bo7se7d"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"listItem": "number",
+							"level": 1,
+							"children": [
+								{
+									"_type": "span",
+									"text": "Add your company details.",
+									"_key": "s8hqvl2"
+								}
+							],
+							"_key": "bml54tx"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"listItem": "number",
+							"level": 1,
+							"children": [
+								{
+									"_type": "span",
+									"text": "Choose the platforms you buy media on.",
+									"_key": "smkbb8a"
+								}
+							],
+							"_key": "bii9j00"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"listItem": "number",
+							"level": 1,
+							"children": [
+								{
+									"_type": "span",
+									"text": "Select Finish setup.",
+									"_key": "s47yus8"
+								}
+							],
+							"_key": "ba5dqnl"
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Step 3 – Go to the dashboard",
+									"_key": "su6tnca"
+								}
+							],
+							"_key": "bgp3ff3"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "You land on the dashboard. From here, request your first ad account.",
+									"_key": "sey0x7e"
+								}
+							],
+							"_key": "bzwuh62"
+						}
+					],
+					"topic_slug": "getting-started"
+				}
+			},
+			{
+				"id": "help-art-dashboard-tour",
+				"slug": "dashboard-tour",
+				"status": "published",
+				"data": {
+					"title": "A quick tour of the dashboard",
+					"subtitle": "Find accounts, funds, team and reports in one place.",
+					"topic": "$ref:help-topic-getting-started",
+					"search_tags": "dashboard overview navigation menu home",
+					"content": [
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "The dashboard brings your ad accounts, funds, team and reports into one place.",
+									"_key": "sru0cxg"
+								}
+							],
+							"_key": "bfp6hlu"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"listItem": "bullet",
+							"level": 1,
+							"children": [
+								{
+									"_type": "span",
+									"text": "Accounts: request, view and manage every ad account.",
+									"_key": "s26n1h9"
+								}
+							],
+							"_key": "bm2dicw"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"listItem": "bullet",
+							"level": 1,
+							"children": [
+								{
+									"_type": "span",
+									"text": "Funds: top up balances and follow every transaction.",
+									"_key": "sow4jpx"
+								}
+							],
+							"_key": "b04oe2l"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"listItem": "bullet",
+							"level": 1,
+							"children": [
+								{
+									"_type": "span",
+									"text": "Team: invite people and control what they can do.",
+									"_key": "sb6xs6o"
+								}
+							],
+							"_key": "bp6ewxf"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"listItem": "bullet",
+							"level": 1,
+							"children": [
+								{
+									"_type": "span",
+									"text": "Reports: see spend by account, campaign and period.",
+									"_key": "s2rg05b"
+								}
+							],
+							"_key": "b7js6l7"
+						}
+					],
+					"topic_slug": "getting-started"
+				}
+			},
+			{
+				"id": "help-art-supported-platforms",
+				"slug": "supported-platforms",
+				"status": "published",
+				"data": {
+					"title": "Which ad platforms are supported?",
+					"topic": "$ref:help-topic-getting-started",
+					"search_tags": "meta google tiktok snapchat bing platforms facebook instagram",
+					"content": [
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "During the private beta, Adxens works with Meta only. Google, TikTok, Snapchat and Bing are on the platform roadmap and will be added after the beta.",
+									"_key": "swm3bjz"
+								}
+							],
+							"_key": "brg3xyl"
+						}
+					],
+					"topic_slug": "getting-started"
+				}
+			},
+			{
+				"id": "help-art-first-steps",
+				"slug": "first-steps",
+				"status": "published",
+				"data": {
+					"title": "Your first 10 minutes: a setup checklist",
+					"topic": "$ref:help-topic-getting-started",
+					"search_tags": "checklist onboarding setup first steps start",
+					"content": [
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Follow this short checklist to get fully set up:",
+									"_key": "sb0j6b0"
+								}
+							],
+							"_key": "bj8vq0b"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"listItem": "number",
+							"level": 1,
+							"children": [
+								{
+									"_type": "span",
+									"text": "Confirm your email and complete your company profile.",
+									"_key": "s18rhsk"
+								}
+							],
+							"_key": "bu8vbi0"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"listItem": "number",
+							"level": 1,
+							"children": [
+								{
+									"_type": "span",
+									"text": "Request your first ad account.",
+									"_key": "s05igtz"
+								}
+							],
+							"_key": "buto0n4"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"listItem": "number",
+							"level": 1,
+							"children": [
+								{
+									"_type": "span",
+									"text": "Add funds to the account.",
+									"_key": "sr649d4"
+								}
+							],
+							"_key": "ba2x6ys"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"listItem": "number",
+							"level": 1,
+							"children": [
+								{
+									"_type": "span",
+									"text": "Invite one teammate and give them the Buyer role.",
+									"_key": "sfqo1ao"
+								}
+							],
+							"_key": "byov19r"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"listItem": "number",
+							"level": 1,
+							"children": [
+								{
+									"_type": "span",
+									"text": "Open Reports to confirm spend appears.",
+									"_key": "sf7vqug"
+								}
+							],
+							"_key": "bafqrsq"
+						}
+					],
+					"topic_slug": "getting-started"
+				}
+			},
+			{
+				"id": "help-art-request-ad-account",
+				"slug": "request-ad-account",
+				"status": "published",
+				"data": {
+					"title": "How to request an ad account",
+					"subtitle": "Request a new Meta ad account directly from the dashboard, with no ticket and no queue.",
+					"topic": "$ref:help-topic-ad-accounts",
+					"search_tags": "request ad account new meta business manager create open",
+					"content": [
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "You can request ad accounts straight from the dashboard. Most requests are processed quickly.",
+									"_key": "sfsqwmd"
+								}
+							],
+							"_key": "bhfmdv3"
+						},
+						{
+							"_type": "block",
+							"style": "h3",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Before you start",
+									"_key": "s5zf5po"
+								}
+							],
+							"_key": "blh6h4x"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"listItem": "bullet",
+							"level": 1,
+							"children": [
+								{
+									"_type": "span",
+									"text": "Your Adxens account is active.",
+									"_key": "s71by03"
+								}
+							],
+							"_key": "by12e6o"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"listItem": "bullet",
+							"level": 1,
+							"children": [
+								{
+									"_type": "span",
+									"text": "You know the currency and time zone you need. They cannot be changed afterwards.",
+									"_key": "s8kj3zj"
+								}
+							],
+							"_key": "bg50l1c"
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Step 1 – Open Accounts",
+									"_key": "s0k15kz"
+								}
+							],
+							"_key": "bfcu8z0"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"listItem": "number",
+							"level": 1,
+							"children": [
+								{
+									"_type": "span",
+									"text": "Go to Accounts in the left menu.",
+									"_key": "sk85mcb"
+								}
+							],
+							"_key": "bbi4j2u"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"listItem": "number",
+							"level": 1,
+							"children": [
+								{
+									"_type": "span",
+									"text": "Select Request account.",
+									"_key": "s7skaaf"
+								}
+							],
+							"_key": "bcebamz"
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Step 2 – Fill in the details",
+									"_key": "sxnym9b"
+								}
+							],
+							"_key": "b2rdosn"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"listItem": "number",
+							"level": 1,
+							"children": [
+								{
+									"_type": "span",
+									"text": "Choose the platform (Meta during the beta).",
+									"_key": "sd7dgzs"
+								}
+							],
+							"_key": "bimykiq"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"listItem": "number",
+							"level": 1,
+							"children": [
+								{
+									"_type": "span",
+									"text": "Enter the account name, currency and time zone.",
+									"_key": "svn0lz8"
+								}
+							],
+							"_key": "be9fmi2"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"listItem": "number",
+							"level": 1,
+							"children": [
+								{
+									"_type": "span",
+									"text": "Add your Business Manager ID if you want the account shared.",
+									"_key": "sv7ctid"
+								}
+							],
+							"_key": "bbe9zwa"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Currency and time zone cannot be changed after the account is created. Double-check them before you submit.",
+									"_key": "skooijo"
+								}
+							],
+							"_key": "btyu3s7"
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Step 3 – Submit and track",
+									"_key": "s9jx1io"
+								}
+							],
+							"_key": "bei793s"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"listItem": "number",
+							"level": 1,
+							"children": [
+								{
+									"_type": "span",
+									"text": "Select Submit request.",
+									"_key": "smg0b19"
+								}
+							],
+							"_key": "blwr60t"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"listItem": "number",
+							"level": 1,
+							"children": [
+								{
+									"_type": "span",
+									"text": "Follow the request in Accounts → Requests. You will also get an email when it is ready.",
+									"_key": "so0euvf"
+								}
+							],
+							"_key": "bc1duyx"
+						}
+					],
+					"topic_slug": "ad-accounts"
+				}
+			},
+			{
+				"id": "help-art-request-pending",
+				"slug": "request-pending",
+				"status": "published",
+				"data": {
+					"title": "Why is my ad account request still pending?",
+					"topic": "$ref:help-topic-ad-accounts",
+					"search_tags": "pending status waiting delay slow review approval",
+					"content": [
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Most requests are processed quickly, but a request can stay pending when we need extra information or when the platform is reviewing it.",
+									"_key": "sxb2xjo"
+								}
+							],
+							"_key": "bch0bwm"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"listItem": "bullet",
+							"level": 1,
+							"children": [
+								{
+									"_type": "span",
+									"text": "Open the request in Accounts and check for a message asking for details.",
+									"_key": "sb3w2xe"
+								}
+							],
+							"_key": "bab1p8s"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"listItem": "bullet",
+							"level": 1,
+							"children": [
+								{
+									"_type": "span",
+									"text": "Make sure the Business Manager ID you entered is correct.",
+									"_key": "sk6rju8"
+								}
+							],
+							"_key": "bqjx5e4"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"listItem": "bullet",
+							"level": 1,
+							"children": [
+								{
+									"_type": "span",
+									"text": "If it is still pending after one business day, contact support with the request name.",
+									"_key": "swk26lm"
+								}
+							],
+							"_key": "be48ejr"
+						}
+					],
+					"topic_slug": "ad-accounts"
+				}
+			},
+			{
+				"id": "help-art-business-manager",
+				"slug": "business-manager",
+				"status": "published",
+				"data": {
+					"title": "Do I need a Meta Business Manager?",
+					"topic": "$ref:help-topic-ad-accounts",
+					"search_tags": "meta business manager bm facebook portfolio",
+					"content": [
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "A Business Manager makes sharing and permissions simpler, because accounts can be attached to it directly.",
+									"_key": "s7ovz9z"
+								}
+							],
+							"_key": "bhtd6c5"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "If you do not have one yet, create it on Meta first, then add its ID to your Adxens profile.",
+									"_key": "saqh0bk"
+								}
+							],
+							"_key": "blwfnly"
+						}
+					],
+					"topic_slug": "ad-accounts"
+				}
+			},
+			{
+				"id": "help-art-ad-approval",
+				"slug": "ad-approval",
+				"status": "published",
+				"data": {
+					"title": "Does Adxens guarantee ad approval?",
+					"topic": "$ref:help-topic-ad-accounts",
+					"search_tags": "approval rejected disapproved ads policy review guarantee",
+					"content": [
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "No. Ad approval decisions are made by the advertising platform, and Adxens cannot guarantee them.",
+									"_key": "szfixb1"
+								}
+							],
+							"_key": "b55oz35"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "What we do give you is clearer visibility: you can see account status in one place and get help quickly if something is restricted.",
+									"_key": "s8hbv33"
+								}
+							],
+							"_key": "bwo4jyr"
+						}
+					],
+					"topic_slug": "ad-accounts"
+				}
+			},
+			{
+				"id": "help-art-add-funds",
+				"slug": "add-funds",
+				"status": "published",
+				"data": {
+					"title": "How to add funds to an ad account",
+					"subtitle": "Top up any ad account from the Funds page in a few clicks.",
+					"topic": "$ref:help-topic-funding",
+					"search_tags": "add funds top up deposit fund balance recharge money",
+					"content": [
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "You can fund any of your ad accounts from the Funds page. The balance is available for ads as soon as the payment clears.",
+									"_key": "sdo9baf"
+								}
+							],
+							"_key": "b2wmk24"
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Step 1 – Choose the ad account",
+									"_key": "s1bscy7"
+								}
+							],
+							"_key": "byx8rq7"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"listItem": "number",
+							"level": 1,
+							"children": [
+								{
+									"_type": "span",
+									"text": "Open Funds from the left menu.",
+									"_key": "suaiwvq"
+								}
+							],
+							"_key": "bpp3wrz"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"listItem": "number",
+							"level": 1,
+							"children": [
+								{
+									"_type": "span",
+									"text": "Select the ad account you want to fund.",
+									"_key": "s3dknlp"
+								}
+							],
+							"_key": "b93ikbp"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"listItem": "number",
+							"level": 1,
+							"children": [
+								{
+									"_type": "span",
+									"text": "Choose Add funds.",
+									"_key": "sa31op7"
+								}
+							],
+							"_key": "bh1nkw8"
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Step 2 – Enter the amount",
+									"_key": "sf5942t"
+								}
+							],
+							"_key": "b17ahi0"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"listItem": "number",
+							"level": 1,
+							"children": [
+								{
+									"_type": "span",
+									"text": "Type the amount you want to add. The minimum is shown under the field.",
+									"_key": "slii53z"
+								}
+							],
+							"_key": "bpkb1v9"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"listItem": "number",
+							"level": 1,
+							"children": [
+								{
+									"_type": "span",
+									"text": "Pick a saved payment method or add a new one.",
+									"_key": "siiccy6"
+								}
+							],
+							"_key": "b71n4cx"
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Step 3 – Confirm and track",
+									"_key": "snyx76g"
+								}
+							],
+							"_key": "bokwlxn"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"listItem": "number",
+							"level": 1,
+							"children": [
+								{
+									"_type": "span",
+									"text": "Check the summary and select Confirm payment.",
+									"_key": "sgxwkeu"
+								}
+							],
+							"_key": "biu2q87"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"listItem": "number",
+							"level": 1,
+							"children": [
+								{
+									"_type": "span",
+									"text": "Follow the status in Funds → Transactions.",
+									"_key": "srxs686"
+								}
+							],
+							"_key": "bujb8ez"
+						}
+					],
+					"topic_slug": "funding"
+				}
+			},
+			{
+				"id": "help-art-minimum-deposit",
+				"slug": "minimum-deposit",
+				"status": "published",
+				"data": {
+					"title": "How much is the minimum deposit?",
+					"topic": "$ref:help-topic-funding",
+					"search_tags": "minimum deposit amount limit top up how much least",
+					"content": [
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "The minimum top-up depends on your plan and the payment method you choose. You can see it on the Add funds screen before you confirm, and nothing is charged until you approve.",
+									"_key": "sf0on84"
+								}
+							],
+							"_key": "b518a0r"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "If you are unsure which amount suits your budget, start small. You can top up again at any time.",
+									"_key": "snu2n1n"
+								}
+							],
+							"_key": "bix8l71"
+						}
+					],
+					"topic_slug": "funding"
+				}
+			},
+			{
+				"id": "help-art-payment-methods",
+				"slug": "payment-methods",
+				"status": "published",
+				"data": {
+					"title": "Which payment methods can I use?",
+					"topic": "$ref:help-topic-funding",
+					"search_tags": "payment methods card bank transfer pay local mobile money crypto",
+					"content": [
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Available methods depend on your country and the platform. The payment screen only shows the methods you can use.",
+									"_key": "sbl096a"
+								}
+							],
+							"_key": "b8cjq5j"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "You can save a method for next time and remove it from Funds → Payment methods whenever you like.",
+									"_key": "sx5pido"
+								}
+							],
+							"_key": "b3g50m4"
+						}
+					],
+					"topic_slug": "funding"
+				}
+			},
+			{
+				"id": "help-art-real-money",
+				"slug": "real-money",
+				"status": "published",
+				"data": {
+					"title": "Do I need to deposit real money during the beta?",
+					"topic": "$ref:help-topic-funding",
+					"search_tags": "beta real money deposit test spend cost fund",
+					"content": [
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Testing happens on the real platform, with a real plan and real pricing, exactly like a regular client. That means ad spend is real.",
+									"_key": "s6ioger"
+								}
+							],
+							"_key": "bipwot6"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Fund only the amount you are comfortable running during the test.",
+									"_key": "sakioe2"
+								}
+							],
+							"_key": "b64od5d"
+						}
+					],
+					"topic_slug": "funding"
+				}
+			},
+			{
+				"id": "help-art-invite-teammate",
+				"slug": "invite-teammate",
+				"status": "published",
+				"data": {
+					"title": "How to invite a teammate",
+					"subtitle": "Add people to your workspace and decide exactly what they can do.",
+					"topic": "$ref:help-topic-team",
+					"search_tags": "invite teammate team member add user colleague share access",
+					"content": [
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Invite colleagues, freelancers or clients and give each of them only the access they need.",
+									"_key": "sbbd33c"
+								}
+							],
+							"_key": "bwigxtz"
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Step 1 – Send the invitation",
+									"_key": "smkh41b"
+								}
+							],
+							"_key": "bflr7rm"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"listItem": "number",
+							"level": 1,
+							"children": [
+								{
+									"_type": "span",
+									"text": "Open Team and select Invite member.",
+									"_key": "s10r731"
+								}
+							],
+							"_key": "bvx00u3"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"listItem": "number",
+							"level": 1,
+							"children": [
+								{
+									"_type": "span",
+									"text": "Enter their email address.",
+									"_key": "snt35ot"
+								}
+							],
+							"_key": "b3vvkbo"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"listItem": "number",
+							"level": 1,
+							"children": [
+								{
+									"_type": "span",
+									"text": "Choose a role: Admin, Buyer or Viewer.",
+									"_key": "saalrip"
+								}
+							],
+							"_key": "bm5ed54"
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Step 2 – Choose what they can see",
+									"_key": "sb1xdky"
+								}
+							],
+							"_key": "bub9abq"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"listItem": "number",
+							"level": 1,
+							"children": [
+								{
+									"_type": "span",
+									"text": "Select the ad accounts the person can access.",
+									"_key": "s2565bi"
+								}
+							],
+							"_key": "bn1aswo"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"listItem": "number",
+							"level": 1,
+							"children": [
+								{
+									"_type": "span",
+									"text": "Select Send invite.",
+									"_key": "sr6fzwl"
+								}
+							],
+							"_key": "bphdo4m"
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Step 3 – Wait for them to accept",
+									"_key": "s9nah2z"
+								}
+							],
+							"_key": "bv3orwx"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "The invite shows as Pending in the Team list. They join as soon as they accept.",
+									"_key": "sxzmgab"
+								}
+							],
+							"_key": "bmbar56"
+						}
+					],
+					"topic_slug": "team"
+				}
+			},
+			{
+				"id": "help-art-roles",
+				"slug": "roles",
+				"status": "published",
+				"data": {
+					"title": "Roles and permissions explained",
+					"topic": "$ref:help-topic-team",
+					"search_tags": "roles permissions owner admin buyer viewer access control",
+					"content": [
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Every member has a role. Choose the lowest level that lets them do their job.",
+									"_key": "sbmoq1y"
+								}
+							],
+							"_key": "bkme38y"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"listItem": "bullet",
+							"level": 1,
+							"children": [
+								{
+									"_type": "span",
+									"text": "Owner: full control, including billing and deleting the workspace.",
+									"_key": "su0w2zi"
+								}
+							],
+							"_key": "b2etrs8"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"listItem": "bullet",
+							"level": 1,
+							"children": [
+								{
+									"_type": "span",
+									"text": "Admin: manage accounts, funds and members.",
+									"_key": "soocy0w"
+								}
+							],
+							"_key": "bnc43ft"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"listItem": "bullet",
+							"level": 1,
+							"children": [
+								{
+									"_type": "span",
+									"text": "Buyer: use assigned accounts and view their spend.",
+									"_key": "sfr7k7a"
+								}
+							],
+							"_key": "bhfo00i"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"listItem": "bullet",
+							"level": 1,
+							"children": [
+								{
+									"_type": "span",
+									"text": "Viewer: read-only access to reports.",
+									"_key": "sbapi62"
+								}
+							],
+							"_key": "bj0hh9l"
+						}
+					],
+					"topic_slug": "team"
+				}
+			},
+			{
+				"id": "help-art-remove-access",
+				"slug": "remove-access",
+				"status": "published",
+				"data": {
+					"title": "How to remove someone's access",
+					"topic": "$ref:help-topic-team",
+					"search_tags": "remove revoke access delete member leave offboard",
+					"content": [
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Open Team, select the member, then choose Remove access. Their access to every account ends immediately.",
+									"_key": "s0504a5"
+								}
+							],
+							"_key": "b3kzroe"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Their past activity stays in the audit log so your reports remain accurate.",
+									"_key": "sr1jk0x"
+								}
+							],
+							"_key": "b4rbu13"
+						}
+					],
+					"topic_slug": "team"
+				}
+			},
+			{
+				"id": "help-art-track-spend",
+				"slug": "track-spend",
+				"status": "published",
+				"data": {
+					"title": "How to track spend across accounts",
+					"topic": "$ref:help-topic-reporting",
+					"search_tags": "track spend dollar budget report overview accounts every dollar",
+					"content": [
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "The Reports page shows spend for every account in one view.",
+									"_key": "sv47avo"
+								}
+							],
+							"_key": "bj659wb"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"listItem": "bullet",
+							"level": 1,
+							"children": [
+								{
+									"_type": "span",
+									"text": "Select a date range.",
+									"_key": "si4r1wu"
+								}
+							],
+							"_key": "by7709o"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"listItem": "bullet",
+							"level": 1,
+							"children": [
+								{
+									"_type": "span",
+									"text": "Group by account, platform or team member.",
+									"_key": "swz0wtu"
+								}
+							],
+							"_key": "bhp0zn1"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"listItem": "bullet",
+							"level": 1,
+							"children": [
+								{
+									"_type": "span",
+									"text": "Select any row to drill into campaigns.",
+									"_key": "spjolcq"
+								}
+							],
+							"_key": "b5rxsbq"
+						}
+					],
+					"topic_slug": "reporting"
+				}
+			},
+			{
+				"id": "help-art-export-report",
+				"slug": "export-report",
+				"status": "published",
+				"data": {
+					"title": "How to export a report",
+					"topic": "$ref:help-topic-reporting",
+					"search_tags": "export report csv pdf download share",
+					"content": [
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Open any report and choose Export. You can download it as CSV or PDF, or copy a share link for teammates who have access.",
+									"_key": "sv009jt"
+								}
+							],
+							"_key": "bwgsz39"
+						}
+					],
+					"topic_slug": "reporting"
+				}
+			},
+			{
+				"id": "help-art-spend-alerts",
+				"slug": "spend-alerts",
+				"status": "published",
+				"data": {
+					"title": "Set spend alerts and limits",
+					"topic": "$ref:help-topic-reporting",
+					"search_tags": "alert limit notification threshold budget cap overspend",
+					"content": [
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Alerts notify you when an account approaches a threshold you set.",
+									"_key": "sfang64"
+								}
+							],
+							"_key": "bsz3mkz"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"listItem": "number",
+							"level": 1,
+							"children": [
+								{
+									"_type": "span",
+									"text": "Open the account and select Alerts.",
+									"_key": "sig0pn5"
+								}
+							],
+							"_key": "bgnlsb0"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"listItem": "number",
+							"level": 1,
+							"children": [
+								{
+									"_type": "span",
+									"text": "Enter a daily or total threshold.",
+									"_key": "szezj3g"
+								}
+							],
+							"_key": "b2mdyak"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"listItem": "number",
+							"level": 1,
+							"children": [
+								{
+									"_type": "span",
+									"text": "Choose email, in-app notifications or both.",
+									"_key": "s6e7fga"
+								}
+							],
+							"_key": "bxl81pw"
+						}
+					],
+					"topic_slug": "reporting"
+				}
+			},
+			{
+				"id": "help-art-invoices",
+				"slug": "invoices",
+				"status": "published",
+				"data": {
+					"title": "Where do I find my invoices?",
+					"topic": "$ref:help-topic-billing",
+					"search_tags": "invoice receipt billing history statement download tax",
+					"content": [
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Go to Billing → Invoices. Every payment has its own invoice that you can download as PDF. Add your company and tax details under Billing → Details to have them printed on future invoices.",
+									"_key": "s3ay2u0"
+								}
+							],
+							"_key": "bcwps0k"
+						}
+					],
+					"topic_slug": "billing"
+				}
+			},
+			{
+				"id": "help-art-change-plan",
+				"slug": "change-plan",
+				"status": "published",
+				"data": {
+					"title": "How to change or cancel my plan",
+					"topic": "$ref:help-topic-billing",
+					"search_tags": "plan change cancel subscription upgrade downgrade pricing",
+					"content": [
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Open Billing → Plan, choose the plan you want and confirm.",
+									"_key": "sphc4ai"
+								}
+							],
+							"_key": "b7e1k1x"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Changes apply from the next billing period. If you cancel, you keep access until the end of the period you already paid for.",
+									"_key": "sng9psy"
+								}
+							],
+							"_key": "bymav9s"
+						}
+					],
+					"topic_slug": "billing"
+				}
+			},
+			{
+				"id": "help-art-refunds",
+				"slug": "refunds",
+				"status": "published",
+				"data": {
+					"title": "How do refunds work?",
+					"topic": "$ref:help-topic-billing",
+					"search_tags": "refund money back unused balance return withdraw",
+					"content": [
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Eligibility depends on the platform and the payment method used. Unused balance can usually be requested back from the Funds page.",
+									"_key": "seaz1lc"
+								}
+							],
+							"_key": "bmorsjd"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "If you cannot find the option for your account, contact support and include the transaction reference.",
+									"_key": "snenelp"
+								}
+							],
+							"_key": "b0l1e5l"
+						}
+					],
+					"topic_slug": "billing"
+				}
+			},
+			{
+				"id": "help-art-beta-open",
+				"slug": "beta-open",
+				"status": "published",
+				"data": {
+					"title": "Is the Beta still available?",
+					"topic": "$ref:help-topic-beta",
+					"search_tags": "beta available open spots apply waitlist private still closed",
+					"content": [
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Adxens V2 is in private beta with a limited number of spots (35 media buyers). Check the banner on the beta page for the current status.",
+									"_key": "sqwhj35"
+								}
+							],
+							"_key": "bb1txba"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "If applications are closed when you read this, contact support and we will let you know when the next group opens.",
+									"_key": "sk4gmv6"
+								}
+							],
+							"_key": "bu3ffhv"
+						}
+					],
+					"topic_slug": "beta"
+				}
+			},
+			{
+				"id": "help-art-beta-selection",
+				"slug": "beta-selection",
+				"status": "published",
+				"data": {
+					"title": "How are testers selected?",
+					"topic": "$ref:help-topic-beta",
+					"search_tags": "selected selection testers chosen apply criteria operators",
+					"content": [
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "We look for active media buyers and agency operators who run real Meta ad spend and can share honest feedback. Applying is free, and selected testers are contacted by email.",
+									"_key": "sf282mg"
+								}
+							],
+							"_key": "buusydg"
+						}
+					],
+					"topic_slug": "beta"
+				}
+			},
+			{
+				"id": "help-art-beta-time",
+				"slug": "beta-time",
+				"status": "published",
+				"data": {
+					"title": "How much time will testing take?",
+					"topic": "$ref:help-topic-beta",
+					"search_tags": "time weeks duration commitment how long beta three weeks",
+					"content": [
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Testing runs for three weeks. There is no fixed schedule: use Adxens in your normal workflow and tell us what works and what does not.",
+									"_key": "si2z56s"
+								}
+							],
+							"_key": "byf8vs1"
+						}
+					],
+					"topic_slug": "beta"
+				}
+			},
+			{
+				"id": "help-art-beta-feedback",
+				"slug": "beta-feedback",
+				"status": "published",
+				"data": {
+					"title": "How to send feedback or report a bug",
+					"topic": "$ref:help-topic-beta",
+					"search_tags": "feedback bug report issue problem vote suggest feature",
+					"content": [
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Use the Feedback button in the dashboard, or message support with a short description and a screenshot if you can. Testers also get a direct line to the team and a real vote on what we build next.",
+									"_key": "sqahjva"
+								}
+							],
+							"_key": "bjuifrw"
+						}
+					],
+					"topic_slug": "beta"
+				}
+			},
+			{
+				"id": "help-art-free-month",
+				"slug": "free-month",
+				"status": "published",
+				"data": {
+					"title": "What exactly is the free month?",
+					"topic": "$ref:help-topic-beta",
+					"search_tags": "free month first month trial discount pricing beta perk",
+					"content": [
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Selected testers get their first month on us. After that you stay on the plan you chose, with normal pricing, unless you cancel before the month ends.",
+									"_key": "ssa2r5e"
+								}
+							],
+							"_key": "b1kpgco"
+						}
+					],
+					"topic_slug": "beta"
+				}
+			},
+			{
+				"id": "help-art-reset-password",
+				"slug": "reset-password",
+				"status": "published",
+				"data": {
+					"title": "How to reset your password",
+					"topic": "$ref:help-topic-security",
+					"search_tags": "reset password forgot login sign in recover access locked",
+					"content": [
+						{
+							"_type": "block",
+							"style": "normal",
+							"listItem": "number",
+							"level": 1,
+							"children": [
+								{
+									"_type": "span",
+									"text": "On the sign-in page select Forgot password.",
+									"_key": "sx1cxya"
+								}
+							],
+							"_key": "bbsxl2q"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"listItem": "number",
+							"level": 1,
+							"children": [
+								{
+									"_type": "span",
+									"text": "Enter your email and open the link we send you.",
+									"_key": "sm04n3u"
+								}
+							],
+							"_key": "bfafg3s"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"listItem": "number",
+							"level": 1,
+							"children": [
+								{
+									"_type": "span",
+									"text": "Choose a new password. All other sessions are signed out.",
+									"_key": "s3u3a1a"
+								}
+							],
+							"_key": "bxsjfk1"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "No email after a few minutes? Check spam, then contact support.",
+									"_key": "stm0vvs"
+								}
+							],
+							"_key": "be2ksxn"
+						}
+					],
+					"topic_slug": "security"
+				}
+			},
+			{
+				"id": "help-art-two-factor",
+				"slug": "two-factor",
+				"status": "published",
+				"data": {
+					"title": "Turn on two-factor authentication",
+					"topic": "$ref:help-topic-security",
+					"search_tags": "2fa two factor authentication security authenticator code protect",
+					"content": [
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Two-factor authentication adds a one-time code to your sign-in, which protects the funds in your ad accounts.",
+									"_key": "s4x0lnz"
+								}
+							],
+							"_key": "b6jjll0"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"listItem": "number",
+							"level": 1,
+							"children": [
+								{
+									"_type": "span",
+									"text": "Open Profile → Security.",
+									"_key": "s287amx"
+								}
+							],
+							"_key": "bir8gjd"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"listItem": "number",
+							"level": 1,
+							"children": [
+								{
+									"_type": "span",
+									"text": "Select Enable 2FA and scan the QR code with an authenticator app.",
+									"_key": "s8eg81e"
+								}
+							],
+							"_key": "bzmp4t4"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"listItem": "number",
+							"level": 1,
+							"children": [
+								{
+									"_type": "span",
+									"text": "Enter the 6-digit code and save your backup codes.",
+									"_key": "s5u8mas"
+								}
+							],
+							"_key": "b83n7w2"
+						}
+					],
+					"topic_slug": "security"
+				}
+			},
+			{
+				"id": "help-art-update-profile",
+				"slug": "update-profile",
+				"status": "published",
+				"data": {
+					"title": "Update your name, email or company details",
+					"topic": "$ref:help-topic-security",
+					"search_tags": "profile update change email name company details account settings",
+					"content": [
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Open Profile to edit your name, company details and notification settings. Changing your email requires confirming the new address first.",
+									"_key": "snwwy63"
+								}
+							],
+							"_key": "bzsiaqf"
+						}
+					],
+					"topic_slug": "security"
+				}
+			},
+			{
+				"id": "help-art-delete-account",
+				"slug": "delete-account",
+				"status": "published",
+				"data": {
+					"title": "How to delete your account",
+					"topic": "$ref:help-topic-security",
+					"search_tags": "delete close remove account data privacy gdpr",
+					"content": [
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Only the workspace Owner can delete an account. Withdraw or spend any remaining balance first, then go to Profile → Security → Delete account.",
+									"_key": "st4l9vk"
+								}
+							],
+							"_key": "b634ujb"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Deletion is permanent. Invoices are kept for the period required by law.",
+									"_key": "szai75o"
+								}
+							],
+							"_key": "baau3kx"
+						}
+					],
+					"topic_slug": "security"
+				}
+			}
+		],
+		"help_settings": [
+			{
+				"id": "help-settings-main",
+				"slug": "main",
+				"status": "published",
+				"data": {
+					"title": "Main",
+					"hero_badge": "Help center",
+					"hero_title": "How can we help?",
+					"hero_lead": "Search our guides, or try one of the questions below. Still stuck? Reach the team on WhatsApp, Telegram or email.",
+					"try_asking": [
+						{
+							"label": "How to create an Adxens account?"
+						},
+						{
+							"label": "How much is the minimum deposit?"
+						},
+						{
+							"label": "Is the Beta still available?"
+						},
+						{
+							"label": "How do I request an ad account?"
+						},
+						{
+							"label": "How do I reset my password?"
+						},
+						{
+							"label": "How do refunds work?"
+						}
+					],
+					"popular_articles": [
+						"$ref:help-art-create-account",
+						"$ref:help-art-minimum-deposit",
+						"$ref:help-art-beta-open",
+						"$ref:help-art-request-ad-account",
+						"$ref:help-art-add-funds",
+						"$ref:help-art-invite-teammate",
+						"$ref:help-art-track-spend",
+						"$ref:help-art-ad-approval"
+					],
+					"empty_suggestions": [
+						{
+							"label": "How to create an Adxens account"
+						},
+						{
+							"label": "How to request an ad account"
+						},
+						{
+							"label": "Minimum deposit"
+						},
+						{
+							"label": "Invite a teammate"
+						}
+					]
+				}
+			}
+		]
 	}
 }

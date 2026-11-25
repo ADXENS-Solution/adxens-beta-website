@@ -1,0 +1,186 @@
+---
+import HelpLayout from "../../layouts/HelpLayout.astro";
+import HelpIcon from "../../components/help/HelpIcon.astro";
+import HelpSearchForm from "../../components/help/HelpSearchForm.astro";
+import {
+	articlePath,
+	getHelpArticles,
+	getHelpSettings,
+	getHelpTopicsWithHint,
+	topicPath,
+} from "../../lib/help";
+import { getAdxensSiteSettings } from "../../lib/site-settings";
+import { absoluteUrl, resolveSiteOrigin } from "../../lib/seo";
+
+const settings = await getAdxensSiteSettings();
+const { entry: helpSettings, cacheHint: settingsHint } = await getHelpSettings();
+const { entries: topics, cacheHint: topicsHint } = await getHelpTopicsWithHint();
+const { entries: articles, cacheHint: articlesHint } = await getHelpArticles();
+
+if (Astro.cache?.enabled) {
+	Astro.cache.set(settingsHint);
+	Astro.cache.set(topicsHint);
+	Astro.cache.set(articlesHint);
+}
+
+const counts = new Map<string, number>();
+for (const a of articles) {
+	const slug = a.data.topic_slug;
+	if (typeof slug === "string") counts.set(slug, (counts.get(slug) ?? 0) + 1);
+}
+
+const popular =
+	helpSettings?.references?.popular_articles?.entries ??
+	[];
+
+const tryAsking = Array.isArray(helpSettings?.data?.try_asking)
+	? helpSettings.data.try_asking.filter(
+			(row): row is { label: string } =>
+				typeof row?.label === "string" && row.label.length > 0,
+		)
+	: [];
+
+const heroBadge = helpSettings?.data?.hero_badge || "Help center";
+const heroTitle = helpSettings?.data?.hero_title || "How can we help?";
+const heroLead =
+	helpSettings?.data?.hero_lead ||
+	"Search our guides, or try one of the questions below.";
+
+const origin = resolveSiteOrigin(Astro.site ?? Astro.url);
+const canonical = absoluteUrl("/help", origin);
+---
+
+<HelpLayout
+	title="Help Center — Adxens"
+	description="Guides and answers for running your ad operation on Adxens."
+	canonical={canonical}
+>
+	<section class="help-hero">
+		<div class="help-hero__streaks" aria-hidden="true"></div>
+		<div class="help-wrap help-hero__inner">
+			<div class="help-badge">
+				<span>Help center</span>
+				<span>{heroBadge === "Help center" ? "Guides & answers" : heroBadge}</span>
+			</div>
+			<h1>{heroTitle}</h1>
+			<p class="help-hero__lead">{heroLead}</p>
+			<HelpSearchForm />
+			{
+				tryAsking.length > 0 && (
+					<div class="help-try">
+						<div class="help-try__label">Try asking</div>
+						<div class="help-chips">
+							{tryAsking.map((item) => (
+								<a
+									class="help-chip"
+									href={`/help/search?q=${encodeURIComponent(item.label)}`}
+								>
+									{item.label}
+								</a>
+							))}
+						</div>
+					</div>
+				)
+			}
+		</div>
+	</section>
+
+	<section class="help-sec">
+		<div class="help-wrap">
+			<h2 class="help-sec__title">Browse by topic.</h2>
+			<p class="help-sec__sub">
+				Everything about running your ad operation on Adxens, grouped by what you are trying to
+				do.
+			</p>
+			<div class="help-topic-grid">
+				{
+					topics.map((topic) => {
+						const slug = topic.id;
+						const n = counts.get(slug) ?? 0;
+						return (
+							<a class="help-topic-card" href={topicPath(slug)}>
+								<div class="help-topic-card__ico">
+									<HelpIcon name={topic.data.icon} />
+								</div>
+								<h3 {...topic.edit.title}>{topic.data.title}</h3>
+								<p {...topic.edit.description}>{topic.data.description}</p>
+								<div class="help-topic-card__cnt">
+									{n} {n === 1 ? "article" : "articles"}
+								</div>
+							</a>
+						);
+					})
+				}
+			</div>
+		</div>
+	</section>
+
+	{
+		popular.length > 0 && (
+			<section class="help-sec">
+				<div class="help-wrap help-split">
+					<div>
+						<h2 class="help-sec__title">Popular articles.</h2>
+						<p class="help-sec__sub" style="margin:0">
+							The questions testers ask us the most.
+						</p>
+					</div>
+					<div class="help-list">
+						{popular.map((article) => {
+							const topicSlug =
+								typeof article.data.topic_slug === "string"
+									? article.data.topic_slug
+									: "";
+							const topic = topics.find((t) => t.id === topicSlug);
+							return (
+								<a class="help-row" href={articlePath(article.id)}>
+									<span>
+										{article.data.title}
+										{topic && <small>{topic.data.title}</small>}
+									</span>
+								</a>
+							);
+						})}
+					</div>
+				</div>
+			</section>
+		)
+	}
+
+	<section class="help-band">
+		<div class="help-wrap help-band__inner">
+			<h2 class="help-sec__title">Still need help?</h2>
+			<p class="help-sec__sub">Reach the team directly during the beta.</p>
+			<div class="help-cta-grid">
+				<div class="help-cta-card">
+					<div class="help-topic-card__ico" style="background:#1b1c20;color:#fff">
+						<HelpIcon name="chat" />
+					</div>
+					<h3>WhatsApp</h3>
+					<p>Message the support team directly during the beta.</p>
+					<a href={settings.whatsappUrl} target="_blank" rel="noopener noreferrer"
+						>Open WhatsApp</a
+					>
+				</div>
+				<div class="help-cta-card">
+					<div class="help-topic-card__ico" style="background:#1b1c20;color:#fff">
+						<HelpIcon name="send" />
+					</div>
+					<h3>Telegram</h3>
+					<p>Prefer Telegram? We answer there as well.</p>
+					<a href={settings.telegramUrl} target="_blank" rel="noopener noreferrer"
+						>Open Telegram</a
+					>
+				</div>
+				<div class="help-cta-card">
+					<div class="help-topic-card__ico" style="background:#1b1c20;color:#fff">
+						<HelpIcon name="mail" />
+					</div>
+					<h3>Email</h3>
+					<p>Send details or screenshots and we will reply by email.</p>
+					<a href={`mailto:${settings.email}`}>Email support</a>
+				</div>
+			</div>
+		</div>
+	</section>
+</HelpLayout>

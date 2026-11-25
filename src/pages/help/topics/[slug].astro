@@ -1,0 +1,92 @@
+---
+import { decodeSlug, getEmDashEntry } from "emdash";
+import HelpLayout from "../../../layouts/HelpLayout.astro";
+import HelpSearchForm from "../../../components/help/HelpSearchForm.astro";
+import {
+	articlePath,
+	getHelpArticles,
+	getHelpTopicsWithHint,
+	topicPath,
+} from "../../../lib/help";
+import { absoluteUrl, resolveSiteOrigin } from "../../../lib/seo";
+
+const slug = decodeSlug(Astro.params.slug);
+if (!slug) return Astro.rewrite("/404");
+
+const { entry: topic, cacheHint } = await getEmDashEntry("help_topics", slug);
+if (!topic) return Astro.rewrite("/404");
+if (Astro.cache?.enabled) Astro.cache.set(cacheHint);
+
+const { entries: topics, cacheHint: topicsHint } = await getHelpTopicsWithHint();
+const { entries: list, cacheHint: listHint } = await getHelpArticles({ topicSlug: slug });
+if (Astro.cache?.enabled) {
+	Astro.cache.set(topicsHint);
+	Astro.cache.set(listHint);
+}
+
+const topicOptions = topics.map((t) => ({
+	slug: t.id,
+	title: t.data.title,
+}));
+
+const origin = resolveSiteOrigin(Astro.site ?? Astro.url);
+const canonical = absoluteUrl(topicPath(slug), origin);
+---
+
+<HelpLayout
+	title={`${topic.data.title} — Adxens Help`}
+	description={topic.data.description || `Help articles about ${topic.data.title}`}
+	canonical={canonical}
+>
+	<section class="help-subhero">
+		<div class="help-wrap help-subhero__inner">
+			<div>
+				<nav class="help-crumbs" aria-label="Breadcrumb">
+					<a href="/help">Help center</a>
+					<span aria-hidden="true">›</span>
+					<b>{topic.data.title}</b>
+				</nav>
+				<h1 {...topic.edit.title}>{topic.data.title}</h1>
+			</div>
+			<HelpSearchForm compact topics={topicOptions} topic={slug} />
+		</div>
+	</section>
+
+	<div class="help-wrap help-page">
+		<div class="help-split">
+			<div>
+				<p class="help-sec__sub" style="margin:0 0 20px" {...topic.edit.description}>
+					{topic.data.description}
+				</p>
+				<nav class="help-side-nav" aria-label="Other topics">
+					<h4>Other topics</h4>
+					{
+						topics.map((t) => (
+							<a href={topicPath(t.id)} class:list={[{ on: t.id === slug }]}>
+								{t.data.title}
+							</a>
+						))
+					}
+				</nav>
+			</div>
+			<div class="help-list">
+				{
+					list.length === 0 ? (
+						<p class="help-sec__sub">No articles in this topic yet.</p>
+					) : (
+						list.map((article) => (
+							<a class="help-row" href={articlePath(article.id)}>
+								<span>
+									<span {...article.edit.title}>{article.data.title}</span>
+									{article.data.subtitle && (
+										<small {...article.edit.subtitle}>{article.data.subtitle}</small>
+									)}
+								</span>
+							</a>
+						))
+					)
+				}
+			</div>
+		</div>
+	</div>
+</HelpLayout>

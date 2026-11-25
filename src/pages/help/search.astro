@@ -1,0 +1,217 @@
+---
+import { search, SearchUnavailableError, type SearchResponse } from "emdash";
+import HelpLayout from "../../layouts/HelpLayout.astro";
+import HelpSearchForm from "../../components/help/HelpSearchForm.astro";
+import {
+	articlePath,
+	getHelpArticles,
+	getHelpSettings,
+	getHelpTopicsWithHint,
+	topicPath,
+} from "../../lib/help";
+import { absoluteUrl, resolveSiteOrigin } from "../../lib/seo";
+
+export const prerender = false;
+
+const query = Astro.url.searchParams.get("q")?.trim() || "";
+const topicFilter = Astro.url.searchParams.get("topic")?.trim() || "all";
+
+const { entries: topics, cacheHint: topicsHint } = await getHelpTopicsWithHint();
+const { entry: helpSettings, cacheHint: settingsHint } = await getHelpSettings();
+if (Astro.cache?.enabled) {
+	Astro.cache.set(topicsHint);
+	Astro.cache.set(settingsHint);
+}
+
+const topicOptions = topics.map((t) => ({
+	slug: t.id,
+	title: t.data.title,
+}));
+
+const topicBySlug = new Map(topics.map((t) => [t.id, t.data.title]));
+
+let searchResponse: SearchResponse = { items: [] };
+let searchUnavailable = false;
+if (query) {
+	try {
+		searchResponse = await search(query, { collections: ["help_articles"], limit: 40 });
+	} catch (error) {
+		if (!(error instanceof SearchUnavailableError)) throw error;
+		searchUnavailable = true;
+	}
+}
+
+const allItems = searchResponse.items;
+
+// Enrich with topic_slug from CMS when filter is needed
+let topicSlugByArticle = new Map<string, string>();
+if (query && (topicFilter !== "all" || allItems.length > 0)) {
+	const { entries: articles } = await getHelpArticles({ limit: 300 });
+	topicSlugByArticle = new Map(
+		articles.map((a) => [
+			a.id,
+			typeof a.data.topic_slug === "string" ? a.data.topic_slug : "",
+		]),
+	);
+}
+
+const filtered =
+	topicFilter === "all"
+		? allItems
+		: allItems.filter((item) => {
+				const slug = item.slug ?? item.id;
+				return topicSlugByArticle.get(slug) === topicFilter;
+			});
+
+const topicsInResults = [
+	...new Set(
+		allItems
+			.map((item) => topicSlugByArticle.get(item.slug ?? item.id) || "")
+			.filter(Boolean),
+	),
+];
+
+function escapeHtml(text: string) {
+	return text
+		.replaceAll("&", "&amp;")
+		.replaceAll("<", "&lt;")
+		.replaceAll(">", "&gt;")
+		.replaceAll('"', "&quot;")
+		.replaceAll("'", "&#39;");
+}
+
+const rows = filtered.map((result) => {
+	const title = result.title ?? "Untitled";
+	const slug = result.slug ?? result.id;
+	const snippetIsTitle =
+		result.snippet?.replaceAll("<mark>", "").replaceAll("</mark>", "") ===
+		escapeHtml(title);
+	const topicSlug = topicSlugByArticle.get(slug) || "";
+	return {
+		path: articlePath(slug),
+		title,
+		titleHtml: snippetIsTitle ? result.snippet : undefined,
+		snippet: snippetIsTitle ? undefined : result.snippet,
+		topicLabel: topicBySlug.get(topicSlug) || "",
+	};
+});
+
+const emptySuggestions = Array.isArray(helpSettings?.data?.empty_suggestions)
+	? helpSettings.data.empty_suggestions.filter(
+			(row): row is { label: string } =>
+				typeof row?.label === "string" && row.label.length > 0,
+		)
+	: [];
+
+const origin = resolveSiteOrigin(Astro.site ?? Astro.url);
+const canonical = absoluteUrl("/help/search", origin);
+const heading = query
+	? rows.length
+		? `${rows.length} result${rows.length === 1 ? "" : "s"} for “${query}”`
+		: `No results for “${query}”`
+	: "Search help";
+---
+
+<HelpLayout
+	title={query ? `Search: ${query} — Adxens Help` : "Search — Adxens Help"}
+	description="Search Adxens help articles"
+	canonical={canonical}
+>
+	<section class="help-subhero">
+		<div class="help-wrap help-subhero__inner">
+			<div>
+				<nav class="help-crumbs" aria-label="Breadcrumb">
+					<a href="/help">Help center</a>
+					<span aria-hidden="true">›</span>
+					<b>Search</b>
+				</nav>
+				<h1>{heading}</h1>
+			</div>
+			<HelpSearchForm compact query={query} topics={topicOptions} topic={topicFilter} />
+		</div>
+	</section>
+
+	<div class="help-wrap help-page">
+		{
+			!query && (
+				<p class="help-sec__sub">
+					Enter a question or keyword to search the help center.
+				</p>
+			)
+		}
+
+		{
+			query && searchUnavailable && (
+				<div class="help-empty">
+					<h3>Search isn't available right now</h3>
+					<p>Please try again later.</p>
+				</div>
+			)
+		}
+
+		{
+			query && !searchUnavailable && rows.length > 0 && (
+				<>
+					<div class="help-fchips">
+						<a
+							class:list={["help-fc", { on: topicFilter === "all" }]}
+							href={`/help/search?q=${encodeURIComponent(query)}`}
+						>
+							All ({allItems.length})
+						</a>
+						{topicsInResults.map((ts) => {
+							const count = allItems.filter(
+								(item) => topicSlugByArticle.get(item.slug ?? item.id) === ts,
+							).length;
+							return (
+								<a
+									class:list={["help-fc", { on: topicFilter === ts }]}
+									href={`/help/search?q=${encodeURIComponent(query)}&topic=${encodeURIComponent(ts)}`}
+								>
+									{topicBySlug.get(ts) || ts} ({count})
+								</a>
+							);
+						})}
+					</div>
+					<div class="help-res">
+						{rows.map((row) => (
+							<a href={row.path}>
+								{row.topicLabel && <div class="k">{row.topicLabel}</div>}
+								{row.titleHtml ? (
+									<h3 set:html={row.titleHtml} />
+								) : (
+									<h3>{row.title}</h3>
+								)}
+								{row.snippet && <p set:html={row.snippet} />}
+							</a>
+						))}
+					</div>
+				</>
+			)
+		}
+
+		{
+			query && !searchUnavailable && rows.length === 0 && (
+				<div class="help-empty">
+					<h3>We couldn't find a match</h3>
+					<p>Try different keywords, or browse topics from the help home.</p>
+					<a class="help-btn" href="/help" style="text-decoration:none">
+						Browse help center
+					</a>
+					{emptySuggestions.length > 0 && (
+						<div class="help-chips" style="margin-top:24px">
+							{emptySuggestions.map((s) => (
+								<a
+									class="help-fc"
+									href={`/help/search?q=${encodeURIComponent(s.label)}`}
+								>
+									{s.label}
+								</a>
+							))}
+						</div>
+					)}
+				</div>
+			)
+		}
+	</div>
+</HelpLayout>

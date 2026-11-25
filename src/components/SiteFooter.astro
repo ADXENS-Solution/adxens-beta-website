@@ -1,0 +1,57 @@
+---
+import FooterBrandArt from "./react/footer-brand-art";
+import FooterVideo from "./react/footer-video";
+
+interface Props {
+	/** Prefix for marketing section links ("" on home, "/" on other pages). */
+	homeHref?: string;
+	showVideo?: boolean;
+}
+
+const { homeHref = "/", showVideo = true } = Astro.props;
+const section = (hash: string) => (homeHref === "" ? hash : `${homeHref}${hash}`);
+---
+
+<footer class="site-footer">
+	{showVideo && (
+		<>
+			<FooterVideo client:visible />
+			<div class="footer-video-overlay" aria-hidden="true"></div>
+		</>
+	)}
+	<div class="footer-top">
+		<div class="footer-about">
+			<a href={homeHref === "" ? "#top" : "/"} class="brand" aria-label="Adxens, home">
+				<img src="/adxens-logo.png" width="105" height="24" alt="Adxens" class="header-logo" />
+			</a>
+			<p>
+				Clearer, calmer ad operations for media<br />buyers and agencies.
+			</p>
+		</div>
+		<div class="footer-links">
+			<h2>Beta</h2>
+			<a href={section("#product")}>Why V2</a>
+			<a href={section("#why")}>The Beta</a>
+			<a href={section("#process")}>Who It's For</a>
+			<a href={section("#apply")}>Apply</a>
+		</div>
+		<div class="footer-links">
+			<h2>Support</h2>
+			<a href="/help">Help center</a>
+			<a href={section("#faq")}>FAQ</a>
+			<a href="/terms-and-conditions">Terms &amp; Conditions</a>
+			<a href="/privacy-policy">Privacy Policy</a>
+		</div>
+		<div class="footer-links">
+			<h2>Contact support</h2>
+			<slot name="contact" />
+		</div>
+	</div>
+	{showVideo && <FooterBrandArt client:visible />}
+	<div class="footer-bottom">
+		<div>
+			<span>© 2026 Adxens. All rights reserved.</span>
+			<span>Adxens V2 Beta Program</span>
+		</div>
+	</div>
+</footer>

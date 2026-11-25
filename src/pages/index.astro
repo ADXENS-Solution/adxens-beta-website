@@ -2,12 +2,12 @@
 import MarketingLayout from "../layouts/MarketingLayout.astro";
 import JoinCommunityButton, { ContactTeamDialog } from "../components/react/JoinCommunity";
 import FaqList from "../components/react/faq-list";
-import FooterBrandArt from "../components/react/footer-brand-art";
-import FooterVideo from "../components/react/footer-video";
 import PingPongVideo from "../components/react/ping-pong-video";
 import ProcessSteps from "../components/react/process-steps";
 import ProductNotes from "../components/react/product-notes";
 import RevealTitle from "../components/react/reveal-title";
+import SiteFooter from "../components/SiteFooter.astro";
+import SiteHeader from "../components/SiteHeader.astro";
 import { getAdxensSiteSettings, getFaqItems } from "../lib/site-settings";
 import {
 	DEFAULT_HOME_DESCRIPTION,
@@ -58,18 +58,7 @@ const platforms = ["Meta", "Google", "TikTok", "Snapchat", "Bing"];
 
 <MarketingLayout jsonLd={homeJsonLd}>
 	<main>
-		<header class="site-header shell">
-			<a href="#top" class="brand" aria-label="Adxens, home">
-				<img src="/adxens-logo.png" width="105" height="24" alt="Adxens" class="header-logo" />
-			</a>
-			<nav aria-label="Main">
-				<a href="#product">Why V2</a>
-				<a href="#why">The Beta</a>
-				<a href="#process">Who it's for</a>
-				<a href="#faq">FAQ</a>
-			</nav>
-			<JoinCommunityButton client:load label={settings.ctaLabel} />
-		</header>
+		<SiteHeader ctaLabel={settings.ctaLabel} homeHref="" />
 
 		<section class="hero shell" id="top">
 			<video class="hero-video" autoplay muted loop playsinline preload="metadata" aria-hidden="true">
@@ -427,41 +416,15 @@ const platforms = ["Meta", "Google", "TikTok", "Snapchat", "Bing"];
 			<div class="cta-art cta-art-right" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
 		</section>
 
-		<footer class="site-footer">
-			<FooterVideo client:visible />
-			<div class="footer-video-overlay" aria-hidden="true"></div>
-			<div class="footer-top">
-				<div class="footer-about">
-					<a href="#top" class="brand" aria-label="Adxens, home">
-						<img src="/adxens-logo.png" width="105" height="24" alt="Adxens" class="header-logo" />
-					</a>
-					<p>
-						Clearer, calmer ad operations for media<br />buyers and agencies.
-					</p>
-				</div>
-				<div class="footer-links">
-					<h2>Beta</h2>
-					<a href="#product">Why V2</a>
-					<a href="#why">The Beta</a>
-					<a href="#process">Who It's For</a>
-					<a href="#apply">Apply</a>
-				</div>
-				<div class="footer-links">
-					<h2>Support</h2>
-					<a href="#faq">FAQ</a>
-					<a href="/terms-and-conditions">Terms &amp; Conditions</a>
-					<a href="/privacy-policy">Privacy Policy</a>
-					<a href="#contact">Contact</a>
-				</div>
-			</div>
-			<FooterBrandArt client:visible />
-			<div class="footer-bottom">
-				<div>
-					<span>© 2026 Adxens. All rights reserved.</span>
-					<span>Adxens V2 Beta Program</span>
-				</div>
-			</div>
-		</footer>
+		<SiteFooter homeHref="">
+			<a slot="contact" href={settings.whatsappUrl} target="_blank" rel="noopener noreferrer"
+				>WhatsApp</a
+			>
+			<a slot="contact" href={settings.telegramUrl} target="_blank" rel="noopener noreferrer"
+				>Telegram</a
+			>
+			<a slot="contact" href={`mailto:${settings.email}`}>{settings.email}</a>
+		</SiteFooter>
 
 		<ContactTeamDialog
 			client:load

@@ -1,0 +1,30 @@
+---
+import JoinCommunityButton from "./react/JoinCommunity";
+
+interface Props {
+	ctaLabel: string;
+	/** Highlight Help in the nav (help center routes). */
+	helpActive?: boolean;
+	/** Prefix for marketing section links ("" on home, "/" on other pages). */
+	homeHref?: string;
+}
+
+const { ctaLabel, helpActive = false, homeHref = "/" } = Astro.props;
+const section = (hash: string) => (homeHref === "" ? hash : `${homeHref}${hash}`);
+---
+
+<header class="site-header shell">
+	<a href={homeHref === "" ? "#top" : "/"} class="brand" aria-label="Adxens, home">
+		<img src="/adxens-logo.png" width="105" height="24" alt="Adxens" class="header-logo" />
+	</a>
+	<nav aria-label="Main">
+		<a href={section("#product")}>Why V2</a>
+		<a href={section("#why")}>The Beta</a>
+		<a href={section("#process")}>Who it's for</a>
+		<a href={section("#faq")}>FAQ</a>
+		<a href="/help" class:list={[{ on: helpActive }]} aria-current={helpActive ? "page" : undefined}
+			>Help</a
+		>
+	</nav>
+	<JoinCommunityButton client:load label={ctaLabel} />
+</header>

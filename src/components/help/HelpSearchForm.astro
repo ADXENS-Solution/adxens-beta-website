@@ -1,0 +1,70 @@
+---
+interface Props {
+	action?: string;
+	query?: string;
+	topics?: { slug: string; title: string }[];
+	topic?: string;
+	compact?: boolean;
+}
+
+const {
+	action = "/help/search",
+	query = "",
+	topics = [],
+	topic = "all",
+	compact = false,
+} = Astro.props;
+---
+
+{
+	compact && topics.length > 0 ? (
+		<div class="help-hs">
+			<div class="help-search">
+				<form method="get" action={action} role="search" aria-label="Search the help center">
+					<input
+						type="search"
+						name="q"
+						value={query}
+						placeholder="What do you need help with?"
+						aria-label="Search the help center"
+					/>
+					{topic !== "all" && <input type="hidden" name="topic" id="help-topic-hidden" value={topic} />}
+					<button class="help-btn" type="submit">Search</button>
+				</form>
+			</div>
+			<form method="get" action={action} class="help-topic-filter">
+				{query && <input type="hidden" name="q" value={query} />}
+				<select
+					class="help-catsel"
+					name="topic"
+					aria-label="Filter by category"
+					onchange="this.form.submit()"
+				>
+					<option value="all" selected={topic === "all"}>
+						All categories
+					</option>
+					{topics.map((t) => (
+						<option value={t.slug} selected={topic === t.slug}>
+							{t.title}
+						</option>
+					))}
+				</select>
+			</form>
+		</div>
+	) : (
+		<div class="help-search">
+			<form method="get" action={action} role="search" aria-label="Search the help center">
+				<input
+					type="search"
+					name="q"
+					value={query}
+					placeholder="What do you need help with?"
+					aria-label="Search the help center"
+				/>
+				<button class="help-btn" type="submit">
+					Search
+				</button>
+			</form>
+		</div>
+	)
+}

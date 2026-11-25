@@ -1,0 +1,39 @@
+---
+import MarketingLayout from "./MarketingLayout.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+import { ContactTeamDialog } from "../components/react/JoinCommunity";
+import { getAdxensSiteSettings } from "../lib/site-settings";
+import "../styles/help.css";
+
+interface Props {
+	title?: string;
+	description?: string;
+	canonical?: string;
+	jsonLd?: string;
+}
+
+const { title, description, canonical, jsonLd } = Astro.props;
+const settings = await getAdxensSiteSettings();
+---
+
+<MarketingLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+	<main class="help-root">
+		<SiteHeader ctaLabel={settings.ctaLabel} helpActive homeHref="/" />
+		<slot />
+		<SiteFooter homeHref="/">
+			<a slot="contact" href={settings.whatsappUrl} target="_blank" rel="noopener noreferrer"
+				>WhatsApp</a
+			>
+			<a slot="contact" href={settings.telegramUrl} target="_blank" rel="noopener noreferrer"
+				>Telegram</a
+			>
+			<a slot="contact" href={`mailto:${settings.email}`}>{settings.email}</a>
+		</SiteFooter>
+		<ContactTeamDialog
+			client:load
+			whatsappUrl={settings.whatsappUrl}
+			telegramUrl={settings.telegramUrl}
+		/>
+	</main>
+</MarketingLayout>

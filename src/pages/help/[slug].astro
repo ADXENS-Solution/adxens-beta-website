@@ -1,0 +1,189 @@
+---
+import { decodeSlug, getEmDashEntry } from "emdash";
+import { PortableText } from "emdash/ui";
+import HelpLayout from "../../layouts/HelpLayout.astro";
+import HelpSearchForm from "../../components/help/HelpSearchForm.astro";
+import {
+	articlePath,
+	formatUpdated,
+	getHelpArticle,
+	getHelpArticles,
+	getHelpTopicsWithHint,
+	topicPath,
+} from "../../lib/help";
+import { absoluteUrl, resolveSiteOrigin } from "../../lib/seo";
+import "../../styles/prose.css";
+
+const slug = decodeSlug(Astro.params.slug);
+if (!slug) return Astro.rewrite("/404");
+
+// Reserve static segment names handled by sibling routes
+if (slug === "search" || slug === "topics") {
+	return Astro.rewrite("/404");
+}
+
+const { entry: article, cacheHint } = await getHelpArticle(slug);
+if (!article) return Astro.rewrite("/404");
+if (Astro.cache?.enabled) Astro.cache.set(cacheHint);
+
+const topicFromRef = article.references?.topic?.entries?.[0];
+const topicSlug =
+	topicFromRef?.id ||
+	(typeof article.data.topic_slug === "string" ? article.data.topic_slug : "");
+
+let topic = topicFromRef;
+if (!topic && topicSlug) {
+	const { entry } = await getEmDashEntry("help_topics", topicSlug);
+	topic = entry ?? undefined;
+}
+
+const { entries: topics } = await getHelpTopicsWithHint();
+const topicOptions = topics.map((t) => ({
+	slug: t.id,
+	title: t.data.title,
+}));
+
+const relatedExplicit = article.references?.related?.entries ?? [];
+let related = relatedExplicit;
+if (related.length === 0 && topicSlug) {
+	const { entries: siblings } = await getHelpArticles({ topicSlug, limit: 8 });
+	related = siblings.filter((a) => a.id !== article.id).slice(0, 4);
+} else {
+	related = related.slice(0, 4);
+}
+
+const content = Array.isArray(article.data.content) ? article.data.content : [];
+type PtHeading = {
+	_type: string;
+	style?: string;
+	children?: { text?: string }[];
+};
+
+const toc = content
+	.filter((block): block is PtHeading => {
+		if (typeof block !== "object" || block === null || !("_type" in block)) return false;
+		const style = (block as PtHeading).style;
+		return style === "h2" || style === "h3";
+	})
+	.map((block) => {
+		const text = (block.children ?? []).map((c) => c.text ?? "").join("");
+		const id = text
+			.toLowerCase()
+			.replace(/<[^>]+>/g, "")
+			.replace(/[^a-z0-9]+/g, "-")
+			.replace(/^-|-$/g, "");
+		return {
+			id,
+			text,
+			level: block.style === "h2" ? 2 : 3,
+		};
+	})
+	.filter((t) => t.id && t.text && !/^before-you-start$/i.test(t.id));
+
+const updated = formatUpdated(article.data.updatedAt);
+const origin = resolveSiteOrigin(Astro.site ?? Astro.url);
+const canonical = absoluteUrl(articlePath(slug), origin);
+---
+
+<HelpLayout
+	title={`${article.data.title} — Adxens Help`}
+	description={article.data.subtitle || article.data.title}
+	canonical={canonical}
+>
+	<section class="help-subhero slim">
+		<div class="help-wrap">
+			<HelpSearchForm compact topics={topicOptions} topic={topicSlug || "all"} />
+		</div>
+	</section>
+
+	<div class="help-wrap help-page">
+		<nav class="help-crumbs-l" aria-label="Breadcrumb">
+			<a href="/">Home</a>
+			<span aria-hidden="true">›</span>
+			<a href="/help">Help</a>
+			{
+				topic && (
+					<>
+						<span aria-hidden="true">›</span>
+						<a href={topicPath(topic.id)}>{topic.data.title}</a>
+					</>
+				)
+			}
+			<span aria-hidden="true">›</span>
+			<span>{article.data.title}</span>
+		</nav>
+
+		<div class:list={["help-art", { "no-toc": toc.length === 0 }]}>
+			<article class="help-prose">
+				<h1 {...article.edit.title}>{article.data.title}</h1>
+				{
+					article.data.subtitle && (
+						<p class="help-subt" {...article.edit.subtitle}>
+							{article.data.subtitle}
+						</p>
+					)
+				}
+				{
+					updated && (
+						<div class="help-meta">Updated {updated}</div>
+					)
+				}
+
+				<div class="help-body prose" {...article.edit.content}>
+					<PortableText value={article.data.content} />
+				</div>
+
+				{
+					related.length > 0 && (
+						<section class="help-related">
+							<h2>Related Articles</h2>
+							<ul>
+								{related.map((r) => (
+									<li>
+										<a href={articlePath(r.id)}>
+											<span>{r.data.title}</span>
+											<span aria-hidden="true">›</span>
+										</a>
+									</li>
+								))}
+							</ul>
+						</section>
+					)
+				}
+			</article>
+
+			{
+				toc.length > 0 && (
+					<aside class="help-toc" aria-label="On this page">
+						<div class="help-toc__h">On this page</div>
+						<nav>
+							<ul>
+								{toc.map((item) => (
+									<li class={`l${item.level}`}>
+										<a href={`#${item.id}`}>{item.text}</a>
+									</li>
+								))}
+							</ul>
+						</nav>
+					</aside>
+				)
+			}
+		</div>
+	</div>
+</HelpLayout>
+
+<script>
+	// Add ids to headings in the article body for TOC anchors
+	const body = document.querySelector(".help-body");
+	if (body) {
+		body.querySelectorAll("h2, h3").forEach((el) => {
+			if (el.id) return;
+			const text = el.textContent || "";
+			const id = text
+				.toLowerCase()
+				.replace(/[^a-z0-9]+/g, "-")
+				.replace(/^-|-$/g, "");
+			if (id) el.id = id;
+		});
+	}
+</script>

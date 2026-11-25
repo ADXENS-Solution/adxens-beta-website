@@ -15,6 +15,7 @@ export const GET: APIRoute = async ({ site, url }) => {
 	const origin = resolveSiteOrigin(site ?? url);
 	const urls: { loc: string; lastmod?: string; priority?: string }[] = [
 		{ loc: `${origin}/`, priority: "1.0" },
+		{ loc: `${origin}/help`, priority: "0.9" },
 	];
 
 	try {
@@ -41,6 +42,36 @@ export const GET: APIRoute = async ({ site, url }) => {
 			{ loc: `${origin}/privacy-policy`, priority: "0.7" },
 			{ loc: `${origin}/terms-and-conditions`, priority: "0.7" },
 		);
+	}
+
+	try {
+		const { entries: topics } = await getEmDashCollection("help_topics", {
+			status: "published",
+			limit: 100,
+		});
+		for (const topic of topics) {
+			urls.push({
+				loc: `${origin}/help/topics/${topic.id}`,
+				priority: "0.8",
+			});
+		}
+		const { entries: articles } = await getEmDashCollection("help_articles", {
+			status: "published",
+			limit: 500,
+		});
+		for (const article of articles) {
+			const lastmod =
+				article.data.updatedAt instanceof Date
+					? article.data.updatedAt.toISOString()
+					: undefined;
+			urls.push({
+				loc: `${origin}/help/${article.id}`,
+				lastmod,
+				priority: "0.7",
+			});
+		}
+	} catch {
+		// Help collections may not exist yet on older DBs
 	}
 
 	const body = [
