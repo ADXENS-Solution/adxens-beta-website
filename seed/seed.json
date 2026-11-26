@@ -209,12 +209,6 @@
 							"shield"
 						]
 					}
-				},
-				{
-					"slug": "sort_order",
-					"label": "Sort order",
-					"type": "integer",
-					"defaultValue": 0
 				}
 			]
 		},
@@ -253,20 +247,6 @@
 					}
 				},
 				{
-					"slug": "topic_slug",
-					"label": "Topic slug",
-					"type": "string",
-					"required": true,
-					"searchable": true,
-					"indexed": true
-				},
-				{
-					"slug": "search_tags",
-					"label": "Search tags",
-					"type": "string",
-					"searchable": true
-				},
-				{
 					"slug": "content",
 					"label": "Content",
 					"type": "portableText",
@@ -296,6 +276,15 @@
 					"label": "Label",
 					"type": "string",
 					"required": true
+				},
+				{
+					"slug": "topics",
+					"label": "Topics",
+					"type": "reference",
+					"validation": {
+						"targetCollection": "help_topics",
+						"multiple": true
+					}
 				},
 				{
 					"slug": "hero_badge",
@@ -4870,8 +4859,7 @@
 				"data": {
 					"title": "Getting started",
 					"description": "Create your account, tour the dashboard and run your first setup.",
-					"icon": "rocket",
-					"sort_order": 1
+					"icon": "rocket"
 				}
 			},
 			{
@@ -4881,8 +4869,7 @@
 				"data": {
 					"title": "Ad accounts",
 					"description": "Request, connect and manage your ad accounts in one place.",
-					"icon": "accounts",
-					"sort_order": 2
+					"icon": "accounts"
 				}
 			},
 			{
@@ -4892,8 +4879,7 @@
 				"data": {
 					"title": "Funding & payments",
 					"description": "Add funds, payment methods and minimum deposits.",
-					"icon": "wallet",
-					"sort_order": 3
+					"icon": "wallet"
 				}
 			},
 			{
@@ -4903,8 +4889,7 @@
 				"data": {
 					"title": "Team & access",
 					"description": "Invite teammates, set roles and share access safely.",
-					"icon": "users",
-					"sort_order": 4
+					"icon": "users"
 				}
 			},
 			{
@@ -4914,8 +4899,7 @@
 				"data": {
 					"title": "Spend & reporting",
 					"description": "Track every dollar, export reports and set spend alerts.",
-					"icon": "chart",
-					"sort_order": 5
+					"icon": "chart"
 				}
 			},
 			{
@@ -4925,8 +4909,7 @@
 				"data": {
 					"title": "Billing & invoices",
 					"description": "Invoices, plans, cancellations and refunds.",
-					"icon": "card",
-					"sort_order": 6
+					"icon": "card"
 				}
 			},
 			{
@@ -4936,8 +4919,7 @@
 				"data": {
 					"title": "Beta program",
 					"description": "Everything about the Adxens V2 private beta.",
-					"icon": "flask",
-					"sort_order": 7
+					"icon": "flask"
 				}
 			},
 			{
@@ -4947,8 +4929,7 @@
 				"data": {
 					"title": "Account & security",
 					"description": "Passwords, two-factor authentication and profile settings.",
-					"icon": "shield",
-					"sort_order": 8
+					"icon": "shield"
 				}
 			}
 		],
@@ -4961,7 +4942,6 @@
 					"title": "How to create an Adxens account",
 					"subtitle": "Sign up, confirm your email and reach the dashboard in a few minutes.",
 					"topic": "$ref:help-topic-getting-started",
-					"search_tags": "sign up register signup join new account email",
 					"content": [
 						{
 							"_type": "block",
@@ -5173,8 +5153,7 @@
 							],
 							"_key": "bzwuh62"
 						}
-					],
-					"topic_slug": "getting-started"
+					]
 				}
 			},
 			{
@@ -5185,7 +5164,6 @@
 					"title": "A quick tour of the dashboard",
 					"subtitle": "Find accounts, funds, team and reports in one place.",
 					"topic": "$ref:help-topic-getting-started",
-					"search_tags": "dashboard overview navigation menu home",
 					"content": [
 						{
 							"_type": "block",
@@ -5255,8 +5233,7 @@
 							],
 							"_key": "b7js6l7"
 						}
-					],
-					"topic_slug": "getting-started"
+					]
 				}
 			},
 			{
@@ -5266,7 +5243,6 @@
 				"data": {
 					"title": "Which ad platforms are supported?",
 					"topic": "$ref:help-topic-getting-started",
-					"search_tags": "meta google tiktok snapchat bing platforms facebook instagram",
 					"content": [
 						{
 							"_type": "block",
@@ -5280,8 +5256,7 @@
 							],
 							"_key": "brg3xyl"
 						}
-					],
-					"topic_slug": "getting-started"
+					]
 				}
 			},
 			{
@@ -5291,7 +5266,6 @@
 				"data": {
 					"title": "Your first 10 minutes: a setup checklist",
 					"topic": "$ref:help-topic-getting-started",
-					"search_tags": "checklist onboarding setup first steps start",
 					"content": [
 						{
 							"_type": "block",
@@ -5375,8 +5349,7 @@
 							],
 							"_key": "bafqrsq"
 						}
-					],
-					"topic_slug": "getting-started"
+					]
 				}
 			},
 			{
@@ -5387,7 +5360,6 @@
 					"title": "How to request an ad account",
 					"subtitle": "Request a new Meta ad account directly from the dashboard, with no ticket and no queue.",
 					"topic": "$ref:help-topic-ad-accounts",
-					"search_tags": "request ad account new meta business manager create open",
 					"content": [
 						{
 							"_type": "block",
@@ -5587,8 +5559,7 @@
 							],
 							"_key": "bc1duyx"
 						}
-					],
-					"topic_slug": "ad-accounts"
+					]
 				}
 			},
 			{
@@ -5598,7 +5569,6 @@
 				"data": {
 					"title": "Why is my ad account request still pending?",
 					"topic": "$ref:help-topic-ad-accounts",
-					"search_tags": "pending status waiting delay slow review approval",
 					"content": [
 						{
 							"_type": "block",
@@ -5654,8 +5624,7 @@
 							],
 							"_key": "be48ejr"
 						}
-					],
-					"topic_slug": "ad-accounts"
+					]
 				}
 			},
 			{
@@ -5665,7 +5634,6 @@
 				"data": {
 					"title": "Do I need a Meta Business Manager?",
 					"topic": "$ref:help-topic-ad-accounts",
-					"search_tags": "meta business manager bm facebook portfolio",
 					"content": [
 						{
 							"_type": "block",
@@ -5691,8 +5659,7 @@
 							],
 							"_key": "blwfnly"
 						}
-					],
-					"topic_slug": "ad-accounts"
+					]
 				}
 			},
 			{
@@ -5702,7 +5669,6 @@
 				"data": {
 					"title": "Does Adxens guarantee ad approval?",
 					"topic": "$ref:help-topic-ad-accounts",
-					"search_tags": "approval rejected disapproved ads policy review guarantee",
 					"content": [
 						{
 							"_type": "block",
@@ -5728,8 +5694,7 @@
 							],
 							"_key": "bwo4jyr"
 						}
-					],
-					"topic_slug": "ad-accounts"
+					]
 				}
 			},
 			{
@@ -5740,7 +5705,6 @@
 					"title": "How to add funds to an ad account",
 					"subtitle": "Top up any ad account from the Funds page in a few clicks.",
 					"topic": "$ref:help-topic-funding",
-					"search_tags": "add funds top up deposit fund balance recharge money",
 					"content": [
 						{
 							"_type": "block",
@@ -5888,8 +5852,7 @@
 							],
 							"_key": "bujb8ez"
 						}
-					],
-					"topic_slug": "funding"
+					]
 				}
 			},
 			{
@@ -5899,7 +5862,6 @@
 				"data": {
 					"title": "How much is the minimum deposit?",
 					"topic": "$ref:help-topic-funding",
-					"search_tags": "minimum deposit amount limit top up how much least",
 					"content": [
 						{
 							"_type": "block",
@@ -5925,8 +5887,7 @@
 							],
 							"_key": "bix8l71"
 						}
-					],
-					"topic_slug": "funding"
+					]
 				}
 			},
 			{
@@ -5936,7 +5897,6 @@
 				"data": {
 					"title": "Which payment methods can I use?",
 					"topic": "$ref:help-topic-funding",
-					"search_tags": "payment methods card bank transfer pay local mobile money crypto",
 					"content": [
 						{
 							"_type": "block",
@@ -5962,8 +5922,7 @@
 							],
 							"_key": "b3g50m4"
 						}
-					],
-					"topic_slug": "funding"
+					]
 				}
 			},
 			{
@@ -5973,7 +5932,6 @@
 				"data": {
 					"title": "Do I need to deposit real money during the beta?",
 					"topic": "$ref:help-topic-funding",
-					"search_tags": "beta real money deposit test spend cost fund",
 					"content": [
 						{
 							"_type": "block",
@@ -5999,8 +5957,7 @@
 							],
 							"_key": "b64od5d"
 						}
-					],
-					"topic_slug": "funding"
+					]
 				}
 			},
 			{
@@ -6011,7 +5968,6 @@
 					"title": "How to invite a teammate",
 					"subtitle": "Add people to your workspace and decide exactly what they can do.",
 					"topic": "$ref:help-topic-team",
-					"search_tags": "invite teammate team member add user colleague share access",
 					"content": [
 						{
 							"_type": "block",
@@ -6143,8 +6099,7 @@
 							],
 							"_key": "bmbar56"
 						}
-					],
-					"topic_slug": "team"
+					]
 				}
 			},
 			{
@@ -6154,7 +6109,6 @@
 				"data": {
 					"title": "Roles and permissions explained",
 					"topic": "$ref:help-topic-team",
-					"search_tags": "roles permissions owner admin buyer viewer access control",
 					"content": [
 						{
 							"_type": "block",
@@ -6224,8 +6178,7 @@
 							],
 							"_key": "bj0hh9l"
 						}
-					],
-					"topic_slug": "team"
+					]
 				}
 			},
 			{
@@ -6235,7 +6188,6 @@
 				"data": {
 					"title": "How to remove someone's access",
 					"topic": "$ref:help-topic-team",
-					"search_tags": "remove revoke access delete member leave offboard",
 					"content": [
 						{
 							"_type": "block",
@@ -6261,8 +6213,7 @@
 							],
 							"_key": "b4rbu13"
 						}
-					],
-					"topic_slug": "team"
+					]
 				}
 			},
 			{
@@ -6272,7 +6223,6 @@
 				"data": {
 					"title": "How to track spend across accounts",
 					"topic": "$ref:help-topic-reporting",
-					"search_tags": "track spend dollar budget report overview accounts every dollar",
 					"content": [
 						{
 							"_type": "block",
@@ -6328,8 +6278,7 @@
 							],
 							"_key": "b5rxsbq"
 						}
-					],
-					"topic_slug": "reporting"
+					]
 				}
 			},
 			{
@@ -6339,7 +6288,6 @@
 				"data": {
 					"title": "How to export a report",
 					"topic": "$ref:help-topic-reporting",
-					"search_tags": "export report csv pdf download share",
 					"content": [
 						{
 							"_type": "block",
@@ -6353,8 +6301,7 @@
 							],
 							"_key": "bwgsz39"
 						}
-					],
-					"topic_slug": "reporting"
+					]
 				}
 			},
 			{
@@ -6364,7 +6311,6 @@
 				"data": {
 					"title": "Set spend alerts and limits",
 					"topic": "$ref:help-topic-reporting",
-					"search_tags": "alert limit notification threshold budget cap overspend",
 					"content": [
 						{
 							"_type": "block",
@@ -6420,8 +6366,7 @@
 							],
 							"_key": "bxl81pw"
 						}
-					],
-					"topic_slug": "reporting"
+					]
 				}
 			},
 			{
@@ -6431,7 +6376,6 @@
 				"data": {
 					"title": "Where do I find my invoices?",
 					"topic": "$ref:help-topic-billing",
-					"search_tags": "invoice receipt billing history statement download tax",
 					"content": [
 						{
 							"_type": "block",
@@ -6445,8 +6389,7 @@
 							],
 							"_key": "bcwps0k"
 						}
-					],
-					"topic_slug": "billing"
+					]
 				}
 			},
 			{
@@ -6456,7 +6399,6 @@
 				"data": {
 					"title": "How to change or cancel my plan",
 					"topic": "$ref:help-topic-billing",
-					"search_tags": "plan change cancel subscription upgrade downgrade pricing",
 					"content": [
 						{
 							"_type": "block",
@@ -6482,8 +6424,7 @@
 							],
 							"_key": "bymav9s"
 						}
-					],
-					"topic_slug": "billing"
+					]
 				}
 			},
 			{
@@ -6493,7 +6434,6 @@
 				"data": {
 					"title": "How do refunds work?",
 					"topic": "$ref:help-topic-billing",
-					"search_tags": "refund money back unused balance return withdraw",
 					"content": [
 						{
 							"_type": "block",
@@ -6519,8 +6459,7 @@
 							],
 							"_key": "b0l1e5l"
 						}
-					],
-					"topic_slug": "billing"
+					]
 				}
 			},
 			{
@@ -6530,7 +6469,6 @@
 				"data": {
 					"title": "Is the Beta still available?",
 					"topic": "$ref:help-topic-beta",
-					"search_tags": "beta available open spots apply waitlist private still closed",
 					"content": [
 						{
 							"_type": "block",
@@ -6556,8 +6494,7 @@
 							],
 							"_key": "bu3ffhv"
 						}
-					],
-					"topic_slug": "beta"
+					]
 				}
 			},
 			{
@@ -6567,7 +6504,6 @@
 				"data": {
 					"title": "How are testers selected?",
 					"topic": "$ref:help-topic-beta",
-					"search_tags": "selected selection testers chosen apply criteria operators",
 					"content": [
 						{
 							"_type": "block",
@@ -6581,8 +6517,7 @@
 							],
 							"_key": "buusydg"
 						}
-					],
-					"topic_slug": "beta"
+					]
 				}
 			},
 			{
@@ -6592,7 +6527,6 @@
 				"data": {
 					"title": "How much time will testing take?",
 					"topic": "$ref:help-topic-beta",
-					"search_tags": "time weeks duration commitment how long beta three weeks",
 					"content": [
 						{
 							"_type": "block",
@@ -6606,8 +6540,7 @@
 							],
 							"_key": "byf8vs1"
 						}
-					],
-					"topic_slug": "beta"
+					]
 				}
 			},
 			{
@@ -6617,7 +6550,6 @@
 				"data": {
 					"title": "How to send feedback or report a bug",
 					"topic": "$ref:help-topic-beta",
-					"search_tags": "feedback bug report issue problem vote suggest feature",
 					"content": [
 						{
 							"_type": "block",
@@ -6631,8 +6563,7 @@
 							],
 							"_key": "bjuifrw"
 						}
-					],
-					"topic_slug": "beta"
+					]
 				}
 			},
 			{
@@ -6642,7 +6573,6 @@
 				"data": {
 					"title": "What exactly is the free month?",
 					"topic": "$ref:help-topic-beta",
-					"search_tags": "free month first month trial discount pricing beta perk",
 					"content": [
 						{
 							"_type": "block",
@@ -6656,8 +6586,7 @@
 							],
 							"_key": "b1kpgco"
 						}
-					],
-					"topic_slug": "beta"
+					]
 				}
 			},
 			{
@@ -6667,7 +6596,6 @@
 				"data": {
 					"title": "How to reset your password",
 					"topic": "$ref:help-topic-security",
-					"search_tags": "reset password forgot login sign in recover access locked",
 					"content": [
 						{
 							"_type": "block",
@@ -6723,8 +6651,7 @@
 							],
 							"_key": "be2ksxn"
 						}
-					],
-					"topic_slug": "security"
+					]
 				}
 			},
 			{
@@ -6734,7 +6661,6 @@
 				"data": {
 					"title": "Turn on two-factor authentication",
 					"topic": "$ref:help-topic-security",
-					"search_tags": "2fa two factor authentication security authenticator code protect",
 					"content": [
 						{
 							"_type": "block",
@@ -6790,8 +6716,7 @@
 							],
 							"_key": "b83n7w2"
 						}
-					],
-					"topic_slug": "security"
+					]
 				}
 			},
 			{
@@ -6801,7 +6726,6 @@
 				"data": {
 					"title": "Update your name, email or company details",
 					"topic": "$ref:help-topic-security",
-					"search_tags": "profile update change email name company details account settings",
 					"content": [
 						{
 							"_type": "block",
@@ -6815,8 +6739,7 @@
 							],
 							"_key": "bzsiaqf"
 						}
-					],
-					"topic_slug": "security"
+					]
 				}
 			},
 			{
@@ -6826,7 +6749,6 @@
 				"data": {
 					"title": "How to delete your account",
 					"topic": "$ref:help-topic-security",
-					"search_tags": "delete close remove account data privacy gdpr",
 					"content": [
 						{
 							"_type": "block",
@@ -6852,8 +6774,7 @@
 							],
 							"_key": "baau3kx"
 						}
-					],
-					"topic_slug": "security"
+					]
 				}
 			}
 		],
@@ -6910,6 +6831,16 @@
 						{
 							"label": "Invite a teammate"
 						}
+					],
+					"topics": [
+						"$ref:help-topic-getting-started",
+						"$ref:help-topic-ad-accounts",
+						"$ref:help-topic-funding",
+						"$ref:help-topic-team",
+						"$ref:help-topic-reporting",
+						"$ref:help-topic-billing",
+						"$ref:help-topic-beta",
+						"$ref:help-topic-security"
 					]
 				}
 			}

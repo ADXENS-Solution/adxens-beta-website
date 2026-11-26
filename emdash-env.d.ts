@@ -11,8 +11,6 @@ export interface HelpArticle {
   status: string;
   title: string;
   subtitle?: string;
-  topic_slug: string;
-  search_tags?: string;
   content?: PortableTextBlock[];
   createdAt: Date;
   updatedAt: Date;
@@ -47,7 +45,6 @@ export interface HelpTopic {
   title: string;
   description?: string;
   icon: "rocket" | "accounts" | "wallet" | "users" | "chart" | "card" | "flask" | "shield";
-  sort_order?: number;
   createdAt: Date;
   updatedAt: Date;
   publishedAt: Date | null;
@@ -116,6 +113,7 @@ export interface HelpArticleReferences {
 
 export interface HelpSettingReferences {
   popular_articles: ReferencePage<HelpArticle>;
+  topics: ReferencePage<HelpTopic>;
 }
 
 declare module "emdash" {

@@ -4,7 +4,9 @@ import HelpIcon from "../../components/help/HelpIcon.astro";
 import HelpSearchForm from "../../components/help/HelpSearchForm.astro";
 import {
 	articlePath,
+	articleTopicSlug,
 	getHelpArticles,
+	getHelpArticle,
 	getHelpSettings,
 	getHelpTopicsWithHint,
 	topicPath,
@@ -23,15 +25,26 @@ if (Astro.cache?.enabled) {
 	Astro.cache.set(articlesHint);
 }
 
+const articlesWithTopic = await Promise.all(
+	articles.map(async (a) => {
+		const { entry } = await getHelpArticle(a.id);
+		return entry ?? a;
+	}),
+);
+
 const counts = new Map<string, number>();
-for (const a of articles) {
-	const slug = a.data.topic_slug;
-	if (typeof slug === "string") counts.set(slug, (counts.get(slug) ?? 0) + 1);
+for (const a of articlesWithTopic) {
+	const slug = articleTopicSlug(a);
+	if (slug) counts.set(slug, (counts.get(slug) ?? 0) + 1);
 }
 
-const popular =
-	helpSettings?.references?.popular_articles?.entries ??
-	[];
+const popularRaw = helpSettings?.references?.popular_articles?.entries ?? [];
+const popular = await Promise.all(
+	popularRaw.map(async (article) => {
+		const { entry } = await getHelpArticle(article.id);
+		return entry ?? article;
+	}),
+);
 
 const tryAsking = Array.isArray(helpSettings?.data?.try_asking)
 	? helpSettings.data.try_asking.filter(
@@ -127,10 +140,7 @@ const canonical = absoluteUrl("/help", origin);
 					</div>
 					<div class="help-list">
 						{popular.map((article) => {
-							const topicSlug =
-								typeof article.data.topic_slug === "string"
-									? article.data.topic_slug
-									: "";
+							const topicSlug = articleTopicSlug(article);
 							const topic = topics.find((t) => t.id === topicSlug);
 							return (
 								<a class="help-row" href={articlePath(article.id)}>

@@ -1,0 +1,400 @@
+{
+  "collections": [
+    {
+      "slug": "help_articles",
+      "label": "Help articles",
+      "labelSingular": "Help article",
+      "supports": [
+        "drafts",
+        "revisions",
+        "preview",
+        "search",
+        "seo"
+      ],
+      "hidden": false,
+      "fields": [
+        {
+          "slug": "title",
+          "label": "Title",
+          "type": "string",
+          "required": true,
+          "unique": false
+        },
+        {
+          "slug": "subtitle",
+          "label": "Subtitle",
+          "type": "text",
+          "required": false,
+          "unique": false
+        },
+        {
+          "slug": "topic",
+          "label": "Topic",
+          "type": "reference",
+          "required": true,
+          "unique": false,
+          "validation": {
+            "targetCollection": "help_topics",
+            "relation": "help_articles_topic",
+            "relationSide": "parent"
+          }
+        },
+        {
+          "slug": "content",
+          "label": "Content",
+          "type": "portableText",
+          "required": false,
+          "unique": false
+        },
+        {
+          "slug": "related",
+          "label": "Related articles",
+          "type": "reference",
+          "required": false,
+          "unique": false,
+          "validation": {
+            "targetCollection": "help_articles",
+            "multiple": true,
+            "relation": "help_articles_related",
+            "relationSide": "parent"
+          }
+        }
+      ]
+    },
+    {
+      "slug": "help_settings",
+      "label": "Help settings",
+      "labelSingular": "Help settings",
+      "supports": [
+        "drafts"
+      ],
+      "hidden": false,
+      "fields": [
+        {
+          "slug": "title",
+          "label": "Label",
+          "type": "string",
+          "required": true,
+          "unique": false
+        },
+        {
+          "slug": "hero_badge",
+          "label": "Hero badge",
+          "type": "string",
+          "required": false,
+          "unique": false
+        },
+        {
+          "slug": "hero_title",
+          "label": "Hero title",
+          "type": "string",
+          "required": false,
+          "unique": false
+        },
+        {
+          "slug": "hero_lead",
+          "label": "Hero lead",
+          "type": "text",
+          "required": false,
+          "unique": false
+        },
+        {
+          "slug": "try_asking",
+          "label": "Try asking chips",
+          "type": "repeater",
+          "required": false,
+          "unique": false,
+          "validation": {
+            "minItems": 0,
+            "maxItems": 20,
+            "subFields": [
+              {
+                "slug": "label",
+                "label": "Label",
+                "type": "string",
+                "required": true
+              }
+            ]
+          }
+        },
+        {
+          "slug": "popular_articles",
+          "label": "Popular articles",
+          "type": "reference",
+          "required": false,
+          "unique": false,
+          "validation": {
+            "targetCollection": "help_articles",
+            "multiple": true,
+            "relation": "help_settings_popular_articles",
+            "relationSide": "parent"
+          }
+        },
+        {
+          "slug": "empty_suggestions",
+          "label": "Empty search suggestions",
+          "type": "repeater",
+          "required": false,
+          "unique": false,
+          "validation": {
+            "minItems": 0,
+            "maxItems": 20,
+            "subFields": [
+              {
+                "slug": "label",
+                "label": "Label",
+                "type": "string",
+                "required": true
+              }
+            ]
+          }
+        },
+        {
+          "slug": "topics",
+          "label": "Topics",
+          "type": "reference",
+          "required": false,
+          "unique": false,
+          "validation": {
+            "targetCollection": "help_topics",
+            "multiple": true,
+            "relation": "help_settings_topics",
+            "relationSide": "parent"
+          }
+        }
+      ]
+    },
+    {
+      "slug": "help_topics",
+      "label": "Help topics",
+      "labelSingular": "Help topic",
+      "supports": [
+        "drafts",
+        "revisions",
+        "seo"
+      ],
+      "hidden": false,
+      "fields": [
+        {
+          "slug": "title",
+          "label": "Title",
+          "type": "string",
+          "required": true,
+          "unique": false
+        },
+        {
+          "slug": "description",
+          "label": "Description",
+          "type": "text",
+          "required": false,
+          "unique": false
+        },
+        {
+          "slug": "icon",
+          "label": "Icon",
+          "type": "select",
+          "required": true,
+          "unique": false,
+          "validation": {
+            "options": [
+              "rocket",
+              "accounts",
+              "wallet",
+              "users",
+              "chart",
+              "card",
+              "flask",
+              "shield"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "slug": "pages",
+      "label": "Pages",
+      "labelSingular": "Page",
+      "supports": [
+        "drafts",
+        "revisions",
+        "preview",
+        "search",
+        "seo"
+      ],
+      "hidden": false,
+      "fields": [
+        {
+          "slug": "title",
+          "label": "Title",
+          "type": "string",
+          "required": true,
+          "unique": false
+        },
+        {
+          "slug": "updated",
+          "label": "Updated label",
+          "type": "string",
+          "required": false,
+          "unique": false
+        },
+        {
+          "slug": "template",
+          "label": "Template",
+          "type": "select",
+          "required": false,
+          "unique": false,
+          "defaultValue": "default",
+          "validation": {
+            "options": [
+              "default",
+              "legal"
+            ]
+          }
+        },
+        {
+          "slug": "content",
+          "label": "Content",
+          "type": "portableText",
+          "required": false,
+          "unique": false
+        }
+      ]
+    },
+    {
+      "slug": "posts",
+      "label": "Posts",
+      "labelSingular": "Post",
+      "supports": [
+        "drafts",
+        "revisions",
+        "preview",
+        "search",
+        "seo"
+      ],
+      "hidden": false,
+      "fields": [
+        {
+          "slug": "title",
+          "label": "Title",
+          "type": "string",
+          "required": true,
+          "unique": false
+        },
+        {
+          "slug": "featured_image",
+          "label": "Featured Image",
+          "type": "image",
+          "required": false,
+          "unique": false
+        },
+        {
+          "slug": "content",
+          "label": "Content",
+          "type": "portableText",
+          "required": false,
+          "unique": false
+        },
+        {
+          "slug": "excerpt",
+          "label": "Excerpt",
+          "type": "text",
+          "required": false,
+          "unique": false
+        }
+      ]
+    },
+    {
+      "slug": "site_settings",
+      "label": "Site settings",
+      "labelSingular": "Site settings",
+      "supports": [
+        "drafts"
+      ],
+      "hidden": false,
+      "fields": [
+        {
+          "slug": "title",
+          "label": "Label",
+          "type": "string",
+          "required": true,
+          "unique": false
+        },
+        {
+          "slug": "phone",
+          "label": "Phone",
+          "type": "string",
+          "required": false,
+          "unique": false
+        },
+        {
+          "slug": "phone_href",
+          "label": "Phone tel href",
+          "type": "string",
+          "required": false,
+          "unique": false
+        },
+        {
+          "slug": "email",
+          "label": "Email",
+          "type": "string",
+          "required": false,
+          "unique": false
+        },
+        {
+          "slug": "whatsapp_url",
+          "label": "WhatsApp URL",
+          "type": "url",
+          "required": false,
+          "unique": false
+        },
+        {
+          "slug": "telegram_url",
+          "label": "Telegram URL",
+          "type": "url",
+          "required": false,
+          "unique": false
+        },
+        {
+          "slug": "beta_badge",
+          "label": "Beta badge text",
+          "type": "string",
+          "required": false,
+          "unique": false
+        },
+        {
+          "slug": "cta_label",
+          "label": "CTA label",
+          "type": "string",
+          "required": false,
+          "unique": false
+        },
+        {
+          "slug": "faq_items",
+          "label": "FAQ items",
+          "type": "repeater",
+          "required": false,
+          "unique": false,
+          "validation": {
+            "minItems": 0,
+            "maxItems": 50,
+            "subFields": [
+              {
+                "slug": "question",
+                "label": "Question",
+                "type": "string",
+                "required": true
+              },
+              {
+                "slug": "answer",
+                "label": "Answer",
+                "type": "text",
+                "required": true
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "version": "723793246ba09b06"
+}

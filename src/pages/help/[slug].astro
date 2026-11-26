@@ -1,10 +1,11 @@
 ---
-import { decodeSlug, getEmDashEntry } from "emdash";
+import { decodeSlug } from "emdash";
 import { PortableText } from "emdash/ui";
 import HelpLayout from "../../layouts/HelpLayout.astro";
 import HelpSearchForm from "../../components/help/HelpSearchForm.astro";
 import {
 	articlePath,
+	articleTopicSlug,
 	formatUpdated,
 	getHelpArticle,
 	getHelpArticles,
@@ -26,16 +27,8 @@ const { entry: article, cacheHint } = await getHelpArticle(slug);
 if (!article) return Astro.rewrite("/404");
 if (Astro.cache?.enabled) Astro.cache.set(cacheHint);
 
-const topicFromRef = article.references?.topic?.entries?.[0];
-const topicSlug =
-	topicFromRef?.id ||
-	(typeof article.data.topic_slug === "string" ? article.data.topic_slug : "");
-
-let topic = topicFromRef;
-if (!topic && topicSlug) {
-	const { entry } = await getEmDashEntry("help_topics", topicSlug);
-	topic = entry ?? undefined;
-}
+const topic = article.references?.topic?.entries?.[0];
+const topicSlug = articleTopicSlug(article);
 
 const { entries: topics } = await getHelpTopicsWithHint();
 const topicOptions = topics.map((t) => ({

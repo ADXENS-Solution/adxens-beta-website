@@ -6,7 +6,6 @@ export type HelpTopicData = {
 	title: string;
 	description?: string;
 	icon?: string;
-	sort_order?: number;
 };
 
 export type HelpArticleData = {
@@ -14,15 +13,24 @@ export type HelpArticleData = {
 	slug: string | null;
 	title: string;
 	subtitle?: string;
-	topic_slug?: string;
-	search_tags?: string;
 	content?: unknown;
 	updatedAt?: Date;
 };
 
 export async function getHelpTopicsWithHint() {
+	const settings = await getHelpSettings();
+	const ordered = settings.entry?.references?.topics?.entries;
+	if (ordered && ordered.length > 0) {
+		return {
+			entries: ordered,
+			cacheHint: settings.cacheHint,
+			error: settings.error,
+			nextCursor: undefined as string | undefined,
+			hasMore: false,
+		};
+	}
 	return getEmDashCollection("help_topics", {
-		orderBy: { sort_order: "asc" },
+		orderBy: { title: "asc" },
 		limit: 50,
 	});
 }
@@ -31,12 +39,29 @@ export async function getHelpArticles(options?: {
 	topicSlug?: string;
 	limit?: number;
 }) {
-	const where = options?.topicSlug ? { topic_slug: options.topicSlug } : undefined;
-	return getEmDashCollection("help_articles", {
+	const result = await getEmDashCollection("help_articles", {
 		orderBy: { title: "asc" },
 		limit: options?.limit ?? 200,
-		...(where ? { where } : {}),
 	});
+
+	if (!options?.topicSlug) return result;
+
+	const resolved = await Promise.all(
+		result.entries.map(async (article) => {
+			const { entry } = await getEmDashEntry("help_articles", article.id, {
+				references: { topic: true },
+			});
+			return entry;
+		}),
+	);
+
+	const entries = resolved.filter(
+		(article): article is NonNullable<typeof article> =>
+			Boolean(article) &&
+			article.references?.topic?.entries?.[0]?.id === options.topicSlug,
+	);
+
+	return { ...result, entries };
 }
 
 export async function getHelpArticle(slug: string) {
@@ -47,8 +72,16 @@ export async function getHelpArticle(slug: string) {
 
 export async function getHelpSettings() {
 	return getEmDashEntry("help_settings", "main", {
-		references: { popular_articles: { limit: 12 } },
+		references: { popular_articles: { limit: 12 }, topics: { limit: 50 } },
 	});
+}
+
+export function articleTopicSlug(
+	article: {
+		references?: { topic?: { entries?: { id: string }[] } };
+	} | null | undefined,
+) {
+	return article?.references?.topic?.entries?.[0]?.id ?? "";
 }
 
 export function articlePath(slug: string | null | undefined) {

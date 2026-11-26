@@ -4,7 +4,8 @@ import HelpLayout from "../../layouts/HelpLayout.astro";
 import HelpSearchForm from "../../components/help/HelpSearchForm.astro";
 import {
 	articlePath,
-	getHelpArticles,
+	articleTopicSlug,
+	getHelpArticle,
 	getHelpSettings,
 	getHelpTopicsWithHint,
 	topicPath,
@@ -43,16 +44,16 @@ if (query) {
 
 const allItems = searchResponse.items;
 
-// Enrich with topic_slug from CMS when filter is needed
 let topicSlugByArticle = new Map<string, string>();
-if (query && (topicFilter !== "all" || allItems.length > 0)) {
-	const { entries: articles } = await getHelpArticles({ limit: 300 });
-	topicSlugByArticle = new Map(
-		articles.map((a) => [
-			a.id,
-			typeof a.data.topic_slug === "string" ? a.data.topic_slug : "",
-		]),
+if (query && allItems.length > 0) {
+	const resolved = await Promise.all(
+		allItems.map(async (item) => {
+			const slug = item.slug ?? item.id;
+			const { entry } = await getHelpArticle(slug);
+			return [slug, articleTopicSlug(entry)] as const;
+		}),
 	);
+	topicSlugByArticle = new Map(resolved);
 }
 
 const filtered =
