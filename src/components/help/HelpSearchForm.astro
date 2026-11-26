@@ -19,7 +19,7 @@ const {
 {
 	compact && topics.length > 0 ? (
 		<div class="help-hs">
-			<div class="help-search">
+			<div class="help-search" data-help-suggest>
 				<form method="get" action={action} role="search" aria-label="Search the help center">
 					<input
 						type="search"
@@ -27,10 +27,25 @@ const {
 						value={query}
 						placeholder="What do you need help with?"
 						aria-label="Search the help center"
+						aria-autocomplete="list"
+						aria-controls="help-suggest-list"
+						autocomplete="off"
+						data-help-suggest-input
 					/>
-					{topic !== "all" && <input type="hidden" name="topic" id="help-topic-hidden" value={topic} />}
-					<button class="help-btn" type="submit">Search</button>
+					{topic !== "all" && (
+						<input type="hidden" name="topic" id="help-topic-hidden" value={topic} />
+					)}
+					<button class="help-btn" type="submit">
+						Search
+					</button>
 				</form>
+				<ul
+					class="help-suggest"
+					id="help-suggest-list"
+					role="listbox"
+					hidden
+					data-help-suggest-list
+				/>
 			</div>
 			<form method="get" action={action} class="help-topic-filter">
 				{query && <input type="hidden" name="q" value={query} />}
@@ -52,7 +67,7 @@ const {
 			</form>
 		</div>
 	) : (
-		<div class="help-search">
+		<div class="help-search" data-help-suggest>
 			<form method="get" action={action} role="search" aria-label="Search the help center">
 				<input
 					type="search"
@@ -60,11 +75,161 @@ const {
 					value={query}
 					placeholder="What do you need help with?"
 					aria-label="Search the help center"
+					aria-autocomplete="list"
+					aria-controls="help-suggest-list"
+					autocomplete="off"
+					data-help-suggest-input
 				/>
 				<button class="help-btn" type="submit">
 					Search
 				</button>
 			</form>
+			<ul
+				class="help-suggest"
+				id="help-suggest-list"
+				role="listbox"
+				hidden
+				data-help-suggest-list
+			/>
 		</div>
 	)
 }
+
+<script>
+	type SuggestItem = {
+		collection?: string;
+		id?: string;
+		slug?: string | null;
+		title?: string;
+	};
+
+	function initHelpSuggest(root: HTMLElement) {
+		const input = root.querySelector<HTMLInputElement>("[data-help-suggest-input]");
+		const list = root.querySelector<HTMLUListElement>("[data-help-suggest-list]");
+		if (!input || !list) return;
+
+		let timer = 0;
+		let active = -1;
+		let items: SuggestItem[] = [];
+		let requestId = 0;
+
+		const hide = () => {
+			list.hidden = true;
+			list.innerHTML = "";
+			active = -1;
+			items = [];
+			input.removeAttribute("aria-activedescendant");
+		};
+
+		const render = () => {
+			if (!items.length) {
+				hide();
+				return;
+			}
+			list.innerHTML = items
+				.map((item, index) => {
+					const slug = item.slug || item.id || "";
+					const title = item.title || slug;
+					const href = `/help/${encodeURIComponent(slug)}`;
+					return `<li role="option" id="help-suggest-${index}" class="help-suggest__item${
+						index === active ? " is-active" : ""
+					}" data-index="${index}">
+						<a href="${href}">${escapeHtml(title)}</a>
+					</li>`;
+				})
+				.join("");
+			list.hidden = false;
+		};
+
+		const setActive = (index: number) => {
+			active = index;
+			[...list.querySelectorAll(".help-suggest__item")].forEach((el, i) => {
+				el.classList.toggle("is-active", i === active);
+			});
+			if (active >= 0) input.setAttribute("aria-activedescendant", `help-suggest-${active}`);
+			else input.removeAttribute("aria-activedescendant");
+		};
+
+		const fetchSuggestions = async (q: string) => {
+			const id = ++requestId;
+			try {
+				const url = `/_emdash/api/search/suggest?q=${encodeURIComponent(q)}&collections=help_articles&limit=6`;
+				const res = await fetch(url);
+				if (!res.ok) {
+					if (id === requestId) hide();
+					return;
+				}
+				const json = await res.json();
+				if (id !== requestId) return;
+				const raw = json?.data?.items ?? json?.items ?? [];
+				items = Array.isArray(raw)
+					? raw.filter(
+							(row: SuggestItem) =>
+								row?.collection === "help_articles" &&
+								typeof (row.slug || row.id) === "string" &&
+								typeof row.title === "string",
+						)
+					: [];
+				active = -1;
+				render();
+			} catch {
+				if (id === requestId) hide();
+			}
+		};
+
+		input.addEventListener("input", () => {
+			const q = input.value.trim();
+			window.clearTimeout(timer);
+			if (q.length < 2) {
+				hide();
+				return;
+			}
+			timer = window.setTimeout(() => fetchSuggestions(q), 180);
+		});
+
+		input.addEventListener("keydown", (event) => {
+			if (list.hidden || !items.length) return;
+			if (event.key === "ArrowDown") {
+				event.preventDefault();
+				setActive(active < items.length - 1 ? active + 1 : 0);
+			} else if (event.key === "ArrowUp") {
+				event.preventDefault();
+				setActive(active > 0 ? active - 1 : items.length - 1);
+			} else if (event.key === "Enter" && active >= 0) {
+				event.preventDefault();
+				const link = list.querySelector<HTMLAnchorElement>(
+					`.help-suggest__item[data-index="${active}"] a`,
+				);
+				link?.click();
+			} else if (event.key === "Escape") {
+				hide();
+			}
+		});
+
+		list.addEventListener("mousedown", (event) => {
+			const target = event.target as HTMLElement | null;
+			const item = target?.closest?.(".help-suggest__item");
+			if (item) event.preventDefault();
+		});
+
+		input.addEventListener("blur", () => {
+			window.setTimeout(hide, 120);
+		});
+	}
+
+	function escapeHtml(text: string) {
+		return text
+			.replaceAll("&", "&amp;")
+			.replaceAll("<", "&lt;")
+			.replaceAll(">", "&gt;")
+			.replaceAll('"', "&quot;")
+			.replaceAll("'", "&#39;");
+	}
+
+	function boot() {
+		document.querySelectorAll<HTMLElement>("[data-help-suggest]").forEach(initHelpSuggest);
+	}
+
+	boot();
+	document.addEventListener("astro:page-load", boot);
+</script>

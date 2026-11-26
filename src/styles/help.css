@@ -132,6 +132,39 @@
   color: #8a8d96;
 }
 
+.help-suggest {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(100% + 8px);
+  z-index: 30;
+  margin: 0;
+  padding: 6px;
+  list-style: none;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow:
+    0 0 0 1px rgba(17, 17, 17, 0.08),
+    0 18px 40px rgba(17, 17, 17, 0.14);
+  max-height: 320px;
+  overflow: auto;
+}
+
+.help-suggest__item a {
+  display: block;
+  padding: 12px 14px;
+  border-radius: 8px;
+  color: var(--help-ink, #111);
+  text-decoration: none;
+  font: 500 15px var(--font-inter-face, Inter, system-ui, sans-serif);
+  line-height: 1.35;
+}
+
+.help-suggest__item a:hover,
+.help-suggest__item.is-active a {
+  background: #f3f4f6;
+}
+
 .help-btn {
   display: inline-flex;
   align-items: center;
