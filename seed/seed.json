@@ -278,21 +278,6 @@
 					"required": true
 				},
 				{
-					"slug": "hero_badge",
-					"label": "Hero badge",
-					"type": "string"
-				},
-				{
-					"slug": "hero_title",
-					"label": "Hero title",
-					"type": "string"
-				},
-				{
-					"slug": "hero_lead",
-					"label": "Hero lead",
-					"type": "text"
-				},
-				{
 					"slug": "try_asking",
 					"label": "Try asking chips",
 					"type": "repeater",
@@ -316,23 +301,6 @@
 					"validation": {
 						"targetCollection": "help_articles",
 						"multiple": true
-					}
-				},
-				{
-					"slug": "empty_suggestions",
-					"label": "Empty search suggestions",
-					"type": "repeater",
-					"validation": {
-						"minItems": 0,
-						"maxItems": 20,
-						"subFields": [
-							{
-								"slug": "label",
-								"label": "Label",
-								"type": "string",
-								"required": true
-							}
-						]
 					}
 				}
 			],
@@ -6777,9 +6745,6 @@
 				"status": "published",
 				"data": {
 					"title": "Main",
-					"hero_badge": "Help center",
-					"hero_title": "How can we help?",
-					"hero_lead": "Search our guides, or try one of the questions below. Still stuck? Reach the team on WhatsApp, Telegram or email.",
 					"try_asking": [
 						{
 							"label": "How to create an Adxens account?"
@@ -6809,20 +6774,6 @@
 						"$ref:help-art-invite-teammate",
 						"$ref:help-art-track-spend",
 						"$ref:help-art-ad-approval"
-					],
-					"empty_suggestions": [
-						{
-							"label": "How to create an Adxens account"
-						},
-						{
-							"label": "How to request an ad account"
-						},
-						{
-							"label": "Minimum deposit"
-						},
-						{
-							"label": "Invite a teammate"
-						}
 					]
 				}
 			}

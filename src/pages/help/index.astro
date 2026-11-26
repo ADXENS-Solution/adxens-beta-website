@@ -53,12 +53,6 @@ const tryAsking = Array.isArray(helpSettings?.data?.try_asking)
 		)
 	: [];
 
-const heroBadge = helpSettings?.data?.hero_badge || "Help center";
-const heroTitle = helpSettings?.data?.hero_title || "How can we help?";
-const heroLead =
-	helpSettings?.data?.hero_lead ||
-	"Search our guides, or try one of the questions below.";
-
 const origin = resolveSiteOrigin(Astro.site ?? Astro.url);
 const canonical = absoluteUrl("/help", origin);
 ---
@@ -73,10 +67,12 @@ const canonical = absoluteUrl("/help", origin);
 		<div class="help-wrap help-hero__inner">
 			<div class="help-badge">
 				<span>Help center</span>
-				<span>{heroBadge === "Help center" ? "Guides & answers" : heroBadge}</span>
+				<span>Guides & answers</span>
 			</div>
-			<h1>{heroTitle}</h1>
-			<p class="help-hero__lead">{heroLead}</p>
+			<h1>How can we help?</h1>
+			<p class="help-hero__lead">
+				Search our guides, or try one of the questions below.
+			</p>
 			<HelpSearchForm />
 			{
 				tryAsking.length > 0 && (

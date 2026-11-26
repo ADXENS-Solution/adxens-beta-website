@@ -78,27 +78,6 @@
           "unique": false
         },
         {
-          "slug": "hero_badge",
-          "label": "Hero badge",
-          "type": "string",
-          "required": false,
-          "unique": false
-        },
-        {
-          "slug": "hero_title",
-          "label": "Hero title",
-          "type": "string",
-          "required": false,
-          "unique": false
-        },
-        {
-          "slug": "hero_lead",
-          "label": "Hero lead",
-          "type": "text",
-          "required": false,
-          "unique": false
-        },
-        {
           "slug": "try_asking",
           "label": "Try asking chips",
           "type": "repeater",

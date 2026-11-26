@@ -6,7 +6,6 @@ import {
 	articlePath,
 	articleTopicSlug,
 	getHelpArticle,
-	getHelpSettings,
 	getHelpTopicsWithHint,
 	topicPath,
 } from "../../lib/help";
@@ -18,10 +17,8 @@ const query = Astro.url.searchParams.get("q")?.trim() || "";
 const topicFilter = Astro.url.searchParams.get("topic")?.trim() || "all";
 
 const { entries: topics, cacheHint: topicsHint } = await getHelpTopicsWithHint();
-const { entry: helpSettings, cacheHint: settingsHint } = await getHelpSettings();
 if (Astro.cache?.enabled) {
 	Astro.cache.set(topicsHint);
-	Astro.cache.set(settingsHint);
 }
 
 const topicOptions = topics.map((t) => ({
@@ -96,13 +93,6 @@ const rows = filtered.map((result) => {
 		topicLabel: topicBySlug.get(topicSlug) || "",
 	};
 });
-
-const emptySuggestions = Array.isArray(helpSettings?.data?.empty_suggestions)
-	? helpSettings.data.empty_suggestions.filter(
-			(row): row is { label: string } =>
-				typeof row?.label === "string" && row.label.length > 0,
-		)
-	: [];
 
 const origin = resolveSiteOrigin(Astro.site ?? Astro.url);
 const canonical = absoluteUrl("/help/search", origin);
@@ -199,18 +189,6 @@ const heading = query
 					<a class="help-btn" href="/help" style="text-decoration:none">
 						Browse help center
 					</a>
-					{emptySuggestions.length > 0 && (
-						<div class="help-chips" style="margin-top:24px">
-							{emptySuggestions.map((s) => (
-								<a
-									class="help-fc"
-									href={`/help/search?q=${encodeURIComponent(s.label)}`}
-								>
-									{s.label}
-								</a>
-							))}
-						</div>
-					)}
 				</div>
 			)
 		}

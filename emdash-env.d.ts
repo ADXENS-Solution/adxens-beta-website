@@ -25,11 +25,7 @@ export interface HelpSetting {
   slug: string | null;
   status: string;
   title: string;
-  hero_badge?: string;
-  hero_title?: string;
-  hero_lead?: string;
   try_asking?: { "label": string }[];
-  empty_suggestions?: { "label": string }[];
   createdAt: Date;
   updatedAt: Date;
   publishedAt: Date | null;
