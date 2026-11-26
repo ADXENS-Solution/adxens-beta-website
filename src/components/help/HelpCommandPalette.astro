@@ -1,30 +1,43 @@
 ---
-import type { ContentEntry } from "emdash";
-import type { HelpArticleData, HelpTopicData } from "../../lib/help";
-import { articlePath } from "../../lib/help";
+import {
+	articlePath,
+	getHelpArticle,
+	getHelpSettings,
+	getHelpTopicsWithHint,
+	topicPath,
+} from "../../lib/help";
 
-interface TopicGroup {
-	topic: ContentEntry<HelpTopicData>;
-	articles: ContentEntry<HelpArticleData>[];
-}
+const { entries: topics } = await getHelpTopicsWithHint();
+const { entry: helpSettings } = await getHelpSettings();
 
-interface Props {
-	groups?: TopicGroup[];
-}
+const topicItems = topics.slice(0, 5).map((t) => ({
+	title: t.data.title,
+	href: topicPath(t.id),
+	meta: t.data.description || "Topic",
+}));
 
-const { groups = [] } = Astro.props;
+const popularRaw = helpSettings?.references?.popular_articles?.entries ?? [];
+const popularResolved = await Promise.all(
+	popularRaw.slice(0, 4).map(async (article) => {
+		const { entry } = await getHelpArticle(article.id);
+		return entry ?? article;
+	}),
+);
 
-const idleGroups = groups
-	.map((g) => ({
-		title: g.topic.data.title,
-		items: g.articles.slice(0, 4).map((a) => ({
-			slug: a.id,
-			title: a.data.title,
-			href: articlePath(a.id),
-			topic: g.topic.data.title,
-		})),
-	}))
-	.filter((g) => g.items.length > 0);
+const popularItems = popularResolved.map((article) => ({
+	title: article.data.title,
+	href: articlePath(article.id),
+	meta: "Popular",
+}));
+
+const pageItems = [
+	{ title: "Help center", href: "/help", meta: "Browse all topics" },
+	{ title: "Search help", href: "/help/search", meta: "Full-text search" },
+	{ title: "Contact support", href: "/#contact", meta: "WhatsApp, Telegram, email" },
+];
+
+const hasIdle =
+	topicItems.length > 0 || popularItems.length > 0 || pageItems.length > 0;
 ---
 
 <dialog
@@ -67,13 +80,42 @@ const idleGroups = groups
 
 		<div class="help-cmd__body" data-help-cmd-body>
 			{
-				idleGroups.length > 0 && (
+				hasIdle && (
 					<div data-help-cmd-idle>
-						{idleGroups.map((group) => (
+						{topicItems.length > 0 && (
 							<section class="help-cmd__group">
-								<div class="help-cmd__label">{group.title}</div>
+								<div class="help-cmd__label">Topics</div>
 								<ul>
-									{group.items.map((item) => (
+									{topicItems.map((item) => (
+										<li>
+											<a href={item.href} data-help-cmd-link>
+												<span class="help-cmd__ico" aria-hidden="true">
+													<svg viewBox="0 0 24 24">
+														<path
+															d="M4 7h16M4 12h16M4 17h10"
+															fill="none"
+															stroke="currentColor"
+															stroke-width="1.6"
+															stroke-linecap="round"
+														/>
+													</svg>
+												</span>
+												<span class="help-cmd__text">
+													<span class="help-cmd__title">{item.title}</span>
+													<span class="help-cmd__meta">{item.meta}</span>
+												</span>
+											</a>
+										</li>
+									))}
+								</ul>
+							</section>
+						)}
+
+						{popularItems.length > 0 && (
+							<section class="help-cmd__group">
+								<div class="help-cmd__label">Popular</div>
+								<ul>
+									{popularItems.map((item) => (
 										<li>
 											<a href={item.href} data-help-cmd-link>
 												<span class="help-cmd__ico" aria-hidden="true">
@@ -94,14 +136,42 @@ const idleGroups = groups
 												</span>
 												<span class="help-cmd__text">
 													<span class="help-cmd__title">{item.title}</span>
-													<span class="help-cmd__meta">{item.topic}</span>
+													<span class="help-cmd__meta">{item.meta}</span>
 												</span>
 											</a>
 										</li>
 									))}
 								</ul>
 							</section>
-						))}
+						)}
+
+						<section class="help-cmd__group">
+							<div class="help-cmd__label">Pages</div>
+							<ul>
+								{pageItems.map((item) => (
+									<li>
+										<a href={item.href} data-help-cmd-link>
+											<span class="help-cmd__ico" aria-hidden="true">
+												<svg viewBox="0 0 24 24">
+													<path
+														d="M5 12h14M13 6l6 6-6 6"
+														fill="none"
+														stroke="currentColor"
+														stroke-width="1.6"
+														stroke-linecap="round"
+														stroke-linejoin="round"
+													/>
+												</svg>
+											</span>
+											<span class="help-cmd__text">
+												<span class="help-cmd__title">{item.title}</span>
+												<span class="help-cmd__meta">{item.meta}</span>
+											</span>
+										</a>
+									</li>
+								))}
+							</ul>
+						</section>
 					</div>
 				)
 			}
@@ -230,7 +300,7 @@ const idleGroups = groups
 	const fetchSuggestions = async (q: string) => {
 		const id = ++requestId;
 		try {
-			const url = `/_emdash/api/search/suggest?q=${encodeURIComponent(q)}&collections=help_articles&limit=10`;
+			const url = `/_emdash/api/search/suggest?q=${encodeURIComponent(q)}&collections=help_articles&limit=8`;
 			const res = await fetch(url);
 			if (!res.ok) {
 				if (id === requestId) renderResults([]);
@@ -326,6 +396,8 @@ const idleGroups = groups
 
 		document.addEventListener("keydown", (event) => {
 			if (!(event.metaKey || event.ctrlKey) || event.key.toLowerCase() !== "k") return;
+			// Only on help article detail pages (left rail + palette present)
+			if (!document.querySelector(".help-docs [data-help-cmd-open]")) return;
 			if (!getDialog()) return;
 			event.preventDefault();
 			const dialog = getDialog();

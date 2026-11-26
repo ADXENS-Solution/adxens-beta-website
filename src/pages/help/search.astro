@@ -6,7 +6,6 @@ import {
 	articlePath,
 	articleTopicSlug,
 	getHelpArticle,
-	getHelpArticles,
 	getHelpTopicsWithHint,
 	topicPath,
 } from "../../lib/help";
@@ -28,17 +27,6 @@ const topicOptions = topics.map((t) => ({
 }));
 
 const topicBySlug = new Map(topics.map((t) => [t.id, t.data.title]));
-
-const topicGroups = await Promise.all(
-	topics.map(async (t) => {
-		const { entries, cacheHint: articlesHint } = await getHelpArticles({
-			topicSlug: t.id,
-			limit: 50,
-		});
-		if (Astro.cache?.enabled) Astro.cache.set(articlesHint);
-		return { topic: t, articles: entries };
-	}),
-);
 
 let searchResponse: SearchResponse = { items: [] };
 let searchUnavailable = false;
@@ -130,13 +118,7 @@ const heading = query
 				</nav>
 				<h1>{heading}</h1>
 			</div>
-			<HelpSearchForm
-				compact
-				query={query}
-				topics={topicOptions}
-				topic={topicFilter}
-				groups={topicGroups}
-			/>
+			<HelpSearchForm compact query={query} topics={topicOptions} topic={topicFilter} />
 		</div>
 	</section>
 
