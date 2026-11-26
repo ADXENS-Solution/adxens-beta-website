@@ -1087,12 +1087,7 @@
   }
   .help-docs__nav,
   .help-rail {
-    position: static;
-    max-height: none;
-  }
-  .help-acc {
-    max-height: 280px;
-    overflow: auto;
+    display: none;
   }
 }
 
