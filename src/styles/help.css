@@ -1036,6 +1036,20 @@ html:has(.help-cmd[open]) {
   scroll-margin-top: 100px;
 }
 
+.help-body.prose a:where(:not([class*="emdash"])) {
+  color: var(--help-blue);
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-decoration-color: color-mix(in srgb, var(--help-blue) 45%, transparent);
+  text-decoration-skip-ink: auto;
+  text-underline-offset: 0.18em;
+}
+
+.help-body.prose a:where(:not([class*="emdash"])):hover {
+  color: #0f3ad6;
+  text-decoration-color: currentColor;
+}
+
 /* Inline code — match code-block look */
 .help-body.prose :not(pre) > code {
   display: inline;
