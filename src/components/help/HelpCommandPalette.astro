@@ -1,0 +1,339 @@
+---
+import type { ContentEntry } from "emdash";
+import type { HelpArticleData, HelpTopicData } from "../../lib/help";
+import { articlePath } from "../../lib/help";
+
+interface TopicGroup {
+	topic: ContentEntry<HelpTopicData>;
+	articles: ContentEntry<HelpArticleData>[];
+}
+
+interface Props {
+	groups?: TopicGroup[];
+}
+
+const { groups = [] } = Astro.props;
+
+const idleGroups = groups
+	.map((g) => ({
+		title: g.topic.data.title,
+		items: g.articles.slice(0, 4).map((a) => ({
+			slug: a.id,
+			title: a.data.title,
+			href: articlePath(a.id),
+			topic: g.topic.data.title,
+		})),
+	}))
+	.filter((g) => g.items.length > 0);
+---
+
+<dialog
+	id="help-command-palette"
+	class="help-cmd"
+	aria-labelledby="help-cmd-title"
+	data-help-cmd
+>
+	<div class="help-cmd__panel">
+		<div class="help-cmd__search">
+			<svg viewBox="0 0 24 24" aria-hidden="true">
+				<circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="1.8"
+				></circle>
+				<path
+					d="m20 20-3.5-3.5"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="1.8"
+					stroke-linecap="round"></path>
+			</svg>
+			<input
+				type="search"
+				id="help-cmd-title"
+				placeholder="Search help articles…"
+				aria-label="Search help articles"
+				autocomplete="off"
+				data-help-cmd-input
+			/>
+			<button type="button" class="help-cmd__close" aria-label="Close search" data-help-cmd-close>
+				<svg viewBox="0 0 24 24" aria-hidden="true">
+					<path
+						d="m6 6 12 12M18 6 6 18"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="1.8"
+						stroke-linecap="round"></path>
+				</svg>
+			</button>
+		</div>
+
+		<div class="help-cmd__body" data-help-cmd-body>
+			{
+				idleGroups.length > 0 && (
+					<div data-help-cmd-idle>
+						{idleGroups.map((group) => (
+							<section class="help-cmd__group">
+								<div class="help-cmd__label">{group.title}</div>
+								<ul>
+									{group.items.map((item) => (
+										<li>
+											<a href={item.href} data-help-cmd-link>
+												<span class="help-cmd__ico" aria-hidden="true">
+													<svg viewBox="0 0 24 24">
+														<path
+															d="M7 3h8l4 4v14H7z"
+															fill="none"
+															stroke="currentColor"
+															stroke-width="1.6"
+														/>
+														<path
+															d="M14 3v5h5"
+															fill="none"
+															stroke="currentColor"
+															stroke-width="1.6"
+														/>
+													</svg>
+												</span>
+												<span class="help-cmd__text">
+													<span class="help-cmd__title">{item.title}</span>
+													<span class="help-cmd__meta">{item.topic}</span>
+												</span>
+											</a>
+										</li>
+									))}
+								</ul>
+							</section>
+						))}
+					</div>
+				)
+			}
+			<div class="help-cmd__group" data-help-cmd-results hidden>
+				<div class="help-cmd__label">Articles</div>
+				<ul data-help-cmd-list></ul>
+			</div>
+			<div class="help-cmd__empty" data-help-cmd-empty hidden>No matching articles</div>
+		</div>
+
+		<div class="help-cmd__foot">
+			<span><kbd>↑</kbd><kbd>↓</kbd> Select</span>
+			<span><kbd>Enter</kbd> Open</span>
+			<span><kbd>Esc</kbd> Close</span>
+		</div>
+	</div>
+</dialog>
+
+<script>
+	type SuggestItem = {
+		collection?: string;
+		slug?: string | null;
+		id?: string;
+		title?: string;
+	};
+
+	declare global {
+		interface Window {
+			__helpCmdBound?: boolean;
+		}
+	}
+
+	function escapeHtml(text: string) {
+		return text
+			.replaceAll("&", "&amp;")
+			.replaceAll("<", "&lt;")
+			.replaceAll(">", "&gt;")
+			.replaceAll('"', "&quot;")
+			.replaceAll("'", "&#39;");
+	}
+
+	function getDialog() {
+		return document.querySelector<HTMLDialogElement>("[data-help-cmd]");
+	}
+
+	function getParts() {
+		const dialog = getDialog();
+		if (!dialog) return null;
+		const input = dialog.querySelector<HTMLInputElement>("[data-help-cmd-input]");
+		const idle = dialog.querySelector<HTMLElement>("[data-help-cmd-idle]");
+		const results = dialog.querySelector<HTMLElement>("[data-help-cmd-results]");
+		const list = dialog.querySelector<HTMLElement>("[data-help-cmd-list]");
+		const empty = dialog.querySelector<HTMLElement>("[data-help-cmd-empty]");
+		const closeBtn = dialog.querySelector<HTMLButtonElement>("[data-help-cmd-close]");
+		if (!input || !results || !list || !empty) return null;
+		return { dialog, input, idle, results, list, empty, closeBtn };
+	}
+
+	let timer = 0;
+	let active = -1;
+	let requestId = 0;
+	let links: HTMLAnchorElement[] = [];
+
+	const syncActive = () => {
+		links.forEach((link, i) => {
+			link.classList.toggle("is-active", i === active);
+			if (i === active) link.setAttribute("aria-current", "true");
+			else link.removeAttribute("aria-current");
+		});
+		links[active]?.scrollIntoView({ block: "nearest" });
+	};
+
+	const collectLinks = (dialog: HTMLDialogElement) => {
+		links = [...dialog.querySelectorAll<HTMLAnchorElement>("a[data-help-cmd-link]")].filter(
+			(el) => !el.closest("[hidden]"),
+		);
+		active = links.length ? 0 : -1;
+		syncActive();
+	};
+
+	const showIdle = () => {
+		const parts = getParts();
+		if (!parts) return;
+		if (parts.idle) parts.idle.hidden = false;
+		parts.results.hidden = true;
+		parts.empty.hidden = true;
+		parts.list.innerHTML = "";
+		collectLinks(parts.dialog);
+	};
+
+	const renderResults = (items: SuggestItem[]) => {
+		const parts = getParts();
+		if (!parts) return;
+		if (parts.idle) parts.idle.hidden = true;
+		if (!items.length) {
+			parts.results.hidden = true;
+			parts.empty.hidden = false;
+			parts.list.innerHTML = "";
+			links = [];
+			active = -1;
+			return;
+		}
+		parts.empty.hidden = true;
+		parts.results.hidden = false;
+		parts.list.innerHTML = items
+			.map((item) => {
+				const slug = item.slug || item.id || "";
+				const title = item.title || slug;
+				const href = `/help/${encodeURIComponent(slug)}`;
+				return `<li>
+					<a href="${href}" data-help-cmd-link>
+						<span class="help-cmd__ico" aria-hidden="true">
+							<svg viewBox="0 0 24 24"><path d="M7 3h8l4 4v14H7z" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M14 3v5h5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+						</span>
+						<span class="help-cmd__text">
+							<span class="help-cmd__title">${escapeHtml(title)}</span>
+							<span class="help-cmd__meta">Help article</span>
+						</span>
+					</a>
+				</li>`;
+			})
+			.join("");
+		collectLinks(parts.dialog);
+	};
+
+	const fetchSuggestions = async (q: string) => {
+		const id = ++requestId;
+		try {
+			const url = `/_emdash/api/search/suggest?q=${encodeURIComponent(q)}&collections=help_articles&limit=10`;
+			const res = await fetch(url);
+			if (!res.ok) {
+				if (id === requestId) renderResults([]);
+				return;
+			}
+			const json = await res.json();
+			if (id !== requestId) return;
+			const raw = json?.data?.items ?? json?.items ?? [];
+			const items = Array.isArray(raw)
+				? raw.filter(
+						(row: SuggestItem) =>
+							row?.collection === "help_articles" &&
+							typeof (row.slug || row.id) === "string" &&
+							typeof row.title === "string",
+					)
+				: [];
+			renderResults(items);
+		} catch {
+			if (id === requestId) renderResults([]);
+		}
+	};
+
+	const openPalette = () => {
+		const parts = getParts();
+		if (!parts) return;
+		if (!parts.dialog.open) parts.dialog.showModal();
+		parts.input.value = "";
+		showIdle();
+		queueMicrotask(() => parts.input.focus());
+	};
+
+	const closePalette = () => {
+		const dialog = getDialog();
+		if (dialog?.open) dialog.close();
+	};
+
+	function bindHelpCommandPalette() {
+		const parts = getParts();
+		if (!parts) return;
+
+		document.querySelectorAll<HTMLElement>("[data-help-cmd-open] kbd").forEach((kbd) => {
+			if (!/Mac|iPhone|iPad|iPod/.test(navigator.platform)) kbd.textContent = "Ctrl K";
+		});
+
+		if (parts.dialog.dataset.bound === "1") return;
+		parts.dialog.dataset.bound = "1";
+
+		parts.input.addEventListener("input", () => {
+			const q = parts.input.value.trim();
+			window.clearTimeout(timer);
+			if (q.length < 2) {
+				showIdle();
+				return;
+			}
+			timer = window.setTimeout(() => fetchSuggestions(q), 160);
+		});
+
+		parts.input.addEventListener("keydown", (event) => {
+			if (event.key === "ArrowDown") {
+				event.preventDefault();
+				if (!links.length) return;
+				active = active < links.length - 1 ? active + 1 : 0;
+				syncActive();
+			} else if (event.key === "ArrowUp") {
+				event.preventDefault();
+				if (!links.length) return;
+				active = active > 0 ? active - 1 : links.length - 1;
+				syncActive();
+			} else if (event.key === "Enter") {
+				event.preventDefault();
+				if (active >= 0 && links[active]) links[active].click();
+				else if (parts.input.value.trim()) {
+					window.location.href = `/help/search?q=${encodeURIComponent(parts.input.value.trim())}`;
+				}
+			}
+		});
+
+		parts.closeBtn?.addEventListener("click", closePalette);
+		parts.dialog.addEventListener("click", (event) => {
+			if (event.target === parts.dialog) closePalette();
+		});
+	}
+
+	if (!window.__helpCmdBound) {
+		window.__helpCmdBound = true;
+
+		document.addEventListener("click", (event) => {
+			const target = event.target as HTMLElement | null;
+			if (!target?.closest?.("[data-help-cmd-open]")) return;
+			event.preventDefault();
+			openPalette();
+		});
+
+		document.addEventListener("keydown", (event) => {
+			if (!(event.metaKey || event.ctrlKey) || event.key.toLowerCase() !== "k") return;
+			if (!getDialog()) return;
+			event.preventDefault();
+			const dialog = getDialog();
+			if (dialog?.open) closePalette();
+			else openPalette();
+		});
+	}
+
+	bindHelpCommandPalette();
+	document.addEventListener("astro:page-load", bindHelpCommandPalette);
+</script>

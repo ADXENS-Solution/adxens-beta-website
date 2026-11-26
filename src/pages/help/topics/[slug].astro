@@ -29,6 +29,17 @@ const topicOptions = topics.map((t) => ({
 	title: t.data.title,
 }));
 
+const topicGroups = await Promise.all(
+	topics.map(async (t) => {
+		const { entries, cacheHint: articlesHint } = await getHelpArticles({
+			topicSlug: t.id,
+			limit: 50,
+		});
+		if (Astro.cache?.enabled) Astro.cache.set(articlesHint);
+		return { topic: t, articles: entries };
+	}),
+);
+
 const origin = resolveSiteOrigin(Astro.site ?? Astro.url);
 const canonical = absoluteUrl(topicPath(slug), origin);
 ---
@@ -48,7 +59,7 @@ const canonical = absoluteUrl(topicPath(slug), origin);
 				</nav>
 				<h1 {...topic.edit.title}>{topic.data.title}</h1>
 			</div>
-			<HelpSearchForm compact topics={topicOptions} topic={slug} />
+			<HelpSearchForm compact topics={topicOptions} topic={slug} groups={topicGroups} />
 		</div>
 	</section>
 

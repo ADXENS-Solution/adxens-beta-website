@@ -38,6 +38,11 @@ for (const a of articlesWithTopic) {
 	if (slug) counts.set(slug, (counts.get(slug) ?? 0) + 1);
 }
 
+const topicGroups = topics.map((topic) => ({
+	topic,
+	articles: articlesWithTopic.filter((a) => articleTopicSlug(a) === topic.id),
+}));
+
 const popularRaw = helpSettings?.references?.popular_articles?.entries ?? [];
 const popular = await Promise.all(
 	popularRaw.map(async (article) => {
@@ -73,7 +78,7 @@ const canonical = absoluteUrl("/help", origin);
 			<p class="help-hero__lead">
 				Search our guides, or try one of the questions below.
 			</p>
-			<HelpSearchForm />
+			<HelpSearchForm groups={topicGroups} />
 			{
 				tryAsking.length > 0 && (
 					<div class="help-try">
