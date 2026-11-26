@@ -3,6 +3,7 @@ import { decodeSlug } from "emdash";
 import { PortableText } from "emdash/ui";
 import HelpLayout from "../../layouts/HelpLayout.astro";
 import HelpDocsNav from "../../components/help/HelpDocsNav.astro";
+import HelpImageLightbox from "../../components/help/HelpImageLightbox.astro";
 import {
 	articlePath,
 	articleTopicSlug,
@@ -172,6 +173,8 @@ const canonical = absoluteUrl(articlePath(slug), origin);
 			)
 		}
 	</div>
+
+	<HelpImageLightbox />
 </HelpLayout>
 
 <script>

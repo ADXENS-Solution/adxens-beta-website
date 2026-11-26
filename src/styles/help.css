@@ -1021,6 +1021,12 @@ html:has(.help-cmd[open]) {
 .help-body.prose {
   --content-width: 780px;
   --prose-color: #2b2e35;
+  --help-code-bg: #1e1e1e;
+  --help-code-fg: #e8e8ea;
+  --help-code-muted: #9a9da5;
+  --help-code-chip: #2a2b30;
+  --help-code-border: rgba(255, 255, 255, 0.08);
+  --font-mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace;
   max-width: 780px;
   font-size: 17px;
   line-height: 28px;
@@ -1028,6 +1034,171 @@ html:has(.help-cmd[open]) {
 
 .help-body.prose :is(h2, h3) {
   scroll-margin-top: 100px;
+}
+
+/* Inline code — match code-block look */
+.help-body.prose :not(pre) > code {
+  display: inline;
+  padding: 0.18em 0.42em;
+  border-radius: 6px;
+  border: 1px solid var(--help-code-border);
+  background: var(--help-code-chip) !important;
+  color: var(--help-code-fg) !important;
+  font-family: var(--font-mono) !important;
+  font-size: 0.86em;
+  font-weight: 500;
+  line-height: 1.35;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  white-space: break-spaces;
+}
+
+/* Code blocks — keep EmDash dark theme (override prose token fallbacks) */
+.help-body.prose .emdash-code pre {
+  padding: 1rem 1.15rem !important;
+  border-radius: 10px !important;
+  background: var(--help-code-bg) !important;
+  border: 1px solid var(--help-code-border);
+}
+
+.help-body.prose .emdash-code-filename + pre {
+  border-radius: 0 0 10px 10px !important;
+}
+
+.help-body.prose .emdash-code code {
+  color: var(--help-code-fg) !important;
+  font-family: var(--font-mono) !important;
+  font-size: 0.875rem !important;
+  line-height: 1.7;
+  background: transparent !important;
+  border: 0 !important;
+  padding: 0 !important;
+}
+
+.help-body.prose .emdash-code-filename {
+  padding: 0.55rem 1.15rem !important;
+  border-radius: 10px 10px 0 0 !important;
+  border-block-end: 1px solid var(--help-code-border);
+  background: #2d2d2d !important;
+  color: var(--help-code-muted) !important;
+  font-family: var(--font-mono) !important;
+  font-size: 0.75rem !important;
+}
+
+/* Zoomable article images */
+.help-body.prose .emdash-image img {
+  cursor: zoom-in;
+}
+
+.help-body.prose .emdash-image a {
+  cursor: zoom-in;
+}
+
+/* Image lightbox */
+.help-zoom {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  width: min(1120px, calc(100vw - 24px));
+  max-width: calc(100vw - 24px);
+  margin: auto;
+}
+
+.help-zoom::backdrop {
+  background: rgba(8, 10, 14, 0.82);
+  backdrop-filter: blur(3px);
+}
+
+.help-zoom__panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: #121318;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  max-height: min(88vh, 920px);
+}
+
+.help-zoom__toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  color: #c8cad1;
+  font: 500 13px var(--font-inter-face, Inter, system-ui, sans-serif);
+}
+
+.help-zoom__actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.help-zoom__btn {
+  width: 34px;
+  height: 34px;
+  border: 0;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  color: #ececef;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  font: 600 16px / 1 var(--font-inter-face, Inter, system-ui, sans-serif);
+}
+
+.help-zoom__btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.help-zoom__stage {
+  position: relative;
+  overflow: hidden;
+  touch-action: none;
+  min-height: min(58vh, 640px);
+  max-height: calc(88vh - 64px);
+  background:
+    radial-gradient(circle at 50% 40%, rgba(255, 255, 255, 0.04), transparent 55%),
+    #0c0d11;
+  cursor: grab;
+}
+
+.help-zoom__stage.is-dragging {
+  cursor: grabbing;
+}
+
+.help-zoom__img {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  max-width: none;
+  transform-origin: center center;
+  user-select: none;
+  -webkit-user-drag: none;
+  border-radius: 4px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+  transition: transform 0.05s linear;
+}
+
+.help-zoom__hint {
+  position: absolute;
+  left: 12px;
+  bottom: 12px;
+  padding: 5px 9px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.55);
+  color: #b8bbc3;
+  font: 500 11px var(--font-inter-face, Inter, system-ui, sans-serif);
+  pointer-events: none;
+}
+
+html:has(.help-zoom[open]) {
+  overflow: hidden;
 }
 
 .help-toc {
