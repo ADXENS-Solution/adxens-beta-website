@@ -137,7 +137,7 @@
   left: 0;
   right: 0;
   top: calc(100% + 8px);
-  z-index: 30;
+  z-index: 40;
   margin: 0;
   padding: 6px;
   list-style: none;
@@ -148,6 +148,11 @@
     0 18px 40px rgba(17, 17, 17, 0.14);
   max-height: 320px;
   overflow: auto;
+}
+
+.help-hs,
+.help-search {
+  overflow: visible;
 }
 
 .help-suggest__item a {
@@ -483,7 +488,8 @@
   color: #fff;
   padding: 44px 0 48px;
   position: relative;
-  overflow: hidden;
+  overflow: visible;
+  z-index: 6;
   height: 200px;
 }
 
@@ -492,6 +498,8 @@
   position: absolute;
   inset: auto 0 0;
   height: 70px;
+  overflow: hidden;
+  pointer-events: none;
   background: repeating-linear-gradient(
     90deg,
     transparent 0 5px,
@@ -509,6 +517,7 @@
   grid-template-columns: 1fr minmax(280px, 720px);
   gap: 24px;
   align-items: center;
+  overflow: visible;
 }
 
 .help-subhero.slim {
