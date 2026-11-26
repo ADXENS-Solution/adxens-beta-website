@@ -278,15 +278,6 @@
 					"required": true
 				},
 				{
-					"slug": "topics",
-					"label": "Topics",
-					"type": "reference",
-					"validation": {
-						"targetCollection": "help_topics",
-						"multiple": true
-					}
-				},
-				{
 					"slug": "hero_badge",
 					"label": "Hero badge",
 					"type": "string"
@@ -344,7 +335,8 @@
 						]
 					}
 				}
-			]
+			],
+			"urlPattern": "/help"
 		}
 	],
 	"menus": [
@@ -6831,16 +6823,6 @@
 						{
 							"label": "Invite a teammate"
 						}
-					],
-					"topics": [
-						"$ref:help-topic-getting-started",
-						"$ref:help-topic-ad-accounts",
-						"$ref:help-topic-funding",
-						"$ref:help-topic-team",
-						"$ref:help-topic-reporting",
-						"$ref:help-topic-billing",
-						"$ref:help-topic-beta",
-						"$ref:help-topic-security"
 					]
 				}
 			}

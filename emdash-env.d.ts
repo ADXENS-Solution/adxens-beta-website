@@ -113,7 +113,6 @@ export interface HelpArticleReferences {
 
 export interface HelpSettingReferences {
   popular_articles: ReferencePage<HelpArticle>;
-  topics: ReferencePage<HelpTopic>;
 }
 
 declare module "emdash" {

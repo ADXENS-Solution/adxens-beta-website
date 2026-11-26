@@ -148,19 +148,6 @@
               }
             ]
           }
-        },
-        {
-          "slug": "topics",
-          "label": "Topics",
-          "type": "reference",
-          "required": false,
-          "unique": false,
-          "validation": {
-            "targetCollection": "help_topics",
-            "multiple": true,
-            "relation": "help_settings_topics",
-            "relationSide": "parent"
-          }
         }
       ]
     },
@@ -396,5 +383,5 @@
       ]
     }
   ],
-  "version": "723793246ba09b06"
+  "version": "7fa51701e324f7ef"
 }
