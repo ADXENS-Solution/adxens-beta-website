@@ -10,10 +10,11 @@
   both modes at once; use light-dark(<light>, <dark>) in an override to
   keep them distinct.
 
-  --font-body is defined by the font pipeline in astro.config.mjs, not
-  here. To swap the loaded webfont, edit the fonts entry there. To use a
-  system font, or a different face for headings only, override
-  --font-body / --font-heading in theme.css.
+  --font-inter is defined by the font pipeline in astro.config.mjs.
+  --font-body aliases it for blog/layout styles that still use the
+  EmDash token name. To swap the loaded webfont, edit the fonts entry
+  there. To use a system font, or a different face for headings only,
+  override --font-body / --font-heading in theme.css.
 */
 
 @layer base {
@@ -50,6 +51,7 @@
 		--emdash-search-highlight: var(--color-text);
 
 		/* Typography */
+		--font-body: var(--font-inter);
 		--font-heading: var(--font-body);
 		--font-weight-heading: 600; /* h2-h6, card and list titles */
 		--font-weight-display: 600; /* h1 and large page titles */

@@ -2443,7 +2443,7 @@ footer {
 }
 .feature-card {
   position: sticky;
-  top: 32px;
+  top: 80px;
   box-shadow: 0 24px 60px rgb(20 25 38 / 12%);
   transform-origin: center top;
 }

@@ -22,6 +22,7 @@ interface Props {
 	description?: string;
 	canonical?: string;
 	jsonLd?: string;
+	robots?: string | null;
 }
 
 const {
@@ -29,6 +30,7 @@ const {
 	description = DEFAULT_HOME_DESCRIPTION,
 	canonical: canonicalProp,
 	jsonLd,
+	robots = "index, follow",
 } = Astro.props;
 
 const settingsResult = await getSiteSettingsWithCacheHint();
@@ -49,7 +51,7 @@ const pageCtx = createPublicPageContext({
 	image: ogImage,
 	siteName: siteTitle,
 	siteUrl: origin,
-	seo: { robots: "index, follow", ogImage },
+	seo: { robots, ogImage },
 	breadcrumbs: [],
 });
 ---

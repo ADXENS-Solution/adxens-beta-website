@@ -1,203 +1,290 @@
 ---
-import Base from "../layouts/Base.astro";
+import MarketingLayout from "../layouts/MarketingLayout.astro";
+import MainBtn from "../components/react/MainBtn";
+import SiteFooter from "../components/SiteFooter.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import { ContactTeamDialog } from "../components/react/JoinCommunity";
+import { getAdxensSiteSettings } from "../lib/site-settings";
+import { absoluteUrl, resolveSiteOrigin } from "../lib/seo";
+
+Astro.response.status = 404;
+
+const settings = await getAdxensSiteSettings();
+const origin = resolveSiteOrigin(Astro.site ?? Astro.url);
+const canonical = absoluteUrl("/404", origin);
 ---
 
-<Base title="Page not found">
-	<section class="band not-found">
-		<div class="not-found__backdrop" aria-hidden="true"></div>
-		<div class="frame not-found__inner">
-			<p class="eyebrow not-found__code">Error 404</p>
-			<h1 class="intro__title">Page not found</h1>
-			<p class="intro__lead">
-				The page you’re looking for doesn’t exist or may have moved.
-			</p>
-			<div class="not-found__actions">
-				<a href="/" class="btn">Go home</a>
-				<a href="/posts" class="btn btn--ghost">Browse posts</a>
+<MarketingLayout
+	title="Page not found — Adxens"
+	description="This page doesn’t exist on Adxens. Head home or open the help center."
+	canonical={canonical}
+	robots="noindex, follow"
+>
+	<main class="nf">
+		<SiteHeader ctaLabel={settings.ctaLabel} homeHref="/" />
+
+		<section class="nf__panel shell" aria-labelledby="nf-title">
+			<div class="nf__atmosphere" aria-hidden="true">
+				<span class="nf__glow"></span>
+				<span class="nf__grid"></span>
+				<span class="nf__mark">404</span>
 			</div>
-			<form
-				method="get"
-				action="/search"
-				role="search"
-				aria-label="Posts"
-				class="not-found__search"
+
+			<div class="nf__content">
+				<div class="nf__badge">
+					<span>
+						<img class="beta-badge-icon" src="/beta-badge-icon.png" width="10" height="10" alt="" />
+						Error
+					</span>
+					<b>404 · Missing page</b>
+				</div>
+
+				<h1 id="nf-title">This page isn’t on the map.</h1>
+				<p>
+					The link may be outdated, or the page never existed. Adxens is still here —
+					pick a way forward below.
+				</p>
+
+				<div class="nf__actions">
+					<MainBtn client:load href="/">Back to home</MainBtn>
+					<a class="nf__ghost" href="/help">Help center</a>
+				</div>
+			</div>
+		</section>
+
+		<SiteFooter homeHref="/">
+			<a slot="contact" href={settings.whatsappUrl} target="_blank" rel="noopener noreferrer"
+				>WhatsApp</a
 			>
-				<label for="not-found-query" class="sr-only">Search posts</label>
-				<svg
-					class="not-found__search-icon"
-					viewBox="0 0 24 24"
-					fill="none"
-					stroke="currentColor"
-					stroke-width="1.75"
-					stroke-linecap="round"
-					stroke-linejoin="round"
-					aria-hidden="true"
-					><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"
-					></path></svg
-				>
-				<input
-					id="not-found-query"
-					class="not-found__search-input"
-					type="search"
-					name="q"
-					placeholder="Or search posts"
-				/>
-				<button
-					type="submit"
-					class="btn not-found__search-submit"
-					aria-label="Search"
-				>
-					<svg
-						viewBox="0 0 24 24"
-						fill="none"
-						stroke="currentColor"
-						stroke-width="1.75"
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						aria-hidden="true"
-					>
-						<path d="M5 12h14"></path>
-						<path d="m12 5 7 7-7 7"></path>
-					</svg>
-				</button>
-			</form>
-		</div>
-	</section>
-</Base>
+			<a slot="contact" href={settings.telegramUrl} target="_blank" rel="noopener noreferrer"
+				>Telegram</a
+			>
+			<a slot="contact" href={`mailto:${settings.email}`}>{settings.email}</a>
+		</SiteFooter>
+
+		<ContactTeamDialog
+			client:load
+			whatsappUrl={settings.whatsappUrl}
+			telegramUrl={settings.telegramUrl}
+		/>
+	</main>
+</MarketingLayout>
 
 <style>
-	.not-found {
-		padding-block: clamp(4rem, 2.5rem + 6vw, 8rem);
+	.nf {
+		background: var(--page);
+		color: #111318;
 	}
 
-	.not-found__backdrop {
+	.nf__panel {
+		position: relative;
+		isolation: isolate;
+		display: grid;
+		place-items: center;
+		padding: clamp(72px, 12vw, 140px) 0 clamp(48px, 8vw, 80px);
+		overflow: hidden;
+	}
+
+	.nf__atmosphere {
 		position: absolute;
 		inset: 0;
-		background-image: radial-gradient(
-			circle,
-			var(--color-border-strong) 1px,
-			transparent 1.5px
-		);
-		background-position: center;
-		background-size: 16px 16px;
-		mask-image: radial-gradient(
-			ellipse 46% 58% at 50% 50%,
-			#000 15%,
-			transparent 75%
-		);
 		pointer-events: none;
+		z-index: 0;
 	}
 
-	.not-found__inner {
+	.nf__glow {
+		position: absolute;
+		left: 50%;
+		top: 42%;
+		width: min(720px, 90vw);
+		height: min(420px, 55vw);
+		translate: -50% -50%;
+		border-radius: 50%;
+		background: radial-gradient(
+			ellipse at center,
+			color-mix(in srgb, var(--blue) 22%, transparent) 0%,
+			color-mix(in srgb, var(--blue) 8%, transparent) 42%,
+			transparent 72%
+		);
+		filter: blur(8px);
+		animation: nf-breathe 7s ease-in-out infinite;
+	}
+
+	.nf__grid {
+		position: absolute;
+		inset: 8% 6% 18%;
+		background-image:
+			linear-gradient(to right, color-mix(in srgb, var(--blue) 14%, transparent) 1px, transparent 1px),
+			linear-gradient(to bottom, color-mix(in srgb, var(--blue) 14%, transparent) 1px, transparent 1px);
+		background-size: 48px 48px;
+		mask-image: radial-gradient(ellipse 55% 60% at 50% 45%, #000 10%, transparent 72%);
+		opacity: 0.55;
+	}
+
+	.nf__mark {
+		position: absolute;
+		left: 50%;
+		top: 46%;
+		translate: -50% -50%;
+		font-family: var(--font-inter-face);
+		font-weight: 600;
+		font-size: clamp(8rem, 28vw, 18rem);
+		line-height: 0.85;
+		letter-spacing: -0.08em;
+		color: color-mix(in srgb, var(--blue) 12%, transparent);
+		user-select: none;
+		animation: nf-rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+	}
+
+	.nf__content {
 		position: relative;
+		z-index: 1;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		text-align: center;
+		width: min(100%, 560px);
+		animation: nf-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.08s both;
 	}
 
-	.not-found__code {
+	.nf__badge {
+		width: max-content;
+		margin: 0 auto;
+		display: flex;
+		align-items: center;
+		border: 1px solid var(--line);
+		border-radius: 999px;
+		overflow: hidden;
+		background: #fff;
+		color: var(--muted);
+		font-family: var(--font-inter-face);
+		font-size: 10px;
+		font-weight: 600;
+		box-shadow: 0 1px 0 rgba(17, 19, 24, 0.04);
+	}
+
+	.nf__badge > span,
+	.nf__badge > b {
+		min-height: 28px;
+		padding: 0 11px;
 		display: inline-flex;
 		align-items: center;
-		gap: var(--spacing-2);
-		min-height: 28px;
-		padding: 2px 12px;
-		border-radius: var(--radius-full);
-		background: var(--color-surface);
-		box-shadow:
-			inset 0 0 0 1px var(--color-border),
-			var(--shadow-sm);
-		color: var(--color-text-secondary);
+		gap: 5px;
 	}
 
-	.not-found__code::before {
-		content: "";
-		width: 6px;
-		height: 6px;
-		border-radius: var(--radius-full);
-		background: var(--color-muted);
+	.nf__badge > span {
+		border-right: 1px solid var(--line);
+		color: #34363b;
+		font-weight: 500;
 	}
 
-	.not-found__inner .intro__lead {
-		max-width: 40ch;
+	.nf__badge > b {
+		color: var(--blue);
+		font-size: 10px;
+		letter-spacing: 0.02em;
+		font-weight: 600;
+	}
+
+	.nf__content h1 {
+		margin: 22px 0 14px;
+		max-width: 14ch;
+		font-family: var(--font-inter-face);
+		font-weight: 600;
+		font-size: clamp(2rem, 1.4rem + 2.4vw, 3rem);
+		line-height: 1.08;
+		letter-spacing: -0.045em;
+		text-wrap: balance;
+		color: #111318;
+	}
+
+	.nf__content > p {
+		margin: 0;
+		max-width: 42ch;
+		color: var(--muted);
+		font-size: 16px;
+		line-height: 1.55;
 		text-wrap: balance;
 	}
 
-	.not-found__actions {
+	.nf__actions {
 		display: flex;
 		flex-wrap: wrap;
+		align-items: center;
 		justify-content: center;
-		gap: var(--spacing-3);
-		margin-top: var(--spacing-8);
+		gap: 14px 18px;
+		margin-top: 32px;
 	}
 
-	.not-found__search {
-		position: relative;
-		width: min(100%, 340px);
-		margin-top: var(--spacing-6);
-	}
-
-	.not-found__search-icon {
-		position: absolute;
-		inset-inline-start: 16px;
-		top: 50%;
-		width: 16px;
-		height: 16px;
-		translate: 0 -50%;
-		color: var(--color-muted);
-		pointer-events: none;
-	}
-
-	.not-found__search-input {
-		display: block;
-		width: 100%;
-		height: 44px;
-		padding-block: 0;
-		padding-inline: 42px 48px;
-		border: 1px solid var(--color-border);
-		border-radius: var(--radius-full);
-		background: var(--color-surface);
-		color: var(--color-text);
-		font: inherit;
-		font-size: var(--font-size-base);
-		-webkit-appearance: none;
-		appearance: none;
+	.nf__ghost {
+		display: inline-flex;
+		align-items: center;
+		min-height: 48px;
+		padding: 0 18px;
+		border: 1px solid var(--line);
+		border-radius: 8px;
+		background: #fff;
+		color: #17191e;
+		font-family: var(--font-inter-face);
+		font-size: 14px;
+		font-weight: 600;
+		letter-spacing: -0.02em;
 		transition:
-			border-color var(--transition-fast),
-			box-shadow var(--transition-fast);
+			border-color 160ms ease,
+			color 160ms ease,
+			background 160ms ease;
 	}
 
-	.not-found__search-input::placeholder {
-		color: var(--color-muted);
+	.nf__ghost:hover {
+		border-color: color-mix(in srgb, var(--blue) 40%, var(--line));
+		color: var(--blue);
+		background: var(--note-halo);
 	}
 
-	.not-found__search-input::-webkit-search-cancel-button {
-		filter: grayscale(1);
-		cursor: pointer;
+	.nf__ghost:focus-visible {
+		outline: 2px solid var(--blue);
+		outline-offset: 2px;
 	}
 
-	.not-found__search-input:hover {
-		border-color: var(--color-border-strong);
+	@keyframes nf-rise {
+		from {
+			opacity: 0;
+			translate: 0 14px;
+		}
+		to {
+			opacity: 1;
+			translate: 0 0;
+		}
 	}
 
-	/* Transparent rather than none so forced-colors mode still draws a ring */
-	.not-found__search-input:focus {
-		outline: 2px solid transparent;
-		border-color: var(--color-muted);
-		box-shadow: 0 0 0 3px var(--color-brand-ring);
+	@keyframes nf-breathe {
+		0%,
+		100% {
+			opacity: 0.85;
+			scale: 1;
+		}
+		50% {
+			opacity: 1;
+			scale: 1.04;
+		}
 	}
 
-	.not-found__search-submit {
-		position: absolute;
-		top: 6px;
-		inset-inline-end: 6px;
-		width: 32px;
-		height: 32px;
-		min-height: 0;
-		padding: 0;
+	@media (prefers-reduced-motion: reduce) {
+		.nf__glow,
+		.nf__mark,
+		.nf__content {
+			animation: none;
+		}
 	}
 
-	.not-found__search-submit svg:dir(rtl) {
-		scale: -1 1;
+	@media (max-width: 640px) {
+		.nf__actions {
+			flex-direction: column;
+			width: 100%;
+		}
+
+		.nf__ghost {
+			width: min(100%, 183px);
+			justify-content: center;
+		}
 	}
 </style>
