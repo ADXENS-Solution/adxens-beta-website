@@ -1,0 +1,21 @@
+# Rien de local, de secret ou d'outillage dans l'image.
+node_modules
+dist
+.astro
+.git
+.github
+.env
+.env.*
+data.db*
+*.bak*
+uploads
+.mcp.json
+.cursor
+.vscode
+.claude
+.agents
+AGENTS.md
+README.md
+LICENSE
+Dockerfile
+.dockerignore

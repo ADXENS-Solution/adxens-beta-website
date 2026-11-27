@@ -1,0 +1,171 @@
+# CI-CD Production help : à chaque push sur la branche prod
+# (en pratique : fusion d'une PR master → prod dans l'interface GitHub).
+#
+#   1. build   : image ashleyadxens/adxens-help:<version>-<commit>, poussée
+#                sur Docker Hub, puis analyse Trivy (rapport, non bloquant)
+#   2. promote : écrit la version et le digest dans le dépôt adxens-platform
+#                (gitops/apps/help/overlays/production) ; Argo CD déploie
+#                ensuite sur le VPS 1 (environ 3 minutes)
+#   3. verify  : vérifie que https://help.adxens.com répond (option A :
+#                pas de runner dans le cluster pour ce dépôt)
+#
+# Secrets du dépôt : DOCKERHUB_TOKEN, PLATFORM_TOKEN, PLATFORM_REPO,
+#   CICD_EMDASH_SITE_URL, CICD_DATABASE_PATH, CICD_UPLOADS_DIR
+# Variables du dépôt : DOCKERHUB_USERNAME, CICD_DOCKERHUB_IMAGE,
+#   CICD_KUSTOMIZATION_PATH, CICD_KUSTOMIZE_IMAGE_NAME
+name: CI-CD Production help
+
+on:
+  push:
+    branches: [prod]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cd-production-help
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Image Docker
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    outputs:
+      tag: ${{ steps.version.outputs.tag }}
+      digest: ${{ steps.push.outputs.digest }}
+    steps:
+      - name: Secrets et variables requis
+        env:
+          DOCKERHUB_USERNAME: ${{ vars.DOCKERHUB_USERNAME }}
+          CICD_DOCKERHUB_IMAGE: ${{ vars.CICD_DOCKERHUB_IMAGE }}
+          CICD_KUSTOMIZATION_PATH: ${{ vars.CICD_KUSTOMIZATION_PATH }}
+          CICD_KUSTOMIZE_IMAGE_NAME: ${{ vars.CICD_KUSTOMIZE_IMAGE_NAME }}
+          DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+          PLATFORM_TOKEN: ${{ secrets.PLATFORM_TOKEN }}
+          PLATFORM_REPO: ${{ secrets.PLATFORM_REPO }}
+          CICD_EMDASH_SITE_URL: ${{ secrets.CICD_EMDASH_SITE_URL }}
+          CICD_DATABASE_PATH: ${{ secrets.CICD_DATABASE_PATH }}
+          CICD_UPLOADS_DIR: ${{ secrets.CICD_UPLOADS_DIR }}
+        run: |
+          set -euo pipefail
+          # Tout est vérifié AVANT le build : un oubli coûte 10 s, pas 5 min.
+          missing=0
+          for v in DOCKERHUB_USERNAME CICD_DOCKERHUB_IMAGE CICD_KUSTOMIZATION_PATH CICD_KUSTOMIZE_IMAGE_NAME \
+                   DOCKERHUB_TOKEN PLATFORM_TOKEN PLATFORM_REPO CICD_EMDASH_SITE_URL CICD_DATABASE_PATH CICD_UPLOADS_DIR; do
+            if [ -z "${!v:-}" ]; then echo "::error::$v manquant (Settings → Secrets and variables → Actions)"; missing=1; fi
+          done
+          exit "$missing"
+
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Version de l'image
+        id: version
+        run: |
+          set -euo pipefail
+          VERSION=$(node -p "require('./package.json').version")
+          [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+ ]] || { echo "::error::version de package.json invalide : $VERSION"; exit 1; }
+          TAG="${VERSION}-${GITHUB_SHA::7}"
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          echo "Image : ${{ vars.CICD_DOCKERHUB_IMAGE }}:$TAG"
+
+      - uses: docker/setup-buildx-action@v3
+
+      - uses: docker/login-action@v3
+        with:
+          username: ${{ vars.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Construire et pousser
+        id: push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: ${{ vars.CICD_DOCKERHUB_IMAGE }}:${{ steps.version.outputs.tag }}
+          build-args: |
+            EMDASH_SITE_URL=${{ secrets.CICD_EMDASH_SITE_URL }}
+            DATABASE_PATH=${{ secrets.CICD_DATABASE_PATH }}
+            UPLOADS_DIR=${{ secrets.CICD_UPLOADS_DIR }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          provenance: false
+
+      - name: Analyse Trivy (rapport)
+        env:
+          TRIVY_USERNAME: ${{ vars.DOCKERHUB_USERNAME }}
+          TRIVY_PASSWORD: ${{ secrets.DOCKERHUB_TOKEN }}
+          IMAGE: ${{ vars.CICD_DOCKERHUB_IMAGE }}@${{ steps.push.outputs.digest }}
+        run: |
+          set -euo pipefail
+          docker run --rm -e TRIVY_USERNAME -e TRIVY_PASSWORD aquasec/trivy:latest image \
+            --severity HIGH,CRITICAL --ignore-unfixed --exit-code 0 --no-progress "$IMAGE" \
+            | tee trivy.txt
+          { echo '### Trivy (HIGH, CRITICAL, corrigeables)'; echo '```'; tail -n 60 trivy.txt; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+
+  promote:
+    name: Promotion dans adxens-platform
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Écrire version et digest dans l'overlay production
+        env:
+          PLATFORM_TOKEN: ${{ secrets.PLATFORM_TOKEN }}
+          PLATFORM_REPO: ${{ secrets.PLATFORM_REPO }}
+          KUSTOMIZATION: ${{ vars.CICD_KUSTOMIZATION_PATH }}
+          IMAGE_NAME: ${{ vars.CICD_KUSTOMIZE_IMAGE_NAME }}
+          NEW_NAME: ${{ vars.CICD_DOCKERHUB_IMAGE }}
+          TAG: ${{ needs.build.outputs.tag }}
+          DIGEST: ${{ needs.build.outputs.digest }}
+        run: |
+          set -euo pipefail
+          [[ "$DIGEST" =~ ^sha256:[0-9a-f]{64}$ ]] || { echo "::error::digest invalide : $DIGEST"; exit 1; }
+          AUTH_URL="${PLATFORM_REPO/https:\/\//https:\/\/x-access-token:${PLATFORM_TOKEN}@}"
+          git clone --depth 20 --branch main "$AUTH_URL" platform
+          cd platform
+          git config user.name  "adxens-ci"
+          git config user.email "ci@adxens.com"
+
+          for attempt in 1 2 3; do
+            [ -f "$KUSTOMIZATION" ] || { echo "::error::$KUSTOMIZATION introuvable dans adxens-platform"; exit 1; }
+            yq -e '.images[] | select(.name == strenv(IMAGE_NAME))' "$KUSTOMIZATION" >/dev/null \
+              || { echo "::error::entrée images « $IMAGE_NAME » absente de $KUSTOMIZATION"; exit 1; }
+            yq -i '(.images[] | select(.name == strenv(IMAGE_NAME))) |= (.newName = strenv(NEW_NAME) | .newTag = strenv(TAG) | .digest = strenv(DIGEST))' "$KUSTOMIZATION"
+            git add "$KUSTOMIZATION"
+            if git diff --cached --quiet; then echo "Déjà à jour"; exit 0; fi
+            git commit -q -m "help: promote ${TAG}"
+            if git push -q origin HEAD:main; then
+              echo "### Promu : ${NEW_NAME}:${TAG}" >> "$GITHUB_STEP_SUMMARY"
+              exit 0
+            fi
+            echo "Push refusé (commit concurrent), nouvelle tentative $attempt/3"
+            git reset -q --hard HEAD~1
+            git pull -q --rebase origin main
+          done
+          echo "::error::impossible de pousser dans adxens-platform après 3 tentatives"
+          exit 1
+
+  verify:
+    name: Vérification publique
+    needs: promote
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: https://help.adxens.com répond
+        run: |
+          set -uo pipefail
+          # Argo CD lit le dépôt platform environ toutes les 3 minutes ; le pod
+          # redémarre (Recreate). On attend jusqu'à 10 minutes.
+          sleep 60
+          for i in $(seq 1 54); do
+            code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 10 https://help.adxens.com/robots.txt || true)
+            if [ "$code" = "200" ]; then echo "OK (HTTP 200) après ~$((60 + i * 10)) s"; exit 0; fi
+            echo "Tentative $i : HTTP $code"
+            sleep 10
+          done
+          echo "::error::help.adxens.com ne répond pas 200. Voir : kubectl -n help get pods ; kubectl -n help logs deploy/help"
+          exit 1
