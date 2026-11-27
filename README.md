@@ -58,9 +58,29 @@ Admin: `/_emdash/admin`
 - Set public origin before launch: `EMDASH_SITE_URL` or `SITE_URL` (also wired into `astro.config` `site` + EmDash `siteUrl`)
 - Turn **Staging mode** off in Admin → Settings (or seed `settings.staging: false`) so pages are indexable
 
+## Environment
+
+Copy [`.env.example`](.env.example) to `.env` for local secrets. Do not commit `.env`.
+
+| Variable | Purpose |
+| --- | --- |
+| `EMDASH_SITE_URL` | Public origin (also sets Astro `site` + EmDash `siteUrl`) |
+| `EMDASH_ENCRYPTION_KEY` | Encrypts admin/plugin secrets (`pnpm exec emdash secrets generate`) |
+| `DATABASE_PATH` | SQLite file path (default `./data.db`; use volume path in prod) |
+| `UPLOADS_DIR` | Media directory (default `./uploads`; use volume path in prod) |
+| `EMDASH_OAUTH_GOOGLE_CLIENT_ID` / `EMDASH_OAUTH_GOOGLE_CLIENT_SECRET` | Google admin login |
+| `EMAIL_SMTP_*` | Built-in SMTP for magic links / invites |
+
+Production Node does **not** auto-load `.env`. Inject vars via the platform secret manager, or start with `node --env-file=.env ./dist/server/entry.mjs`.
+
+Google OAuth redirect URI:
+
+`https://<public-host>/_emdash/api/auth/oauth/google/callback`
+
+DevOps: mount a writable local/block volume covering `DATABASE_PATH` and `UPLOADS_DIR` (e.g. `/data` → `/data/emdash.db` + `/data/uploads`). The process needs write access to the DB directory for SQLite WAL sidecars.
+
 ## Notes
 
-- Local SQLite DB: `data.db` (gitignored)
-- Media uploads: `uploads/`
-- Copy `.env` from scaffold (`EMDASH_ENCRYPTION_KEY`); do not commit secrets
-- Optional: `EMDASH_SITE_URL=https://your-domain.com`
+- Local SQLite DB: `data.db` (gitignored) unless `DATABASE_PATH` is set
+- Media uploads: `uploads/` unless `UPLOADS_DIR` is set
+- Do not commit secrets

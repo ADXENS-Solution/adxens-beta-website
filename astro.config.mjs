@@ -2,6 +2,7 @@ import node from "@astrojs/node";
 import react from "@astrojs/react";
 import { defineConfig, fontProviders } from "astro/config";
 import emdash, { local } from "emdash/astro";
+import { google } from "emdash/auth/providers/google";
 import { sqlite } from "emdash/db";
 import { Features } from "lightningcss";
 
@@ -10,6 +11,9 @@ const siteUrl =
 	process.env.SITE_URL?.trim() ||
 	process.env.PUBLIC_SITE_URL?.trim() ||
 	"http://127.0.0.1:4321";
+
+const databasePath = process.env.DATABASE_PATH?.trim() || "./data.db";
+const uploadsDir = process.env.UPLOADS_DIR?.trim() || "./uploads";
 
 export default defineConfig({
 	site: siteUrl,
@@ -36,11 +40,12 @@ export default defineConfig({
 		react(),
 		emdash({
 			siteUrl,
-			database: sqlite({ url: "file:./data.db" }),
+			database: sqlite({ url: `file:${databasePath}` }),
 			storage: local({
-				directory: "./uploads",
+				directory: uploadsDir,
 				baseUrl: "/_emdash/api/media/file",
 			}),
+			authProviders: [google()],
 		}),
 	],
 	fonts: [
